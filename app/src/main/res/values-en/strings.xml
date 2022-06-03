@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="cambioContrasenya"><u>Have you forgotten the password?</u></string>
+    <string name="correo">Email</string>
+    <string name="contrasenya">Paswword</string>
+    <string name="btnIniciarSesion">Sign in</string>
+    <string name="btnRegistrarse">Sign up</string>
+    <string name="usuario">User</string>
+    <string name="telefono">Phone number</string>
+    <string name="contrasenyaRep">Repeat Password</string>
+    <string name="btnRecoveryPass">Recovery</string>
+    <string name="registroEmpresa"><u>Business account</u></string>
+</resources>

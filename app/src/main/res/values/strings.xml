@@ -1,0 +1,27 @@
+<resources>
+    <string name="app_name" translatable="false">Holevento</string>
+    <string name="cambioContrasenya"><u>¿Has olvidado la contraseña?</u></string>
+    <string name="correo">Correo Electrónico</string>
+    <string name="contrasenya">Contraseña</string>
+    <string name="btnIniciarSesion">Iniciar Sesión</string>
+    <string name="btnRegistrarse">Registrarse</string>
+    <string name="usuario">Usuario</string>
+    <string name="telefono">Número de teléfono</string>
+    <string name="contrasenyaRep">Repita la contraseña</string>
+    <string name="btnRecoveryPass">Reestablecer</string>
+    <string name="registroEmpresa"><u>Cuenta de empresa</u></string>
+
+
+    <string-array name="planets_array">
+        <item>Provincia</item>
+        <item>Venus</item>
+        <item>Earth</item>
+        <item>Mars</item>
+        <item>Jupiter</item>
+        <item>Saturn</item>
+        <item>Uranus</item>
+        <item>Neptune</item>
+    </string-array>
+
+
+</resources>
