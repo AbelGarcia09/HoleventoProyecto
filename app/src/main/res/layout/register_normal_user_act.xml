@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".RegisterActivity">
+    tools:context=".auth.RegisterBusinessActivity">
 
     <ScrollView
         android:id="@+id/scroll"
@@ -16,7 +16,7 @@
             android:layout_height="match_parent">
 
             <EditText
-                android:id="@+id/registerPassR"
+                android:id="@+id/registerUserPassR"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
@@ -33,8 +33,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:text="@string/contrasenyaRep"
-                app:layout_constraintStart_toStartOf="@+id/registerPass"
-                app:layout_constraintTop_toBottomOf="@+id/registerPass" />
+                app:layout_constraintStart_toStartOf="@+id/registerUserPass"
+                app:layout_constraintTop_toBottomOf="@+id/registerUserPass" />
 
 
 
@@ -44,11 +44,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:text="@string/usuario"
-                app:layout_constraintStart_toStartOf="@+id/registerEmail"
-                app:layout_constraintTop_toBottomOf="@+id/registerEmail" />
+                app:layout_constraintStart_toStartOf="@+id/registerUserEmail"
+                app:layout_constraintTop_toBottomOf="@+id/registerUserEmail" />
 
             <EditText
-                android:id="@+id/registerUsuario"
+                android:id="@+id/registerUserUsuario"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
@@ -67,7 +67,7 @@
                 android:layout_marginTop="13dp"
                 android:text="@string/correo"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/registerEmail"
+                app:layout_constraintStart_toStartOf="@+id/registerUserEmail"
                 app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
 
@@ -77,11 +77,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:text="@string/contrasenya"
-                app:layout_constraintStart_toStartOf="@+id/registerUsuario"
-                app:layout_constraintTop_toBottomOf="@+id/registerUsuario" />
+                app:layout_constraintStart_toStartOf="@+id/registerUserUsuario"
+                app:layout_constraintTop_toBottomOf="@+id/registerUserUsuario" />
 
             <EditText
-                android:id="@+id/registerPass"
+                android:id="@+id/registerUserPass"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
@@ -93,7 +93,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/textView" />
 
             <EditText
-                android:id="@+id/registerEmail"
+                android:id="@+id/registerUserEmail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
@@ -117,15 +117,15 @@
                 tools:srcCompat="@drawable/logo_holevento" />
 
             <Button
-                android:id="@+id/btnRegistro"
+                android:id="@+id/btnUserRegistro"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:text="@string/btnRegistrarse"
-                app:layout_constraintEnd_toEndOf="@+id/registerPassR"
+                app:layout_constraintEnd_toEndOf="@+id/registerUserPassR"
                 app:layout_constraintHorizontal_bias="0.557"
-                app:layout_constraintStart_toStartOf="@+id/registerPassR"
-                app:layout_constraintTop_toBottomOf="@+id/registerPassR" />
+                app:layout_constraintStart_toStartOf="@+id/registerUserPassR"
+                app:layout_constraintTop_toBottomOf="@+id/registerUserPassR" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

@@ -10,4 +10,11 @@
     <string name="contrasenyaRep">Repeat Password</string>
     <string name="btnRecoveryPass">Recovery</string>
     <string name="registroEmpresa"><u>Business account</u></string>
+    <string name="invalid_mail">Invalid email</string>
+    <string name="invalid_password">Password less than 6 digits</string>
+    <string name="empty">" Fill in this field"</string>
+    <string name="contrasenya_no_coincide">Password does not match</string>
+    <string name="err_tel">Invalid phone</string>
+
+
 </resources>

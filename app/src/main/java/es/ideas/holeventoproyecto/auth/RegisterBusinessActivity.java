@@ -1,4 +1,4 @@
-package es.ideas.holeventoproyecto;
+package es.ideas.holeventoproyecto.auth;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -13,6 +14,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.basgeekball.awesomevalidation.utility.RegexTemplate;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -29,9 +31,13 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import es.ideas.holeventoproyecto.R;
 import es.ideas.holeventoproyecto.modelo.Provincia;
 
-public class RegisterActivity extends AppCompatActivity {
+import com.basgeekball.awesomevalidation.AwesomeValidation;
+import com.basgeekball.awesomevalidation.ValidationStyle;
+
+public class RegisterBusinessActivity extends AppCompatActivity {
 
     private EditText registerEmail, registerUsuario, registerTelefono, registerPass, registerPassR;
     private Spinner registerProvincia;
@@ -39,6 +45,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     private FirebaseAuth auth;
     private DatabaseReference database;
+    private AwesomeValidation awesomeValidation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +53,26 @@ public class RegisterActivity extends AppCompatActivity {
         getSupportActionBar().hide();
         setContentView(R.layout.register_business_user_act);
 
+        // Cargar librerías necesarias.
+        auth = FirebaseAuth.getInstance();
+        database = FirebaseDatabase.getInstance().getReference();
+        awesomeValidation = new AwesomeValidation(ValidationStyle.BASIC);
+
+        iniciarVista();
+
+        btnRegistro.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                String email = registerEmail.getText().toString();
+                String pass = registerPass.getText().toString();
+
+                if (awesomeValidation.validate()) {
+                    registrar(email, pass);
+                }
+            }
+        });
+    }
+
+    private void iniciarVista() {
         registerEmail = findViewById(R.id.registerEmail);
         registerUsuario = findViewById(R.id.registerUsuario);
         registerTelefono = findViewById(R.id.registerTelefono);
@@ -53,30 +80,32 @@ public class RegisterActivity extends AppCompatActivity {
         registerPassR = findViewById(R.id.registerPassR);
         btnRegistro = findViewById(R.id.btnRegistro);
         registerProvincia = findViewById(R.id.provincia);
-
-        auth = FirebaseAuth.getInstance();
-        database = FirebaseDatabase.getInstance().getReference();
         cargarProvincias();
+        comprobarCampos();
+    }
 
-        btnRegistro.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                String email = registerEmail.getText().toString();
-                String usuario = registerUsuario.getText().toString();
-                String telefono = registerTelefono.getText().toString();
-                String pass = registerPass.getText().toString();
-                String passR = registerPassR.getText().toString();
+    private void comprobarCampos() {
+        // Comprueba que los campos no están vacíos.
+        awesomeValidation.addValidation(RegisterBusinessActivity.this, R.id.registerEmail,
+                RegexTemplate.NOT_EMPTY, R.string.empty);
+        awesomeValidation.addValidation(RegisterBusinessActivity.this, R.id.registerUsuario,
+                RegexTemplate.NOT_EMPTY, R.string.empty);
+        awesomeValidation.addValidation(RegisterBusinessActivity.this, R.id.registerTelefono,
+                RegexTemplate.NOT_EMPTY, R.string.empty);
+        awesomeValidation.addValidation(RegisterBusinessActivity.this, R.id.registerPass,
+                RegexTemplate.NOT_EMPTY, R.string.empty);
+        awesomeValidation.addValidation(RegisterBusinessActivity.this, R.id.registerPassR,
+                RegexTemplate.NOT_EMPTY, R.string.empty);
 
-                if (compruebaVacio(email, usuario, telefono, pass, passR)) {
-                    try {
-                        registrar(email, pass);
-                        Toast.makeText(RegisterActivity.this, "Usuario registrado.",
-                                Toast.LENGTH_LONG).show();
-                        startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
-                        finish();
-                    } catch (Exception e) {e.toString();}
-                }
-            }
-        });
+
+        awesomeValidation.addValidation(RegisterBusinessActivity.this, R.id.registerEmail,
+                Patterns.EMAIL_ADDRESS, R.string.invalid_mail);
+        awesomeValidation.addValidation(RegisterBusinessActivity.this, R.id.registerPass, ".{6,}",
+                R.string.invalid_password);
+        awesomeValidation.addValidation(RegisterBusinessActivity.this, R.id.registerPassR,
+                R.id.registerUserPass, R.string.contrasenya_no_coincide);
+        awesomeValidation.addValidation(RegisterBusinessActivity.this, R.id.registerTelefono,
+                RegexTemplate.TELEPHONE, R.string.err_tel);
     }
 
     private void registrar(String email, String pass) {
@@ -84,34 +113,40 @@ public class RegisterActivity extends AppCompatActivity {
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (!task.isSuccessful()) {
+                        if (task.isSuccessful()) {
+                            Toast.makeText(RegisterBusinessActivity.this, "Usuario registrado.",
+                                    Toast.LENGTH_LONG).show();
+                            startActivity(new Intent(RegisterBusinessActivity.this,
+                                    LoginActivity.class));
+                            finish();
+                        } else {
                             try {
                                 throw task.getException();
                             } catch (FirebaseAuthWeakPasswordException e) {
                                 Log.d("FALLO", "onComplete: weak_password");
                                 Toast.makeText(
-                                        RegisterActivity.this,
+                                        RegisterBusinessActivity.this,
                                         "Introduce una contraseña de al menos 6 carácteres",
                                         Toast.LENGTH_SHORT
                                 ).show();
                             } catch (FirebaseAuthInvalidCredentialsException e) {
                                 Log.d("FALLO", "onComplete: malformed_email");
                                 Toast.makeText(
-                                        RegisterActivity.this,
+                                        RegisterBusinessActivity.this,
                                         "Correo electrónico invalido",
                                         Toast.LENGTH_SHORT
                                 ).show();
                             } catch (FirebaseAuthUserCollisionException e) {
                                 Log.d("FALLO", "onComplete: exist_email");
                                 Toast.makeText(
-                                        RegisterActivity.this,
+                                        RegisterBusinessActivity.this,
                                         "Ya existe una cuenta con este correo electrónico",
                                         Toast.LENGTH_SHORT
                                 ).show();
                             } catch (Exception e) {
                                 Log.d("FALLO", "onComplete: " + e.getMessage());
                                 Toast.makeText(
-                                        RegisterActivity.this,
+                                        RegisterBusinessActivity.this,
                                         "Ha ocurrido un error inesperado",
                                         Toast.LENGTH_SHORT
                                 ).show();
@@ -119,39 +154,6 @@ public class RegisterActivity extends AppCompatActivity {
                         }
                     }
                 });
-    }
-
-    private boolean compruebaVacio(String email, String usuario, String telefono,
-                                   String pass, String passR) {
-        if (email.isEmpty() && usuario.isEmpty() && telefono.isEmpty() && pass.isEmpty() && passR.isEmpty()) {
-            Toast.makeText(this, "Rellena los campos", Toast.LENGTH_SHORT).show();
-            return false;
-        }
-        if (email.isEmpty() || usuario.isEmpty() || telefono.isEmpty() || pass.isEmpty() || passR.isEmpty()) {
-            if (email.isEmpty()) {
-                registerEmail.setError("Campo vacío");
-            }
-            if (usuario.isEmpty()) {
-                registerUsuario.setError("Campo vacío");
-            }
-            if (telefono.isEmpty()) {
-                registerTelefono.setError("Campo vacío");
-            }
-            if (pass.isEmpty()) {
-                registerPass.setError("Campo vacío");
-            }
-            if (passR.isEmpty()) {
-                registerPassR.setError("Campo vacío");
-            }
-            if (!pass.isEmpty() && !passR.isEmpty()) {
-                if (!pass.equals(passR)) {
-                    registerPassR.setError("No coincide la contraseña");
-                }
-            }
-            Toast.makeText(this, "Hay algunos campos vacíos", Toast.LENGTH_SHORT).show();
-            return false;
-        }
-        return true;
     }
 
     private void cargarProvincias() {
@@ -167,7 +169,7 @@ public class RegisterActivity extends AppCompatActivity {
                     }
 
                     ArrayAdapter<Provincia> arrayAdapter =
-                            new ArrayAdapter<>(RegisterActivity.this,
+                            new ArrayAdapter<>(RegisterBusinessActivity.this,
                                     android.R.layout.simple_dropdown_item_1line, provincias);
                     registerProvincia.setAdapter(arrayAdapter);
                 }
