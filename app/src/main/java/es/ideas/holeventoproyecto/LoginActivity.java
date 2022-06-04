@@ -46,7 +46,7 @@ public class LoginActivity extends AppCompatActivity {
                 String email = loginEmail.getText().toString();
                 String pass = loginPass.getText().toString();
 
-                if(compruebaVacio(email, pass)) {
+                if (compruebaVacio(email, pass)) {
                     loguear(email, pass);
                 } else {
                     Toast.makeText(LoginActivity.this, "Rellena los campos", Toast.LENGTH_LONG).show();
@@ -75,14 +75,15 @@ public class LoginActivity extends AppCompatActivity {
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        if(task.isSuccessful()) {
+                        if (task.isSuccessful()) {
                             startActivity(new Intent(LoginActivity.this, MainActivity.class));
                             finish();
                         } else {
-                            Toast.makeText(LoginActivity.this, "Credenciales incorrectas", Toast.LENGTH_LONG).show();
+                            Toast.makeText(LoginActivity.this, "Credenciales incorrectas",
+                                    Toast.LENGTH_LONG).show();
                         }
                     }
-        });
+                });
     }
 
     private boolean compruebaVacio(String email, String pass) {

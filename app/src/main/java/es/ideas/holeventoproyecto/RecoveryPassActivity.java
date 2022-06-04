@@ -37,16 +37,19 @@ public class RecoveryPassActivity extends AppCompatActivity {
                         .addOnCompleteListener(new OnCompleteListener() {
                             @Override
                             public void onComplete(@NonNull Task task) {
-                                Toast.makeText(RecoveryPassActivity.this, "Comprueba tu correo electrónico.", Toast.LENGTH_LONG).show();
-                                startActivity(new Intent(RecoveryPassActivity.this, LoginActivity.class));
+                                Toast.makeText(RecoveryPassActivity.this, "Comprueba tu correo " +
+                                        "electrónico.", Toast.LENGTH_LONG).show();
+                                startActivity(new Intent(RecoveryPassActivity.this,
+                                        LoginActivity.class));
                                 finish();
                             }
 
                         }).addOnFailureListener(new OnFailureListener() {
                             public void onFailure(Exception e) {
-                                Toast.makeText(RecoveryPassActivity.this, "El correo no está registrado.", Toast.LENGTH_LONG).show();
-                        }
-            });
+                                Toast.makeText(RecoveryPassActivity.this, "El correo no está " +
+                                        "registrado.", Toast.LENGTH_LONG).show();
+                            }
+                        });
             }
         });
 
