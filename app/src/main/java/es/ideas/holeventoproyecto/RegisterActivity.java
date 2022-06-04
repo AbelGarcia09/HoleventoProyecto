@@ -107,42 +107,37 @@ public class RegisterActivity extends AppCompatActivity {
                 });
     }
 
-    //Si todos los campos están rellenos, devuelve true, si no false
     private boolean compruebaVacio(String email, String usuario, String telefono, String id,
                                    String pass, String passR) {
-        if (email.isEmpty() && usuario.isEmpty() && telefono.isEmpty() && id.isEmpty() && pass.isEmpty() && passR.isEmpty()) {
+        if (email.isEmpty() && usuario.isEmpty() && telefono.isEmpty() && pass.isEmpty() && passR.isEmpty()) {
             Toast.makeText(this, "Rellena los campos", Toast.LENGTH_SHORT).show();
             return false;
         }
-        if (email.isEmpty()) {
-            registerEmail.setError("Campo vacío");
-            return false;
-        }
-        if (usuario.isEmpty()) {
-            registerUsuario.setError("Campo vacío");
-            return false;
-        }
-        if (telefono.isEmpty()) {
-            registerTelefono.setError("Campo vacío");
-            return false;
-        }
-        if (pass.isEmpty()) {
-            registerPass.setError("Campo vacío");
-            return false;
-        }
-        if (passR.isEmpty()) {
-            registerPassR.setError("Campo vacío");
-            return false;
-        }
-        if (!pass.isEmpty() && !passR.isEmpty()) {
-            if (!pass.equals(passR)) {
-                registerPassR.setError("No coincide la contraseña");
-                return false;
+        if(email.isEmpty() || usuario.isEmpty() || telefono.isEmpty() || pass.isEmpty() || passR.isEmpty()) {
+            if (email.isEmpty()) {
+                registerEmail.setError("Campo vacío");
             }
-            return true;
+            if (usuario.isEmpty()) {
+                registerUsuario.setError("Campo vacío");
+            }
+            if (telefono.isEmpty()) {
+                registerTelefono.setError("Campo vacío");
+            }
+            if (pass.isEmpty()) {
+                registerPass.setError("Campo vacío");
+            }
+            if (passR.isEmpty()) {
+                registerPassR.setError("Campo vacío");
+            }
+            if (!pass.isEmpty() && !passR.isEmpty()) {
+                if (!pass.equals(passR)) {
+                    registerPassR.setError("No coincide la contraseña");
+                }
+            }
+            Toast.makeText(this, "Hay algunos campos vacíos", Toast.LENGTH_SHORT).show();
+            return false;
         }
-        return false;
-
+        return true;
     }
 
     @Override
