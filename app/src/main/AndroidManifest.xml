@@ -17,12 +17,15 @@
         android:theme="@style/Theme.HoleventoProyecto"
         tools:targetApi="31">
         <activity
+            android:name=".NormalUserActivity"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="false" />
         <activity
             android:name=".auth.RegisterBusinessActivity"
-            android:windowSoftInputMode="adjustResize"
-            android:exported="false" />
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".auth.RecoveryPassActivity"
             android:exported="false" />

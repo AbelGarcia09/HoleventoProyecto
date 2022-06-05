@@ -1,16 +1,21 @@
 package es.ideas.holeventoproyecto.auth;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
+import static es.ideas.holeventoproyecto.utils.utils.obtenerUid;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.basgeekball.awesomevalidation.AwesomeValidation;
 import com.basgeekball.awesomevalidation.ValidationStyle;
@@ -19,9 +24,17 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import es.ideas.holeventoproyecto.MainActivity;
+import es.ideas.holeventoproyecto.NormalUserActivity;
 import es.ideas.holeventoproyecto.R;
+import es.ideas.holeventoproyecto.modelo.Provincia;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -32,7 +45,10 @@ public class LoginActivity extends AppCompatActivity {
     private TextView tvReestablecer;
     private TextView tvRegistroEmpresa;
 
+    private boolean esEmpresa;
+
     private FirebaseAuth auth;
+    private DatabaseReference database;
     private AwesomeValidation awesomeValidation;
 
     @Override
@@ -42,6 +58,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.login_act);
 
         auth = FirebaseAuth.getInstance();
+        database = FirebaseDatabase.getInstance().getReference();
         awesomeValidation = new AwesomeValidation(ValidationStyle.BASIC);
 
         iniciarVista();
@@ -104,7 +121,13 @@ public class LoginActivity extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
-                                startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                                if (esUsuarioEmpresa()) {
+                                    startActivity(new Intent(LoginActivity.this,
+                                            MainActivity.class));
+                                    finish();
+                                }
+                                startActivity(new Intent(LoginActivity.this,
+                                        NormalUserActivity.class));
                                 finish();
                             } else {
                                 Toast.makeText(LoginActivity.this, "Credenciales incorrectas",
@@ -113,6 +136,40 @@ public class LoginActivity extends AppCompatActivity {
                         }
                     });
         }
+    }
+
+    private boolean esUsuarioEmpresa() {
+        esEmpresa = false;
+            String s = obtenerUid();
+            database.child("UsuarioBusiness").child(obtenerUid()).addChildEventListener(new ChildEventListener() {
+                @Override
+                public void onChildAdded(DataSnapshot dataSnapshot, String prevChildKey) {
+                    esEmpresa = true;
+                }
+
+                @Override
+                public void onChildChanged(@NonNull DataSnapshot snapshot,
+                                           @Nullable String previousChildName) {
+
+                }
+
+                @Override
+                public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+                }
+
+                @Override
+                public void onChildMoved(@NonNull DataSnapshot snapshot,
+                                         @Nullable String previousChildName) {
+
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    esEmpresa = false;
+                }
+            });
+            return esEmpresa;
     }
 
 }

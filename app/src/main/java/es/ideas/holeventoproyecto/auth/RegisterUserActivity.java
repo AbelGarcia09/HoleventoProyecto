@@ -1,11 +1,12 @@
 package es.ideas.holeventoproyecto.auth;
 
+import static es.ideas.holeventoproyecto.utils.utils.obtenerUid;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -21,25 +22,18 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
-import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import es.ideas.holeventoproyecto.R;
-import es.ideas.holeventoproyecto.modelo.Provincia;
+import es.ideas.holeventoproyecto.modelo.UsuarioBusiness;
+import es.ideas.holeventoproyecto.modelo.UsuarioNormal;
 
 public class RegisterUserActivity extends AppCompatActivity {
 
-    private EditText registerEmail, registerUsuario, registerTelefono, registerPass, registerPassR;
-    private Spinner registerProvincia;
+    private EditText registerEmail, registerUsuario, registerPass, registerPassR;
     private Button btnRegistro;
 
     private FirebaseAuth auth;
@@ -109,6 +103,7 @@ public class RegisterUserActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
+                            insertaUsuario();
                             Toast.makeText(RegisterUserActivity.this, "Usuario registrado.",
                                     Toast.LENGTH_LONG).show();
                             startActivity(new Intent(RegisterUserActivity.this,
@@ -117,20 +112,6 @@ public class RegisterUserActivity extends AppCompatActivity {
                         } else {
                             try {
                                 throw task.getException();
-                            } catch (FirebaseAuthWeakPasswordException e) {
-                                Log.d("FALLO", "onComplete: weak_password");
-                                Toast.makeText(
-                                        RegisterUserActivity.this,
-                                        "Introduce una contraseña de al menos 6 carácteres",
-                                        Toast.LENGTH_SHORT
-                                ).show();
-                            } catch (FirebaseAuthInvalidCredentialsException e) {
-                                Log.d("FALLO", "onComplete: malformed_email");
-                                Toast.makeText(
-                                        RegisterUserActivity.this,
-                                        "Correo electrónico invalido",
-                                        Toast.LENGTH_SHORT
-                                ).show();
                             } catch (FirebaseAuthUserCollisionException e) {
                                 Log.d("FALLO", "onComplete: exist_email");
                                 Toast.makeText(
@@ -150,6 +131,17 @@ public class RegisterUserActivity extends AppCompatActivity {
                     }
                 });
 
+    }
+
+    private void insertaUsuario() {
+        String email = registerEmail.getText().toString();
+        String idUsuario = obtenerUid();
+        String nombreUsuario = registerUsuario.getText().toString();
+        String password = registerPass.getText().toString();
+
+        UsuarioNormal usuario = new UsuarioNormal(email, idUsuario, nombreUsuario, password);
+
+        database.child("UsuarioNormal").child(usuario.getIdUsuario()).setValue(usuario);
     }
 
     @Override

@@ -1,7 +1,6 @@
 package es.ideas.holeventoproyecto.auth;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
+import static es.ideas.holeventoproyecto.utils.utils.obtenerUid;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,14 +13,18 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.basgeekball.awesomevalidation.AwesomeValidation;
+import com.basgeekball.awesomevalidation.ValidationStyle;
 import com.basgeekball.awesomevalidation.utility.RegexTemplate;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
-import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -33,9 +36,7 @@ import java.util.List;
 
 import es.ideas.holeventoproyecto.R;
 import es.ideas.holeventoproyecto.modelo.Provincia;
-
-import com.basgeekball.awesomevalidation.AwesomeValidation;
-import com.basgeekball.awesomevalidation.ValidationStyle;
+import es.ideas.holeventoproyecto.modelo.UsuarioBusiness;
 
 public class RegisterBusinessActivity extends AppCompatActivity {
 
@@ -114,6 +115,7 @@ public class RegisterBusinessActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
+                            insertaUsuario();
                             Toast.makeText(RegisterBusinessActivity.this, "Usuario registrado.",
                                     Toast.LENGTH_LONG).show();
                             startActivity(new Intent(RegisterBusinessActivity.this,
@@ -122,20 +124,6 @@ public class RegisterBusinessActivity extends AppCompatActivity {
                         } else {
                             try {
                                 throw task.getException();
-                            } catch (FirebaseAuthWeakPasswordException e) {
-                                Log.d("FALLO", "onComplete: weak_password");
-                                Toast.makeText(
-                                        RegisterBusinessActivity.this,
-                                        "Introduce una contraseña de al menos 6 carácteres",
-                                        Toast.LENGTH_SHORT
-                                ).show();
-                            } catch (FirebaseAuthInvalidCredentialsException e) {
-                                Log.d("FALLO", "onComplete: malformed_email");
-                                Toast.makeText(
-                                        RegisterBusinessActivity.this,
-                                        "Correo electrónico invalido",
-                                        Toast.LENGTH_SHORT
-                                ).show();
                             } catch (FirebaseAuthUserCollisionException e) {
                                 Log.d("FALLO", "onComplete: exist_email");
                                 Toast.makeText(
@@ -154,6 +142,20 @@ public class RegisterBusinessActivity extends AppCompatActivity {
                         }
                     }
                 });
+    }
+
+    private void insertaUsuario() {
+        String email = registerEmail.getText().toString();
+        String idUsuario = obtenerUid();
+        String nombreUsuario = registerUsuario.getText().toString();
+        String password = registerPass.getText().toString();
+        String provincia = (registerProvincia.getSelectedItemPosition() + 1) + "";
+        String telefono = registerTelefono.getText().toString();
+
+        UsuarioBusiness usuario = new UsuarioBusiness(email, idUsuario, nombreUsuario, password,
+                provincia, telefono);
+
+        database.child("UsuarioBusiness").child(usuario.getIdUsuario()).setValue(usuario);
     }
 
     private void cargarProvincias() {
