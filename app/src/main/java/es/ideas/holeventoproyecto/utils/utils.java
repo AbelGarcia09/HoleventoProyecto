@@ -19,6 +19,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.nio.charset.StandardCharsets;
+import java.util.Map;
 
 import es.ideas.holeventoproyecto.BusinessMainActivity;
 import es.ideas.holeventoproyecto.NormalUserMainActivity;
@@ -44,17 +45,18 @@ public class utils {
         return user.getUid();
     }
 
-    public static String obtenerNombreUsuario(){
 
-        String[] valores = {obtenerUid(),"hola"};
+    static String username = "";
+    public static String obtenerNombreUsuario(){
 
         database.child("UsuarioBusiness").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
                     for (DataSnapshot datos : snapshot.getChildren()) {
-                        if (datos.getKey().equals(valores[0])){
-                            valores[1] = datos.child("nombreUsuario").getValue().toString();
+                        if (datos.getKey().equals(obtenerUid())){
+                            Log.i("DATOS", datos.child("nombreUsuario").getValue().toString());
+                            username = datos.child("nombreUsuario").getValue().toString();
                         }
                     }
                 }
@@ -64,7 +66,7 @@ public class utils {
                 Log.e("Error", "No existe el usuario");
             }
         });
-
-        return valores[1];
+        Log.i("DATOS",username);
+        return username;
     }
 }
