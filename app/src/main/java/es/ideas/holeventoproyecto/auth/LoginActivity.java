@@ -21,6 +21,7 @@ import com.basgeekball.awesomevalidation.AwesomeValidation;
 import com.basgeekball.awesomevalidation.ValidationStyle;
 import com.basgeekball.awesomevalidation.utility.RegexTemplate;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -29,6 +30,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import es.ideas.holeventoproyecto.MainActivity;
@@ -45,7 +47,6 @@ public class LoginActivity extends AppCompatActivity {
     private TextView tvReestablecer;
     private TextView tvRegistroEmpresa;
 
-    private boolean esEmpresa;
 
     private FirebaseAuth auth;
     private DatabaseReference database;
@@ -121,14 +122,8 @@ public class LoginActivity extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
-                                if (esUsuarioEmpresa()) {
-                                    startActivity(new Intent(LoginActivity.this,
-                                            MainActivity.class));
-                                    finish();
-                                }
-                                startActivity(new Intent(LoginActivity.this,
-                                        NormalUserActivity.class));
-                                finish();
+                                compruebaTipoUsuario();
+
                             } else {
                                 Toast.makeText(LoginActivity.this, "Credenciales incorrectas",
                                         Toast.LENGTH_LONG).show();
@@ -138,38 +133,29 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    private boolean esUsuarioEmpresa() {
-        esEmpresa = false;
-            String s = obtenerUid();
-            database.child("UsuarioBusiness").child(obtenerUid()).addChildEventListener(new ChildEventListener() {
-                @Override
-                public void onChildAdded(DataSnapshot dataSnapshot, String prevChildKey) {
-                    esEmpresa = true;
+    private void compruebaTipoUsuario() {
+        String s = obtenerUid();
+
+        database.child("UsuarioBusiness").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.exists() && snapshot.hasChild(s)){
+                    startActivity(new Intent(LoginActivity.this,
+                            MainActivity.class));
+                    finish();
                 }
-
-                @Override
-                public void onChildChanged(@NonNull DataSnapshot snapshot,
-                                           @Nullable String previousChildName) {
-
+                else{
+                    startActivity(new Intent(LoginActivity.this,
+                            NormalUserActivity.class));
+                    finish();
                 }
+            }
 
-                @Override
-                public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
 
-                }
+            }
+        });
 
-                @Override
-                public void onChildMoved(@NonNull DataSnapshot snapshot,
-                                         @Nullable String previousChildName) {
-
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-                    esEmpresa = false;
-                }
-            });
-            return esEmpresa;
     }
-
 }
