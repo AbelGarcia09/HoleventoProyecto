@@ -7,36 +7,30 @@ import android.os.Bundle;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.basgeekball.awesomevalidation.AwesomeValidation;
 import com.basgeekball.awesomevalidation.ValidationStyle;
 import com.basgeekball.awesomevalidation.utility.RegexTemplate;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
-import es.ideas.holeventoproyecto.MainActivity;
-import es.ideas.holeventoproyecto.NormalUserActivity;
+import es.ideas.holeventoproyecto.BusinessMainActivity;
+import es.ideas.holeventoproyecto.NormalUserMainActivity;
 import es.ideas.holeventoproyecto.R;
-import es.ideas.holeventoproyecto.modelo.Provincia;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -134,26 +128,24 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void compruebaTipoUsuario() {
-        String s = obtenerUid();
+        String uid = obtenerUid();
 
         database.child("UsuarioBusiness").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot.exists() && snapshot.hasChild(s)){
+                if (snapshot.exists() && snapshot.hasChild(uid)) {
                     startActivity(new Intent(LoginActivity.this,
-                            MainActivity.class));
-                    finish();
-                }
-                else{
+                            BusinessMainActivity.class));
+                } else {
                     startActivity(new Intent(LoginActivity.this,
-                            NormalUserActivity.class));
-                    finish();
+                            NormalUserMainActivity.class));
                 }
+                finish();
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
+                Log.e("Error", "No existe el usuario");
             }
         });
 

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".BusinessMainActivity">
 
     <TextView
         android:layout_width="wrap_content"
@@ -19,21 +19,23 @@
         android:id="@+id/btnRegistro"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
+        android:layout_marginBottom="15dp"
         android:text="@string/btnIniciarSesion"
-        app:layout_constraintEnd_toEndOf="@+id/loginPass"
-        app:layout_constraintStart_toStartOf="@+id/loginPass"
-        app:layout_constraintTop_toBottomOf="@+id/tvOlvidadoPass" />
+        app:layout_constraintBottom_toTopOf="@+id/tvRegistroEmpresa"
+        app:layout_constraintEnd_toStartOf="@+id/btnRegistrarse"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/btnRegistrarse"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
         android:text="@string/btnRegistrarse"
-        app:layout_constraintEnd_toEndOf="@+id/btnRegistro"
-        app:layout_constraintStart_toStartOf="@+id/btnRegistro"
-        app:layout_constraintTop_toBottomOf="@+id/btnRegistro" />
+        app:layout_constraintBottom_toBottomOf="@+id/btnRegistro"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/btnRegistro"
+        app:layout_constraintTop_toTopOf="@+id/btnRegistro" />
 
     <TextView
         android:id="@+id/textView"
@@ -60,7 +62,7 @@
         android:id="@+id/loginEmail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="100dp"
         android:ems="10"
         android:hint="@string/correo"
         android:inputType="textEmailAddress"
@@ -83,21 +85,21 @@
         android:id="@+id/tvOlvidadoPass"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
         android:text="@string/cambioContrasenya"
         android:textColor="#3A68C3"
         app:layout_constraintEnd_toEndOf="@+id/loginPass"
+        app:layout_constraintStart_toStartOf="@+id/loginPass"
         app:layout_constraintTop_toBottomOf="@+id/loginPass" />
 
     <TextView
         android:id="@+id/tvRegistroEmpresa"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
+        android:layout_marginBottom="40dp"
         android:text="@string/registroEmpresa"
         android:textColor="#3A68C3"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/btnRegistrarse"
-        app:layout_constraintStart_toStartOf="@+id/btnRegistrarse"
-        app:layout_constraintTop_toBottomOf="@+id/btnRegistrarse" />
+        app:layout_constraintStart_toStartOf="@+id/btnRegistro" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

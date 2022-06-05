@@ -17,10 +17,10 @@
         android:theme="@style/Theme.HoleventoProyecto"
         tools:targetApi="31">
         <activity
-            android:name=".NormalUserActivity"
+            android:name=".NormalUserMainActivity"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".BusinessMainActivity"
             android:exported="false" />
         <activity
             android:name=".auth.RegisterBusinessActivity"
