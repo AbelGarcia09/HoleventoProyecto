@@ -16,6 +16,7 @@ import androidx.fragment.app.Fragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -33,7 +34,6 @@ public class BusinessMainActivity extends AppCompatActivity {
     private Fragment currentFragment;
     private TextView tvUsername;
     private ImageButton btnLogout;
-    private Utils util;
 
     private DatabaseReference database = FirebaseDatabase.getInstance().getReference();
 
@@ -56,8 +56,6 @@ public class BusinessMainActivity extends AppCompatActivity {
             }
         });
 
-        //Si se rota el móvil, no nos cargará un nuevo fragment, por lo que
-        //no perderemos los datos que tenemos en pantalla.
         if (savedInstanceState == null) {
             currentFragment = new Profile();
             cambiaFragment(currentFragment);
@@ -92,14 +90,15 @@ public class BusinessMainActivity extends AppCompatActivity {
     private void iniciarVista() {
         tvUsername = (TextView) findViewById(R.id.nombreUserBusiness);
         btnLogout = (ImageButton) findViewById(R.id.btnLogout);
-        util = new Utils();
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        String uid = user.getUid();
 
         database.child("UsuarioBusiness").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
                     for (DataSnapshot datos : snapshot.getChildren()) {
-                        if (datos.getKey().equals(util.obtenerUid())) {
+                        if (datos.getKey().equals(uid)){
                             String username = datos.child("nombreUsuario").getValue().toString();
                             tvUsername.setText(username);
                             Log.i("DATOS", "dentro del for: " + username);

@@ -11,8 +11,6 @@ import java.nio.charset.StandardCharsets;
 
 public class Utils {
 
-    private FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-
     public static String generateEncode(String input) {
         HashFunction hf = Hashing.sha256();
         Hasher hasher = hf.newHasher();
@@ -20,10 +18,6 @@ public class Utils {
         HashCode hc = hasher.putString(input, StandardCharsets.UTF_8).hash();
 
         return hc.toString();
-    }
-
-    public String obtenerUid() {
-        return user.getUid();
     }
 
 }

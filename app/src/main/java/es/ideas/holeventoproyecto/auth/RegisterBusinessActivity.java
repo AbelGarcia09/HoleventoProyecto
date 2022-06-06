@@ -22,6 +22,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -145,8 +146,11 @@ public class RegisterBusinessActivity extends AppCompatActivity {
     }
 
     private void insertaUsuario() {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        String uid = user.getUid();
+
         String email = registerEmail.getText().toString();
-        String idUsuario = util.obtenerUid();
+        String idUsuario = uid;
         String nombreUsuario = registerUsuario.getText().toString();
         String password = registerPass.getText().toString();
         String provincia = (registerProvincia.getSelectedItemPosition() + 1) + "";

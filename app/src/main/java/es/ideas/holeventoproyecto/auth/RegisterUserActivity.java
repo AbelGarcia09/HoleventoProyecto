@@ -20,6 +20,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -31,7 +32,6 @@ public class RegisterUserActivity extends AppCompatActivity {
 
     private EditText registerEmail, registerUsuario, registerPass, registerPassR;
     private Button btnRegistro;
-    private Utils util;
 
     private FirebaseAuth auth;
     private DatabaseReference database;
@@ -64,7 +64,6 @@ public class RegisterUserActivity extends AppCompatActivity {
     }
 
     private void iniciarVista() {
-        util = new Utils();
         registerEmail = findViewById(R.id.registerUserEmail);
         registerUsuario = findViewById(R.id.registerUserUsuario);
         registerPass = findViewById(R.id.registerUserPass);
@@ -132,8 +131,11 @@ public class RegisterUserActivity extends AppCompatActivity {
     }
 
     private void insertaUsuario() {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        String uid = user.getUid();
+
         String email = registerEmail.getText().toString();
-        String idUsuario = util.obtenerUid();
+        String idUsuario = uid;
         String nombreUsuario = registerUsuario.getText().toString();
         String password = registerPass.getText().toString();
 
