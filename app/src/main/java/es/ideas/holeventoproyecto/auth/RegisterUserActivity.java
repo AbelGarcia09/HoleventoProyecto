@@ -1,6 +1,6 @@
 package es.ideas.holeventoproyecto.auth;
 
-import static es.ideas.holeventoproyecto.utils.utils.obtenerUid;
+import static es.ideas.holeventoproyecto.utils.Utils.obtenerUid;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,7 +9,6 @@ import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -23,12 +22,10 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import es.ideas.holeventoproyecto.R;
-import es.ideas.holeventoproyecto.modelo.UsuarioBusiness;
 import es.ideas.holeventoproyecto.modelo.UsuarioNormal;
 
 public class RegisterUserActivity extends AppCompatActivity {

@@ -26,10 +26,9 @@ import es.ideas.holeventoproyecto.NormalUserMainActivity;
 import es.ideas.holeventoproyecto.auth.LoginActivity;
 import es.ideas.holeventoproyecto.modelo.Provincia;
 
-public class utils {
+public class Utils {
 
-    private  static final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-    private static final DatabaseReference database = FirebaseDatabase.getInstance().getReference();;
+    private static FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
     public static String generateEncode(String input) {
         HashFunction hf = Hashing.sha256();
@@ -45,28 +44,4 @@ public class utils {
         return user.getUid();
     }
 
-
-    static String username = "";
-    public static String obtenerNombreUsuario(){
-
-        database.child("UsuarioBusiness").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.exists()) {
-                    for (DataSnapshot datos : snapshot.getChildren()) {
-                        if (datos.getKey().equals(obtenerUid())){
-                            Log.i("DATOS", datos.child("nombreUsuario").getValue().toString());
-                            username = datos.child("nombreUsuario").getValue().toString();
-                        }
-                    }
-                }
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Log.e("Error", "No existe el usuario");
-            }
-        });
-        Log.i("DATOS",username);
-        return username;
-    }
 }

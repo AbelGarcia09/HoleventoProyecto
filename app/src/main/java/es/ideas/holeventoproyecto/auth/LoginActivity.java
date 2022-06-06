@@ -1,6 +1,6 @@
 package es.ideas.holeventoproyecto.auth;
 
-import static es.ideas.holeventoproyecto.utils.utils.obtenerUid;
+import static es.ideas.holeventoproyecto.utils.Utils.obtenerUid;
 
 import android.content.Intent;
 import android.os.Bundle;

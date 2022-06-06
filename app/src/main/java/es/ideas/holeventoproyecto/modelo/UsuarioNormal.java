@@ -1,6 +1,6 @@
 package es.ideas.holeventoproyecto.modelo;
 
-import static es.ideas.holeventoproyecto.utils.utils.generateEncode;
+import static es.ideas.holeventoproyecto.utils.Utils.generateEncode;
 
 public class UsuarioNormal {
     private String email;

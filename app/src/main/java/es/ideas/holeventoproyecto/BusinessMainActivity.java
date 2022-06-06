@@ -1,7 +1,6 @@
 package es.ideas.holeventoproyecto;
 
-import static es.ideas.holeventoproyecto.utils.utils.obtenerNombreUsuario;
-import static es.ideas.holeventoproyecto.utils.utils.obtenerUid;
+import static es.ideas.holeventoproyecto.utils.Utils.obtenerUid;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -23,22 +22,20 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import es.ideas.holeventoproyecto.auth.LoginActivity;
-import es.ideas.holeventoproyecto.auth.RegisterUserActivity;
 import es.ideas.holeventoproyecto.fragments.business.NuevoEvento;
 import es.ideas.holeventoproyecto.fragments.business.Profile;
+import es.ideas.holeventoproyecto.utils.Utils;
 
 public class BusinessMainActivity extends AppCompatActivity {
 
     private BottomNavigationView bv;
     private Fragment currentFragment;
-    private TextView username;
-    private ImageButton logout;
+    private TextView tvUsername;
+    private ImageButton btnLogout;
 
-    private static final DatabaseReference database = FirebaseDatabase.getInstance().getReference();
+
+    private DatabaseReference database = FirebaseDatabase.getInstance().getReference();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,11 +43,10 @@ public class BusinessMainActivity extends AppCompatActivity {
         getSupportActionBar().hide();
         setContentView(R.layout.business_main_activity);
 
-        username = (TextView) findViewById(R.id.nombreUserBusiness);
-        logout = (ImageButton) findViewById(R.id.btnLogout);
+        //carga los elementos de la vista
+        iniciarVista();
 
-        username.setText(obtenerNombreUsuario());
-        logout.setOnClickListener(new View.OnClickListener() {
+        btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(BusinessMainActivity.this, LoginActivity.class));
@@ -91,12 +87,32 @@ public class BusinessMainActivity extends AppCompatActivity {
 
     }
 
-    /**
-     * Se le pasa un fragmento, el cuál declararemos en el NavBar, y dependiendo del resultado
-     * cargará un fragment u otro.
-     *
-     * @param f Fragmento que recibe, pora crear uno del mismo.
-     */
+    private void iniciarVista() {
+        tvUsername = (TextView) findViewById(R.id.nombreUserBusiness);
+        btnLogout = (ImageButton) findViewById(R.id.btnLogout);
+
+        database.child("UsuarioBusiness").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    for (DataSnapshot datos : snapshot.getChildren()) {
+                        if (datos.getKey().equals(obtenerUid())) {
+                            String username = datos.child("nombreUsuario").getValue().toString();
+                            tvUsername.setText(username);
+                            Log.i("DATOS", "dentro del for: " + username);
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.e("Error", "No existe el usuario");
+            }
+        });
+
+    }
+
     private void cambiaFragment(Fragment f) {
         getSupportFragmentManager().beginTransaction().replace(R.id.frame_Layout, f).commit();
     }
