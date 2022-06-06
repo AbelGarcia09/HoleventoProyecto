@@ -4,6 +4,7 @@ import static es.ideas.holeventoproyecto.utils.Utils.obtenerUid;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,6 +17,7 @@ import androidx.fragment.app.Fragment;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -43,12 +45,14 @@ public class BusinessMainActivity extends AppCompatActivity {
         getSupportActionBar().hide();
         setContentView(R.layout.business_main_activity);
 
+
         //carga los elementos de la vista
         iniciarVista();
 
         btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                FirebaseAuth.getInstance().signOut();
                 startActivity(new Intent(BusinessMainActivity.this, LoginActivity.class));
                 finish();
             }
@@ -118,7 +122,9 @@ public class BusinessMainActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onSaveInstanceState(@NonNull Bundle outState) {
-        super.onSaveInstanceState(outState);
-    }
+    public void onSaveInstanceState(@NonNull Bundle outState, @NonNull PersistableBundle outPersistentState) {
+        super.onSaveInstanceState(outState, outPersistentState);
+            }
+
+
 }

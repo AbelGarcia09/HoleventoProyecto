@@ -22,6 +22,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -43,6 +44,7 @@ public class LoginActivity extends AppCompatActivity {
 
 
     private FirebaseAuth auth;
+    FirebaseAuth.AuthStateListener mAuthListener;
     private DatabaseReference database;
     private AwesomeValidation awesomeValidation;
 
@@ -55,6 +57,18 @@ public class LoginActivity extends AppCompatActivity {
         auth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance().getReference();
         awesomeValidation = new AwesomeValidation(ValidationStyle.BASIC);
+
+
+
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            // User is signed in
+            compruebaTipoUsuario();
+        } else {
+            // User is signed out
+            Log.d("LOGIN", "onAuthStateChanged:signed_out");
+        }
+
 
         iniciarVista();
 
