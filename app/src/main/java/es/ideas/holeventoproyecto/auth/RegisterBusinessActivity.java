@@ -1,7 +1,5 @@
 package es.ideas.holeventoproyecto.auth;
 
-import static es.ideas.holeventoproyecto.utils.Utils.obtenerUid;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -36,12 +34,14 @@ import java.util.List;
 import es.ideas.holeventoproyecto.R;
 import es.ideas.holeventoproyecto.modelo.Provincia;
 import es.ideas.holeventoproyecto.modelo.UsuarioBusiness;
+import es.ideas.holeventoproyecto.utils.Utils;
 
 public class RegisterBusinessActivity extends AppCompatActivity {
 
     private EditText registerEmail, registerUsuario, registerTelefono, registerPass, registerPassR;
     private Spinner registerProvincia;
     private Button btnRegistro;
+    private Utils util;
 
     private FirebaseAuth auth;
     private DatabaseReference database;
@@ -73,6 +73,7 @@ public class RegisterBusinessActivity extends AppCompatActivity {
     }
 
     private void iniciarVista() {
+        util = new Utils();
         registerEmail = findViewById(R.id.registerEmail);
         registerUsuario = findViewById(R.id.registerUsuario);
         registerTelefono = findViewById(R.id.registerTelefono);
@@ -145,7 +146,7 @@ public class RegisterBusinessActivity extends AppCompatActivity {
 
     private void insertaUsuario() {
         String email = registerEmail.getText().toString();
-        String idUsuario = obtenerUid();
+        String idUsuario = util.obtenerUid();
         String nombreUsuario = registerUsuario.getText().toString();
         String password = registerPass.getText().toString();
         String provincia = (registerProvincia.getSelectedItemPosition() + 1) + "";

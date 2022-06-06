@@ -1,7 +1,5 @@
 package es.ideas.holeventoproyecto.auth;
 
-import static es.ideas.holeventoproyecto.utils.Utils.obtenerUid;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -27,11 +25,13 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import es.ideas.holeventoproyecto.R;
 import es.ideas.holeventoproyecto.modelo.UsuarioNormal;
+import es.ideas.holeventoproyecto.utils.Utils;
 
 public class RegisterUserActivity extends AppCompatActivity {
 
     private EditText registerEmail, registerUsuario, registerPass, registerPassR;
     private Button btnRegistro;
+    private Utils util;
 
     private FirebaseAuth auth;
     private DatabaseReference database;
@@ -64,6 +64,7 @@ public class RegisterUserActivity extends AppCompatActivity {
     }
 
     private void iniciarVista() {
+        util = new Utils();
         registerEmail = findViewById(R.id.registerUserEmail);
         registerUsuario = findViewById(R.id.registerUserUsuario);
         registerPass = findViewById(R.id.registerUserPass);
@@ -132,7 +133,7 @@ public class RegisterUserActivity extends AppCompatActivity {
 
     private void insertaUsuario() {
         String email = registerEmail.getText().toString();
-        String idUsuario = obtenerUid();
+        String idUsuario = util.obtenerUid();
         String nombreUsuario = registerUsuario.getText().toString();
         String password = registerPass.getText().toString();
 

@@ -1,12 +1,11 @@
 package es.ideas.holeventoproyecto.fragments.business;
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.fragment.app.Fragment;
 
 import es.ideas.holeventoproyecto.R;
 

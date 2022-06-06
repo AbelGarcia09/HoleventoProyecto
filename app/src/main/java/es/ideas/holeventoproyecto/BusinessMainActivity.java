@@ -1,7 +1,5 @@
 package es.ideas.holeventoproyecto;
 
-import static es.ideas.holeventoproyecto.utils.Utils.obtenerUid;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.PersistableBundle;
@@ -35,7 +33,7 @@ public class BusinessMainActivity extends AppCompatActivity {
     private Fragment currentFragment;
     private TextView tvUsername;
     private ImageButton btnLogout;
-
+    private Utils util;
 
     private DatabaseReference database = FirebaseDatabase.getInstance().getReference();
 
@@ -94,13 +92,14 @@ public class BusinessMainActivity extends AppCompatActivity {
     private void iniciarVista() {
         tvUsername = (TextView) findViewById(R.id.nombreUserBusiness);
         btnLogout = (ImageButton) findViewById(R.id.btnLogout);
+        util = new Utils();
 
         database.child("UsuarioBusiness").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
                     for (DataSnapshot datos : snapshot.getChildren()) {
-                        if (datos.getKey().equals(obtenerUid())) {
+                        if (datos.getKey().equals(util.obtenerUid())) {
                             String username = datos.child("nombreUsuario").getValue().toString();
                             tvUsername.setText(username);
                             Log.i("DATOS", "dentro del for: " + username);
@@ -124,7 +123,7 @@ public class BusinessMainActivity extends AppCompatActivity {
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState, @NonNull PersistableBundle outPersistentState) {
         super.onSaveInstanceState(outState, outPersistentState);
-            }
+    }
 
 
 }

@@ -1,7 +1,5 @@
 package es.ideas.holeventoproyecto.auth;
 
-import static es.ideas.holeventoproyecto.utils.Utils.obtenerUid;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -41,7 +39,6 @@ public class LoginActivity extends AppCompatActivity {
     private Button btnRegistrarse;
     private TextView tvReestablecer;
     private TextView tvRegistroEmpresa;
-
 
     private FirebaseAuth auth;
     FirebaseAuth.AuthStateListener mAuthListener;
@@ -142,7 +139,8 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void compruebaTipoUsuario() {
-        String uid = obtenerUid();
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        String uid = user.getUid();
 
         database.child("UsuarioBusiness").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
