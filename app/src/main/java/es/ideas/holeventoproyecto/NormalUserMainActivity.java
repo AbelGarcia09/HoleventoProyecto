@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.util.Log;
 import android.view.MenuItem;
-import android.view.SearchEvent;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -25,12 +24,10 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import es.ideas.holeventoproyecto.auth.LoginActivity;
-import es.ideas.holeventoproyecto.fragments.business.NuevoEvento;
-import es.ideas.holeventoproyecto.fragments.business.Profile;
 import es.ideas.holeventoproyecto.fragments.normalUser.BuscarEventos;
 import es.ideas.holeventoproyecto.fragments.normalUser.ListaEventos;
+import es.ideas.holeventoproyecto.fragments.normalUser.MainPage;
 import es.ideas.holeventoproyecto.fragments.normalUser.ProfileNormalUser;
-import es.ideas.holeventoproyecto.utils.Utils;
 
 public class NormalUserMainActivity extends AppCompatActivity {
 
@@ -51,7 +48,7 @@ public class NormalUserMainActivity extends AppCompatActivity {
         iniciarVista();
 
         if (savedInstanceState == null) {
-            currentFragment = new BuscarEventos();
+            currentFragment = new MainPage();
             cambiaFragment(currentFragment);
         } else {
             cambiaFragment(currentFragment);
@@ -67,6 +64,9 @@ public class NormalUserMainActivity extends AppCompatActivity {
                 switch (item.getItemId()) {
                     case R.id.listEvent:
                         currentFragment = new ListaEventos();
+                        break;
+                    case R.id.mainPage:
+                        currentFragment = new MainPage();
                         break;
 
                     case R.id.searchEvent:

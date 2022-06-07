@@ -12,7 +12,11 @@
         android:icon="@drawable/search"
         android:enabled="true"
         android:title="" />
-
+    <item
+        android:id="@+id/mainPage"
+        android:icon="@drawable/icono_logo"
+        android:enabled="true"
+        android:title="" />
     <item
         android:id="@+id/profileUser"
         android:icon="@drawable/home"

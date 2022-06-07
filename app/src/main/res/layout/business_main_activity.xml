@@ -27,8 +27,10 @@
         android:layout_height="40dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/logo_holevento"
-        tools:srcCompat="@drawable/logo_holevento" />
+        android:scaleX="3"
+        android:scaleY="3"
+        app:srcCompat="@drawable/nombre_logo"
+        tools:srcCompat="@drawable/nombre_logo" />
 
     <FrameLayout
         android:id="@+id/frame_Layout"
@@ -57,6 +59,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="TextView"
+        android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="@+id/imageView"
         app:layout_constraintEnd_toStartOf="@+id/btnLogout"
         app:layout_constraintStart_toEndOf="@+id/imageView"
