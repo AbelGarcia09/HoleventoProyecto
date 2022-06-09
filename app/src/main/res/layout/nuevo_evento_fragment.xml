@@ -9,45 +9,134 @@
     <ScrollView
         android:id="@+id/scroll"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_above="@+id/btnAnyadirEvento"
+        >
 
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="30dp">
+            android:layout_height="wrap_content"
+            android:padding="20dp">
+
+            <ImageView
+                android:id="@+id/imageView2"
+                android:layout_width="338dp"
+                android:layout_height="224dp"
+                android:background="@color/grey"
+                android:src="@drawable/ic_add_photo_white"
+                app:layout_constraintBottom_toTopOf="@+id/etFechaEvento"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/textView3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="40dp"
+                android:layout_marginTop="20dp"
                 android:text="@string/fecha_evento"
                 android:textSize="20sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintBottom_toTopOf="@+id/textView8"
+                app:layout_constraintStart_toStartOf="@+id/imageView2"
+                app:layout_constraintTop_toBottomOf="@+id/imageView2" />
 
             <EditText
                 android:id="@+id/etFechaEvento"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
-                android:ems="10"
+                android:ems="6"
                 android:hint="10/06/2022"
                 android:inputType="none"
+                android:textAlignment="center"
                 app:layout_constraintBottom_toBottomOf="@+id/textView3"
                 app:layout_constraintStart_toEndOf="@+id/textView3"
                 app:layout_constraintTop_toTopOf="@+id/textView3" />
 
 
+            <TextView
+                android:id="@+id/textView8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="@string/direccion"
+                android:textSize="15dp"
+                app:layout_constraintBottom_toTopOf="@+id/etDireccionEvento"
+                app:layout_constraintStart_toStartOf="@+id/textView3"
+                app:layout_constraintTop_toBottomOf="@+id/textView3" />
+
+            <EditText
+                android:id="@+id/etDireccionEvento"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:hint="Calle Ronda Sur, 18, 30010 Murcia"
+                app:layout_constraintEnd_toEndOf="@+id/imageView2"
+                app:layout_constraintStart_toStartOf="@+id/textView8"
+                app:layout_constraintTop_toBottomOf="@id/textView8" />
+
+            <TextView
+                android:id="@+id/textView9"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="@string/plazas"
+                android:textSize="15dp"
+                app:layout_constraintBottom_toTopOf="@+id/etPlazasTotales"
+                app:layout_constraintStart_toStartOf="@+id/etDireccionEvento"
+                app:layout_constraintTop_toBottomOf="@+id/etDireccionEvento" />
+
+            <EditText
+                android:id="@+id/etPlazasTotales"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="6"
+                android:hint="100"
+                android:inputType="number"
+                android:maxLength="6"
+                android:textAlignment="center"
+                app:layout_constraintStart_toStartOf="@+id/textView9"
+                app:layout_constraintTop_toBottomOf="@+id/textView9" />
+
+
+            <TextView
+                android:id="@+id/textView10"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="@string/contenido"
+                android:textSize="15dp"
+                app:layout_constraintStart_toStartOf="@+id/etPlazasTotales"
+                app:layout_constraintTop_toBottomOf="@+id/etPlazasTotales" />
+
+            <EditText
+                android:id="@+id/etContenido"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:hint="@string/descripcionEvento"
+                android:inputType="textMultiLine"
+                android:maxLines="10"
+                android:maxLength="500"
+                app:layout_constraintEnd_toEndOf="@+id/imageView2"
+                app:layout_constraintStart_toStartOf="@+id/textView10"
+                app:layout_constraintTop_toBottomOf="@+id/textView10" />
+
+            <Button
+                android:id="@+id/btnAnyadirEvento"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="@string/btnAnyadirEvento"
+                app:layout_constraintTop_toBottomOf="@id/etContenido"
+                app:layout_constraintStart_toStartOf="@id/etContenido"
+                app:layout_constraintEnd_toEndOf="@id/etContenido"/>
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-
-
-
-
-
     </ScrollView>
+
+
 
 </FrameLayout>

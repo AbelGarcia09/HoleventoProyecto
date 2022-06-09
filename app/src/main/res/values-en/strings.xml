@@ -16,6 +16,11 @@
     <string name="contrasenya_no_coincide">Password does not match</string>
     <string name="err_tel">Invalid phone</string>
     <string name="fecha_evento">Event date:</string>
+    <string name="direccion">Address</string>
+    <string name="plazas">Max capacity</string>
+    <string name="contenido">Description</string>
+    <string name="descripcionEvento">" Tell us what your event will be about!!"</string>
+    <string name="btnAnyadirEvento">Create event</string>
 
 
 </resources>

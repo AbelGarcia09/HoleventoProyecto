@@ -87,12 +87,10 @@ public class NuevoEvento extends Fragment {
 
         Calendar cal = Calendar.getInstance();
         int year = cal.get(Calendar.YEAR);
-        int month = cal.get(Calendar.MONTH)+1;
+        int month = cal.get(Calendar.MONTH);
         int day = cal.get(Calendar.DAY_OF_MONTH);
 
-        int style = AlertDialog.THEME_HOLO_LIGHT;
-
-        datePickerDialog = new DatePickerDialog(viewRoot.getContext(), style, dateSetListener, year, month, day);
+        datePickerDialog = new DatePickerDialog(viewRoot.getContext(), dateSetListener, year, month, day);
         datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis());
     }
 
