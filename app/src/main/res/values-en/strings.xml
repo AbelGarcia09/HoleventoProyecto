@@ -15,6 +15,7 @@
     <string name="empty">" Fill in this field"</string>
     <string name="contrasenya_no_coincide">Password does not match</string>
     <string name="err_tel">Invalid phone</string>
+    <string name="fecha_evento">Event date:</string>
 
 
 </resources>

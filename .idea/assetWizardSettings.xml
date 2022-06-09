@@ -326,7 +326,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="file:/$USER_HOME$/AppData/Local/Android/Sdk/icons/material/materialicons/search/baseline_search_24.xml" />
+                                      <entry key="url" value="file:/$USER_HOME$/AppData/Local/Android/Sdk/icons/material/materialicons/calendar_month/baseline_calendar_month_24.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -337,7 +337,7 @@
                         <option name="values">
                           <map>
                             <entry key="autoMirrored" value="true" />
-                            <entry key="outputName" value="search" />
+                            <entry key="outputName" value="calendar" />
                             <entry key="sourceFile" value="E:\Astudio\javaV2\HoleventoProyecto" />
                           </map>
                         </option>
