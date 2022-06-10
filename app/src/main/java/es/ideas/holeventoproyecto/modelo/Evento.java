@@ -17,7 +17,6 @@ import java.util.Locale;
 
 public class Evento {
     private int idEvento;
-    private static int idEventoSiguiente = 1;
     private String idUsuario;
     private String idProvincia;
     private String direccion;
@@ -33,8 +32,7 @@ public class Evento {
                   int plazasTotales, String fechaPublicacion) {
         database = FirebaseDatabase.getInstance().getReference();
 
-        idEvento = idEventoSiguiente;
-        idEventoSiguiente++;
+        idEvento = 1;
         this.idUsuario = idUsuario;
         this.idProvincia = idProvincia;
         this.direccion = direccion;

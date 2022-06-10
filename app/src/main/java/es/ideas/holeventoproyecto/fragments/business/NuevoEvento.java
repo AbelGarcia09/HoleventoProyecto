@@ -1,6 +1,9 @@
 package es.ideas.holeventoproyecto.fragments.business;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -9,7 +12,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 
+import androidx.activity.result.ActivityResult;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
@@ -20,20 +25,25 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 import es.ideas.holeventoproyecto.R;
 import es.ideas.holeventoproyecto.modelo.Evento;
-import es.ideas.holeventoproyecto.modelo.UsuarioBusiness;
+import es.ideas.holeventoproyecto.utils.BetterActivityResult;
 
 public class NuevoEvento extends Fragment {
 
 
-    public NuevoEvento() {}
+    public NuevoEvento() {
+    }
 
+    private String urlFoto = "empty";
     private View viewRoot;
+    private ImageView ivFotoEvento;
     private EditText etFechaEvento;
     private EditText etDireccion;
     private EditText etPlazasTotales;
@@ -41,8 +51,12 @@ public class NuevoEvento extends Fragment {
     private EditText etProvincia;
     private DatePickerDialog datePickerDialog;
     private Button btnNuevoEvento;
+    FirebaseUser user;
+    private final BetterActivityResult<Intent, ActivityResult> activityLauncher =
+            BetterActivityResult.registerActivityForResult(this);
 
     private DatabaseReference database = FirebaseDatabase.getInstance().getReference();
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -68,11 +82,20 @@ public class NuevoEvento extends Fragment {
             }
         });
 
+        ivFotoEvento.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                subirFoto();
+            }
+        });
+
         return viewRoot;
     }
 
-    private void iniciarVista(){
+    private void iniciarVista() {
         initDatePicker();
+        user = FirebaseAuth.getInstance().getCurrentUser();
+        ivFotoEvento = (ImageView) viewRoot.findViewById(R.id.ivFotoEvento);
         etFechaEvento = (EditText) viewRoot.findViewById(R.id.etFechaEvento);
         etDireccion = (EditText) viewRoot.findViewById(R.id.etDireccionEvento);
         etPlazasTotales = (EditText) viewRoot.findViewById(R.id.etPlazasTotales);
@@ -90,7 +113,7 @@ public class NuevoEvento extends Fragment {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
                     for (DataSnapshot datos : snapshot.getChildren()) {
-                        if (datos.getKey().equals(idUsuario)){
+                        if (datos.getKey().equals(idUsuario)) {
                             String provincia = datos.child("provincia").getValue().toString();
                             etProvincia.setText(provincia);
                             Log.i("DATOS", "dentro del for: " + provincia);
@@ -106,7 +129,7 @@ public class NuevoEvento extends Fragment {
         });
     }
 
-    private String obtenerFechaActual(){
+    private String obtenerFechaActual() {
         Calendar cal = Calendar.getInstance();
 
         SimpleDateFormat formatoFecha = new SimpleDateFormat("MM/dd/yyyy");
@@ -115,58 +138,82 @@ public class NuevoEvento extends Fragment {
         return fecha;
     }
 
-    private String fechaToString(int day, int month, int year){
-        if (day<10 && month<10){
-            return "0"+day+"/0"+month+"/"+year;
-        }
-        else if (day<10 && month>=10){
-            return "0"+day+"/"+month+"/"+year;
-        }
-        else if (day>=10 && month<10){
-            return day+"/0"+month+"/"+year;
-        }
-        else{
-            return day+"/"+month+"/"+year;
+    private String fechaToString(int day, int month, int year) {
+        if (day < 10 && month < 10) {
+            return "0" + day + "/0" + month + "/" + year;
+        } else if (day < 10 && month >= 10) {
+            return "0" + day + "/" + month + "/" + year;
+        } else if (day >= 10 && month < 10) {
+            return day + "/0" + month + "/" + year;
+        } else {
+            return day + "/" + month + "/" + year;
         }
     }
 
-    private void initDatePicker(){
-        DatePickerDialog.OnDateSetListener dateSetListener = new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-                month += 1;
-                String date = fechaToString(day, month, year);
-                etFechaEvento.setText(date);
-            }
-        };
+    private void initDatePicker() {
+        DatePickerDialog.OnDateSetListener dateSetListener =
+                new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+                        month += 1;
+                        String date = fechaToString(day, month, year);
+                        etFechaEvento.setText(date);
+                    }
+                };
 
         Calendar cal = Calendar.getInstance();
         int year = cal.get(Calendar.YEAR);
         int month = cal.get(Calendar.MONTH);
         int day = cal.get(Calendar.DAY_OF_MONTH);
 
-        datePickerDialog = new DatePickerDialog(viewRoot.getContext(), dateSetListener, year, month, day);
+        datePickerDialog = new DatePickerDialog(viewRoot.getContext(), dateSetListener, year,
+                month, day);
         datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis());
     }
 
-    private void openDatePicker(View view){
+    private void openDatePicker(View view) {
         datePickerDialog.show();
     }
 
     private void nuevoEvento() {
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
         String idUsuario = user.getUid();
         String idProvincia = etProvincia.getText().toString();
         String direccion = etDireccion.getText().toString();
         String contenido = etDescripcion.getText().toString();
         String fechaEvento = etFechaEvento.getText().toString();
-        String imagen = "";
+        String imagen = urlFoto;
         int plazasTotales = Integer.parseInt(etPlazasTotales.getText().toString());
         String fechaPublicacion = obtenerFechaActual();
 
-        Evento evento = new Evento(idUsuario, idProvincia, direccion, contenido, fechaEvento, imagen, plazasTotales, fechaPublicacion);
+        Evento evento = new Evento(idUsuario, idProvincia, direccion, contenido, fechaEvento,
+                imagen, plazasTotales, fechaPublicacion);
 
-        database.child("Eventos").child(evento.getIdEvento()+"").setValue(evento);
+        database.child("Eventos").child(evento.getIdEvento() + "").setValue(evento);
     }
+
+    private void subirFoto() {
+
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.setType("image/*");
+
+        activityLauncher.launch(intent, result -> {
+            if (result.getResultCode() == Activity.RESULT_OK) {
+
+                Uri datos = result.getData().getData();
+
+                StorageReference storage =
+                        FirebaseStorage.getInstance().getReference().child(user.getUid());
+
+                final StorageReference foto = storage.child("nombreFoto");
+
+                foto.putFile(datos).addOnSuccessListener(taskSnapshot -> foto.getDownloadUrl().addOnSuccessListener(uri -> {
+
+                    urlFoto = uri.toString();
+
+                }));
+            }
+        });
+    }
+
 }
