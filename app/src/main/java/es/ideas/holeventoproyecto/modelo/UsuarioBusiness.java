@@ -8,7 +8,7 @@ public class UsuarioBusiness {
     private String idUsuario;
     private String nombreUsuario;
     private String password;
-    private String provincia;
+    private String idProvincia;
     private String telefono;
 
     public UsuarioBusiness(String email, String idUsuario, String nombreUsuario, String password,
@@ -17,7 +17,7 @@ public class UsuarioBusiness {
         this.idUsuario = idUsuario;
         this.nombreUsuario = nombreUsuario;
         this.password = generateEncode(password);
-        this.provincia = provincia;
+        this.idProvincia = provincia;
         this.telefono = telefono;
     }
 
@@ -53,12 +53,12 @@ public class UsuarioBusiness {
         this.password = password;
     }
 
-    public String getProvincia() {
-        return provincia;
+    public String getIdProvincia() {
+        return idProvincia;
     }
 
-    public void setProvincia(String provincia) {
-        this.provincia = provincia;
+    public void setIdProvincia(String idProvincia) {
+        this.idProvincia = idProvincia;
     }
 
     public String getTelefono() {

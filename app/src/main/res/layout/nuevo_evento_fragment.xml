@@ -10,7 +10,7 @@
         android:id="@+id/scroll"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/btnAnyadirEvento"
+        android:layout_above="@+id/btnNuevoEvento"
         >
 
 
@@ -111,7 +111,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/etPlazasTotales" />
 
             <EditText
-                android:id="@+id/etContenido"
+                android:id="@+id/etDescripcion"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:hint="@string/descripcionEvento"
@@ -123,14 +123,14 @@
                 app:layout_constraintTop_toBottomOf="@+id/textView10" />
 
             <Button
-                android:id="@+id/btnAnyadirEvento"
+                android:id="@+id/btnNuevoEvento"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:text="@string/btnAnyadirEvento"
-                app:layout_constraintTop_toBottomOf="@id/etContenido"
-                app:layout_constraintStart_toStartOf="@id/etContenido"
-                app:layout_constraintEnd_toEndOf="@id/etContenido"/>
+                app:layout_constraintTop_toBottomOf="@id/etDescripcion"
+                app:layout_constraintStart_toStartOf="@id/etDescripcion"
+                app:layout_constraintEnd_toEndOf="@id/etDescripcion"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

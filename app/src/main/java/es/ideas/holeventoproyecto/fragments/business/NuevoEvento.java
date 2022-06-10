@@ -1,21 +1,27 @@
 package es.ideas.holeventoproyecto.fragments.business;
 
-import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
-import java.sql.Date;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 import es.ideas.holeventoproyecto.R;
+import es.ideas.holeventoproyecto.modelo.Evento;
+import es.ideas.holeventoproyecto.modelo.UsuarioBusiness;
 
 public class NuevoEvento extends Fragment {
 
@@ -23,9 +29,14 @@ public class NuevoEvento extends Fragment {
     public NuevoEvento() {}
 
     private View viewRoot;
-    private EditText fechaEvento;
+    private EditText etFechaEvento;
+    private EditText etDireccion;
+    private EditText etPlazasTotales;
+    private EditText etDescripcion;
     private DatePickerDialog datePickerDialog;
+    private Button btnNuevoEvento;
 
+    private DatabaseReference database = FirebaseDatabase.getInstance().getReference();
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -33,31 +44,43 @@ public class NuevoEvento extends Fragment {
         viewRoot = inflater.inflate(R.layout.nuevo_evento_fragment, container, false);
         // Inflate the layout for this fragment
 
-        inicianVista();
+        iniciarVista();
 
-        fechaEvento.setFocusable(false);
-        fechaEvento.setHint(obtenerFechaActual());
-        fechaEvento.setOnClickListener(new View.OnClickListener() {
+        etFechaEvento.setFocusable(false);
+        etFechaEvento.setHint(obtenerFechaActual());
+        etFechaEvento.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 openDatePicker(viewRoot);
             }
         });
 
+        btnNuevoEvento.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                nuevoEvento();
+            }
+        });
+
         return viewRoot;
     }
 
-    private void inicianVista(){
+    private void iniciarVista(){
         initDatePicker();
-        fechaEvento = (EditText) viewRoot.findViewById(R.id.etFechaEvento);
+        etFechaEvento = (EditText) viewRoot.findViewById(R.id.etFechaEvento);
+        etDireccion = (EditText) viewRoot.findViewById(R.id.etDireccionEvento);
+        etPlazasTotales = (EditText) viewRoot.findViewById(R.id.etPlazasTotales);
+        etDescripcion = (EditText) viewRoot.findViewById(R.id.etDescripcion);
+        btnNuevoEvento = (Button) viewRoot.findViewById(R.id.btnNuevoEvento);
     }
 
     private String obtenerFechaActual(){
         Calendar cal = Calendar.getInstance();
-        int year = cal.get(Calendar.YEAR);
-        int month = cal.get(Calendar.MONTH)+1;
-        int day = cal.get(Calendar.DAY_OF_MONTH);
-        return fechaToString(day, month, year);
+
+        SimpleDateFormat formatoFecha = new SimpleDateFormat("MM/dd/yyyy");
+        String fecha = formatoFecha.format(cal.getTime());
+
+        return fecha;
     }
 
     private String fechaToString(int day, int month, int year){
@@ -81,7 +104,7 @@ public class NuevoEvento extends Fragment {
             public void onDateSet(DatePicker datePicker, int year, int month, int day) {
                 month += 1;
                 String date = fechaToString(day, month, year);
-                fechaEvento.setText(date);
+                etFechaEvento.setText(date);
             }
         };
 
@@ -98,4 +121,19 @@ public class NuevoEvento extends Fragment {
         datePickerDialog.show();
     }
 
+    private void nuevoEvento() {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+        String idUsuario = user.getUid();
+        String direccion = etDireccion.getText().toString();
+        String contenido = etDescripcion.getText().toString();
+        String fechaEvento = etFechaEvento.getText().toString();
+        String imagen = "";
+        int plazasTotales = Integer.parseInt(etPlazasTotales.getText().toString());
+        String fechaPublicacion = obtenerFechaActual();
+
+        Evento evento = new Evento(idUsuario, direccion, contenido, fechaEvento, imagen, plazasTotales, fechaPublicacion);
+
+        database.child("Eventos").child(evento.getIdEvento()+"").setValue(evento);
+    }
 }

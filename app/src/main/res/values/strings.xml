@@ -20,7 +20,7 @@
     <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
     <string name="fecha_evento">Fecha evento:</string>
     <string name="direccion">Dirección</string>
-    <string name="plazas">Plazas Disponibles</string>
+    <string name="plazas">Plazas totales</string>
     <string name="contenido">Descripción</string>
     <string name="descripcionEvento">¡¡Cuentanos de qué tratará tu evento!!</string>
     <string name="btnAnyadirEvento">Crear evento</string>
