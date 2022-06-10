@@ -29,14 +29,14 @@ public class Evento {
     private int plazasTotales;
     DatabaseReference database;
 
-    public Evento(String idUsuario, String direccion, String contenido, String fechaEvento, String imagen,
+    public Evento(String idUsuario, String idProvincia,String direccion, String contenido, String fechaEvento, String imagen,
                   int plazasTotales, String fechaPublicacion) {
         database = FirebaseDatabase.getInstance().getReference();
 
         idEvento = idEventoSiguiente;
         idEventoSiguiente++;
         this.idUsuario = idUsuario;
-        obtenerProvinciaUser(idUsuario);
+        this.idProvincia = idProvincia;
         this.direccion = direccion;
         this.contenido = contenido;
         this.fechaEvento = fechaEvento;
@@ -64,6 +64,14 @@ public class Evento {
             }
         });
 
+    }
+
+
+    private String obtenerProvincia(String idUs){
+
+        FirebaseDatabase db = FirebaseDatabase.getInstance("/UsuarioBusiness/"+idUs+"/provincia");
+        Log.i("DATOS", "Provincia ref: "+db.toString());
+        return db.toString();
     }
 
     private void obtenerNombreUsuario(String idUsuario) {

@@ -2,6 +2,7 @@ package es.ideas.holeventoproyecto.fragments.business;
 
 import android.app.DatePickerDialog;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,12 +10,16 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -33,6 +38,7 @@ public class NuevoEvento extends Fragment {
     private EditText etDireccion;
     private EditText etPlazasTotales;
     private EditText etDescripcion;
+    private EditText etProvincia;
     private DatePickerDialog datePickerDialog;
     private Button btnNuevoEvento;
 
@@ -71,7 +77,33 @@ public class NuevoEvento extends Fragment {
         etDireccion = (EditText) viewRoot.findViewById(R.id.etDireccionEvento);
         etPlazasTotales = (EditText) viewRoot.findViewById(R.id.etPlazasTotales);
         etDescripcion = (EditText) viewRoot.findViewById(R.id.etDescripcion);
+        etProvincia = (EditText) viewRoot.findViewById(R.id.etProvincia);
         btnNuevoEvento = (Button) viewRoot.findViewById(R.id.btnNuevoEvento);
+        obtenProvincia();
+    }
+
+    private void obtenProvincia() {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        String idUsuario = user.getUid();
+        database.child("UsuarioBusiness").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    for (DataSnapshot datos : snapshot.getChildren()) {
+                        if (datos.getKey().equals(idUsuario)){
+                            String provincia = datos.child("provincia").getValue().toString();
+                            etProvincia.setText(provincia);
+                            Log.i("DATOS", "dentro del for: " + provincia);
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.e("Error", "No existe el usuario");
+            }
+        });
     }
 
     private String obtenerFechaActual(){
@@ -125,6 +157,7 @@ public class NuevoEvento extends Fragment {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
         String idUsuario = user.getUid();
+        String idProvincia = etProvincia.getText().toString();
         String direccion = etDireccion.getText().toString();
         String contenido = etDescripcion.getText().toString();
         String fechaEvento = etFechaEvento.getText().toString();
@@ -132,7 +165,7 @@ public class NuevoEvento extends Fragment {
         int plazasTotales = Integer.parseInt(etPlazasTotales.getText().toString());
         String fechaPublicacion = obtenerFechaActual();
 
-        Evento evento = new Evento(idUsuario, direccion, contenido, fechaEvento, imagen, plazasTotales, fechaPublicacion);
+        Evento evento = new Evento(idUsuario, idProvincia, direccion, contenido, fechaEvento, imagen, plazasTotales, fechaPublicacion);
 
         database.child("Eventos").child(evento.getIdEvento()+"").setValue(evento);
     }

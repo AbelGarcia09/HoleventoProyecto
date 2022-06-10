@@ -132,6 +132,19 @@
                 app:layout_constraintStart_toStartOf="@id/etDescripcion"
                 app:layout_constraintEnd_toEndOf="@id/etDescripcion"/>
 
+            <EditText
+                android:id="@+id/etProvincia"
+                android:layout_width="95dp"
+                android:layout_height="47dp"
+                android:layout_marginStart="20dp"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:text="Name"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toBottomOf="@+id/etPlazasTotales"
+                app:layout_constraintStart_toEndOf="@+id/etPlazasTotales"
+                app:layout_constraintTop_toTopOf="@+id/etPlazasTotales" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 
