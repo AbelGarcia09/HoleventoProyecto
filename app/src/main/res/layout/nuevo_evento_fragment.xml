@@ -21,8 +21,8 @@
 
             <ImageView
                 android:id="@+id/ivFotoEvento"
-                android:layout_width="338dp"
-                android:layout_height="224dp"
+                android:layout_width="350dp"
+                android:layout_height="250dp"
                 android:background="@color/grey"
                 android:src="@drawable/ic_add_photo_white"
                 app:layout_constraintBottom_toTopOf="@+id/etFechaEvento"
