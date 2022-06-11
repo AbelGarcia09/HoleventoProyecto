@@ -21,6 +21,7 @@
     <string name="contenido">Description</string>
     <string name="descripcionEvento">" Tell us what your event will be about!!"</string>
     <string name="btnAnyadirEvento">Create event</string>
+    <string name="evento_creado_correctamemte">Event created successfully</string>
 
 
 </resources>

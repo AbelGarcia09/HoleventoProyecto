@@ -13,17 +13,23 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.activity.result.ActivityResult;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.google.firebase.FirebaseError;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.MutableData;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.Transaction;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -31,8 +37,11 @@ import com.google.firebase.storage.StorageReference;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
+import es.ideas.holeventoproyecto.BusinessMainActivity;
 import es.ideas.holeventoproyecto.R;
+import es.ideas.holeventoproyecto.auth.LoginActivity;
 import es.ideas.holeventoproyecto.modelo.Evento;
+import es.ideas.holeventoproyecto.modelo.Provincia;
 import es.ideas.holeventoproyecto.utils.BetterActivityResult;
 
 public class NuevoEvento extends Fragment {
@@ -79,13 +88,22 @@ public class NuevoEvento extends Fragment {
             @Override
             public void onClick(View view) {
                 nuevoEvento();
+                Toast.makeText(view.getContext(), R.string.evento_creado_correctamemte, Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(viewRoot.getContext(), BusinessMainActivity.class));
+                try {
+                    NuevoEvento.this.finalize();
+                } catch (Throwable e) {
+                    e.printStackTrace();
+                }
             }
         });
 
         ivFotoEvento.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 subirFoto();
+
             }
         });
 
@@ -132,7 +150,7 @@ public class NuevoEvento extends Fragment {
     private String obtenerFechaActual() {
         Calendar cal = Calendar.getInstance();
 
-        SimpleDateFormat formatoFecha = new SimpleDateFormat("MM/dd/yyyy");
+        SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy");
         String fecha = formatoFecha.format(cal.getTime());
 
         return fecha;
@@ -177,19 +195,43 @@ public class NuevoEvento extends Fragment {
 
     private void nuevoEvento() {
 
-        String idUsuario = user.getUid();
-        String idProvincia = etProvincia.getText().toString();
-        String direccion = etDireccion.getText().toString();
-        String contenido = etDescripcion.getText().toString();
-        String fechaEvento = etFechaEvento.getText().toString();
-        String imagen = urlFoto;
-        int plazasTotales = Integer.parseInt(etPlazasTotales.getText().toString());
-        String fechaPublicacion = obtenerFechaActual();
+        database = FirebaseDatabase.getInstance().getReference();
+        database.child("Eventos").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                long cont = 0;
+                if (snapshot.exists()) {
+                    for (DataSnapshot datos : snapshot.getChildren()) {
+                        if (cont <= Long.parseLong(datos.getKey())) {
+                            cont = Long.parseLong(datos.getKey()) + 1;
+                        }
+                    }
+                }else { cont =1;}
 
-        Evento evento = new Evento(idUsuario, idProvincia, direccion, contenido, fechaEvento,
-                imagen, plazasTotales, fechaPublicacion);
+                long idEvento = cont;
+                String idUsuario = user.getUid();
+                String idProvincia = etProvincia.getText().toString();
+                String direccion = etDireccion.getText().toString();
+                String contenido = etDescripcion.getText().toString();
+                String fechaEvento = etFechaEvento.getText().toString();
+                String imagen = urlFoto;
+                int plazasTotales = Integer.parseInt(etPlazasTotales.getText().toString());
+                String fechaPublicacion = obtenerFechaActual();
 
-        database.child("Eventos").child(evento.getIdEvento() + "").setValue(evento);
+                Evento evento = new Evento(idEvento, idUsuario, idProvincia, direccion, contenido, fechaEvento,
+                        imagen, plazasTotales, fechaPublicacion);
+
+                database.child("Eventos").child(String.valueOf(cont)).setValue(evento);
+
+                Log.i("DATOS", "Id autogenerado: "+snapshot.getValue().toString());
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
     }
 
     private void subirFoto() {
@@ -205,13 +247,15 @@ public class NuevoEvento extends Fragment {
                 StorageReference storage =
                         FirebaseStorage.getInstance().getReference().child(user.getUid());
 
-                final StorageReference foto = storage.child("nombreFoto");
+                final StorageReference foto = storage.child(datos.getLastPathSegment().toString());
 
                 foto.putFile(datos).addOnSuccessListener(taskSnapshot -> foto.getDownloadUrl().addOnSuccessListener(uri -> {
 
                     urlFoto = uri.toString();
 
                 }));
+
+                ivFotoEvento.setImageURI(datos);
             }
         });
     }

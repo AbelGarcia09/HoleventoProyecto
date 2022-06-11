@@ -16,7 +16,7 @@ import java.util.Locale;
 
 
 public class Evento {
-    private int idEvento;
+    private long idEvento;
     private String idUsuario;
     private String idProvincia;
     private String direccion;
@@ -26,13 +26,12 @@ public class Evento {
     private String fechaEvento;
     private String imagen;
     private int plazasTotales;
-    DatabaseReference database;
 
-    public Evento(String idUsuario, String idProvincia,String direccion, String contenido, String fechaEvento, String imagen,
+
+    public Evento(Long idEvento, String idUsuario, String idProvincia,String direccion, String contenido, String fechaEvento, String imagen,
                   int plazasTotales, String fechaPublicacion) {
-        database = FirebaseDatabase.getInstance().getReference();
-
-        idEvento = 1;
+        this.idEvento = idEvento;
+        Log.i("Datos", "IDEVENTO: "+idEvento);
         this.idUsuario = idUsuario;
         this.idProvincia = idProvincia;
         this.direccion = direccion;
@@ -43,61 +42,11 @@ public class Evento {
         this.fechaPublicacion = fechaPublicacion;
     }
 
-    private void obtenerProvinciaUser(String idUsuario) {
-        database.child("UsuarioBusiness").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.exists()) {
-                    for (DataSnapshot datos : snapshot.getChildren()) {
-                        if (datos.getKey().equals(idUsuario)){
-                            idProvincia = datos.child("provincia").getValue().toString();
-                        }
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Log.e("Error", "No existe el usuario");
-            }
-        });
-
-    }
-
-
-    private String obtenerProvincia(String idUs){
-
-        FirebaseDatabase db = FirebaseDatabase.getInstance("/UsuarioBusiness/"+idUs+"/provincia");
-        Log.i("DATOS", "Provincia ref: "+db.toString());
-        return db.toString();
-    }
-
-    private void obtenerNombreUsuario(String idUsuario) {
-        database.child("UsuarioBusiness").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.exists()) {
-                    for (DataSnapshot datos : snapshot.getChildren()) {
-                        if (datos.getKey().equals(idUsuario)){
-                            nombreUsuario = datos.child("nombreUsuario").getValue().toString();
-                        }
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Log.e("Error", "No existe el usuario");
-            }
-        });
-
-    }
-
-    public int getIdEvento() {
+    public long getIdEvento() {
         return idEvento;
     }
 
-    public void setIdEvento(int idEvento) {
+    public void setIdEvento(long idEvento) {
         this.idEvento = idEvento;
     }
 
