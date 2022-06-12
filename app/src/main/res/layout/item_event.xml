@@ -25,6 +25,17 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <TextView
+            android:id="@+id/tvFechaEvento"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="name"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="@+id/personIcon"
+            app:layout_constraintEnd_toStartOf="@+id/bntApuntarse"
+            app:layout_constraintStart_toEndOf="@+id/tvPTotales"
+            app:layout_constraintTop_toTopOf="@+id/personIcon" />
+
         <ImageButton
             android:id="@+id/btnEliminar"
             android:layout_width="34dp"

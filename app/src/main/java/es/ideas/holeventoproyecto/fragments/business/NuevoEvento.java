@@ -20,6 +20,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.bumptech.glide.Glide;
 import com.google.firebase.FirebaseError;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -241,21 +242,16 @@ public class NuevoEvento extends Fragment {
 
         activityLauncher.launch(intent, result -> {
             if (result.getResultCode() == Activity.RESULT_OK) {
-
                 Uri datos = result.getData().getData();
-
                 StorageReference storage =
                         FirebaseStorage.getInstance().getReference().child(user.getUid());
 
                 final StorageReference foto = storage.child(datos.getLastPathSegment().toString());
 
                 foto.putFile(datos).addOnSuccessListener(taskSnapshot -> foto.getDownloadUrl().addOnSuccessListener(uri -> {
-
                     urlFoto = uri.toString();
-
                 }));
-
-                ivFotoEvento.setImageURI(datos);
+                Glide.with(viewRoot.getContext()).load(datos.toString()).into(ivFotoEvento);
             }
         });
     }

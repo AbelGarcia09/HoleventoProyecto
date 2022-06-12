@@ -19,6 +19,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -33,9 +34,9 @@ public class Profile extends Fragment {
     private View viewRoot;
     private RecyclerView rv;
     private BusinessHomeAdapter adapter;
-    private DatabaseReference mbase;
+    private Query mbase;
     private Toast mToast;
-
+    private FirebaseUser user;
     public Profile() {}
 
     @Override
@@ -43,7 +44,9 @@ public class Profile extends Fragment {
                              Bundle savedInstanceState) {
         viewRoot = inflater.inflate(R.layout.fragment_profile, container, false);
 
-        mbase = FirebaseDatabase.getInstance().getReference().child("Eventos");
+        user = FirebaseAuth.getInstance().getCurrentUser();
+        String id = user.getUid();
+        mbase = FirebaseDatabase.getInstance().getReference().child("Eventos").orderByChild("idUsuario").equalTo(id);
         rv = (RecyclerView) viewRoot.findViewById(R.id.rvBusinessProf);
 
         rv.setLayoutManager(new LinearLayoutManager(viewRoot.getContext()));
@@ -53,7 +56,7 @@ public class Profile extends Fragment {
                 .setQuery(mbase, Evento.class)
                 .build();
 
-        adapter = new BusinessHomeAdapter(options);
+        adapter = new BusinessHomeAdapter(options, viewRoot.getContext());
         rv.setAdapter(adapter);
 
         return viewRoot;
