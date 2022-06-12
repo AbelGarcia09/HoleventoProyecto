@@ -1,9 +1,8 @@
 package es.ideas.holeventoproyecto.adapter;
 
-import android.content.Context;
+import android.app.Activity;
 import android.content.Intent;
-import android.media.Image;
-import android.util.Log;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,98 +15,61 @@ import androidx.activity.result.ActivityResult;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-
-import java.util.List;
+import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import es.ideas.holeventoproyecto.R;
 import es.ideas.holeventoproyecto.modelo.Evento;
 import es.ideas.holeventoproyecto.utils.BetterActivityResult;
 
-public class BusinessHomeAdapter extends RecyclerView.Adapter<BusinessHomeAdapter.ViewHolder> {
-    private Context cxt;
-    private List<Evento> listaEventos;
-    private View.OnClickListener vo;
-    private EventoSelecccionado listener;
-    private FirebaseUser user;
+public class BusinessHomeAdapter extends FirebaseRecyclerAdapter<Evento, BusinessHomeAdapter.eventoViewholder> {
 
-    private DatabaseReference database;
-
-
-
-    public BusinessHomeAdapter(Context cxt, List<Evento> listaEventos,
-                               EventoSelecccionado listener) {
-        this.cxt = cxt;
-        this.listaEventos = listaEventos;
-        this.listener = listener;
+    public BusinessHomeAdapter(@NonNull FirebaseRecyclerOptions<Evento> options){
+        super(options);
     }
 
+    @Override
+    protected void onBindViewHolder(@NonNull BusinessHomeAdapter.eventoViewholder holder,
+                                    int position, @NonNull Evento model) {
+
+
+        holder.nombreEmpresa.setText(model.getNombreUsuario());
+        holder.contenido.setText(model.getContenido());
+        holder.plazasTotales.setText(model.getPlazasTotales()+"");
+
+
+    }
 
     @NonNull
     @Override
-    public BusinessHomeAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent,
-                                                             int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_event, parent,
-                false);
-        return new ViewHolder(view, listener);
+    public BusinessHomeAdapter.eventoViewholder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view
+                = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.item_event, parent, false);
+        return new BusinessHomeAdapter.eventoViewholder(view);
     }
 
-    @Override
-    public void onBindViewHolder(@NonNull BusinessHomeAdapter.ViewHolder holder, int position) {
-
-        database = FirebaseDatabase.getInstance().getReference();
-        user = FirebaseAuth.getInstance().getCurrentUser();
-        String id =  user.getUid();
-        String u =  database.child("UsuarioBusiness").child(id).child("nombreUsuario").getKey().toString();
-        Log.i("DATOS", "Id usuario act -> "+id +" NOMBRE USUARIO -> "+ u);
-
-        holder.tvNombreEmpresa.setText(u);
-
-    }
-
-    @Override
-    public int getItemCount() {
-        return listaEventos.size();
-    }
-
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-
-        EventoSelecccionado listener;
-        TextView tvNombreEmpresa;
-        TextView tvContenido;
-        TextView tvPlazasTotales;
-        ImageView ivFoto;
+    class eventoViewholder
+            extends RecyclerView.ViewHolder {
+        TextView nombreEmpresa, contenido, plazasTotales;
+        ImageView imagen;
         ImageButton btnEliminar;
         Button bntApuntarse;
 
 
 
-        // Inicialización de cada elemento del RecyclerView
-        public ViewHolder(View itemView, EventoSelecccionado listener) {
+        public eventoViewholder(@NonNull View itemView)
+        {
             super(itemView);
-            tvNombreEmpresa = (TextView)itemView.findViewById(R.id.tvNombreEmpresa);
-            tvContenido = (TextView)itemView.findViewById(R.id.tvContenido);
-            tvPlazasTotales = (TextView)itemView.findViewById(R.id.tvPlazasTotales);
-            ivFoto = (ImageView) itemView.findViewById(R.id.ivFoto);
-            btnEliminar = (ImageButton) itemView.findViewById(R.id.btnEliminar);
-            bntApuntarse = (Button) itemView.findViewById(R.id.bntApuntarse);
-            this.listener = listener;
-            itemView.setOnClickListener(this);
+
+            nombreEmpresa= itemView.findViewById(R.id.tvNombreEmpresa);
+            contenido = itemView.findViewById(R.id.tvContenido);
+            plazasTotales = itemView.findViewById(R.id.tvPTotales);
+            imagen = itemView.findViewById(R.id.imageView);
+            bntApuntarse = itemView.findViewById(R.id.bntApuntarse);
+            btnEliminar = itemView.findViewById(R.id.btnEliminar);
         }
-
-        @Override
-        public void onClick(View view) {
-
-        }
-    }
-
-    public interface EventoSelecccionado {
-        void clickEvento(int clickedItem);
     }
 }

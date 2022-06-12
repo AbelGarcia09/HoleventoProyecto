@@ -218,8 +218,8 @@ public class NuevoEvento extends Fragment {
                 int plazasTotales = Integer.parseInt(etPlazasTotales.getText().toString());
                 String fechaPublicacion = obtenerFechaActual();
 
-                Evento evento = new Evento(idEvento, idUsuario, idProvincia, direccion, contenido, fechaEvento,
-                        imagen, plazasTotales, fechaPublicacion);
+                Evento evento = new Evento(contenido, direccion, fechaEvento, fechaPublicacion,
+                        idEvento, idProvincia, idUsuario, imagen, plazasTotales);
 
                 database.child("Eventos").child(String.valueOf(cont)).setValue(evento);
 

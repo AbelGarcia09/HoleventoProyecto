@@ -2,19 +2,6 @@ package es.ideas.holeventoproyecto.modelo;
 
 import android.util.Log;
 
-import androidx.annotation.NonNull;
-
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-
-import java.util.Locale;
-
-
 public class Evento {
     private long idEvento;
     private String idUsuario;
@@ -27,9 +14,12 @@ public class Evento {
     private String imagen;
     private int plazasTotales;
 
+    public Evento(){}
 
-    public Evento(Long idEvento, String idUsuario, String idProvincia,String direccion, String contenido, String fechaEvento, String imagen,
-                  int plazasTotales, String fechaPublicacion) {
+    public Evento(
+            String contenido, String direccion,  String fechaEvento,
+            String fechaPublicacion, Long idEvento, String idProvincia, String idUsuario,
+            String imagen, int plazasTotales ) {
         this.idEvento = idEvento;
         Log.i("Datos", "IDEVENTO: "+idEvento);
         this.idUsuario = idUsuario;
@@ -75,6 +65,9 @@ public class Evento {
     }
 
     public String getNombreUsuario() {
+
+
+
         return nombreUsuario;
     }
 

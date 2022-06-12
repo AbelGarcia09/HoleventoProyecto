@@ -67,7 +67,7 @@
             app:layout_constraintTop_toBottomOf="@id/tvContenido" />
 
         <TextView
-            android:id="@+id/tvPlazasTotales"
+            android:id="@+id/tvPTotales"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
@@ -82,9 +82,9 @@
             android:layout_width="0dp"
             android:layout_height="43dp"
             android:text="Apuntarse"
-            app:layout_constraintBottom_toBottomOf="@+id/tvPlazasTotales"
+            app:layout_constraintBottom_toBottomOf="@+id/tvPTotales"
             app:layout_constraintEnd_toEndOf="@+id/ivFoto"
-            app:layout_constraintTop_toTopOf="@id/tvPlazasTotales" />
+            app:layout_constraintTop_toTopOf="@id/tvPTotales" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

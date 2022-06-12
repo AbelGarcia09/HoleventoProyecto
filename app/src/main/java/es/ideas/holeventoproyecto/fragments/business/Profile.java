@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -31,7 +32,8 @@ public class Profile extends Fragment {
 
     private View viewRoot;
     private RecyclerView rv;
-    private BusinessHomeAdapter hAdaptador;
+    private BusinessHomeAdapter adapter;
+    private DatabaseReference mbase;
     private Toast mToast;
 
     public Profile() {}
@@ -41,64 +43,37 @@ public class Profile extends Fragment {
                              Bundle savedInstanceState) {
         viewRoot = inflater.inflate(R.layout.fragment_profile, container, false);
 
+        mbase = FirebaseDatabase.getInstance().getReference().child("Eventos");
         rv = (RecyclerView) viewRoot.findViewById(R.id.rvBusinessProf);
 
-        DatabaseReference database =
-                FirebaseDatabase.getInstance().getReference();
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        String id = user.getUid();
-        Log.i("DATOS", "ID User AaAAAAAA -> "+id);
+        rv.setLayoutManager(new LinearLayoutManager(viewRoot.getContext()));
 
-        /*
-        database.child("Eventos").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                String id =  user.getUid();
-                List<Evento> listaEventos = new ArrayList<>();
+        FirebaseRecyclerOptions<Evento> options
+                = new FirebaseRecyclerOptions.Builder<Evento>()
+                .setQuery(mbase, Evento.class)
+                .build();
 
-                if (snapshot.exists()){
-
-                    for (DataSnapshot datos : snapshot.getChildren()) {
-                        long cont = Long.parseLong(datos.getKey());
-                        if (datos.child(String.valueOf(cont)).child("idUsuario").getValue().equals(id)){
-
-                            String idUsuario = datos.child("Eventos").child(String.valueOf(cont)).child("idUsuario").getValue().toString();
-                            String idProvincia = datos.child("Eventos").child(String.valueOf(cont)).child("idProvincia").getValue().toString();
-                            String direccion = datos.child("Eventos").child(String.valueOf(cont)).child("direccion").getValue().toString();
-                            String contenido = datos.child("Eventos").child(String.valueOf(cont)).child("contenido").getValue().toString();
-                            String fechaEvento = datos.child("Eventos").child(String.valueOf(cont)).child("fechaEvento").getValue().toString();
-                            String imagen = datos.child("Eventos").child(String.valueOf(cont)).child("imagen").getValue().toString();
-                            int plazasTotales =(int) datos.child("Eventos").child(String.valueOf(cont)).child("plazasTotales").getValue();
-                            String fechaPublicacion = datos.child("Eventos").child(String.valueOf(cont)).child("fechaPublicacion").getValue().toString();
-                            listaEventos.add(new Evento(cont, idUsuario, idProvincia, direccion, contenido, fechaEvento, imagen, plazasTotales, fechaPublicacion));
-                        }
-                    }
-
-
-                    rv.setLayoutManager(new LinearLayoutManager(getContext()));
-                    hAdaptador = new BusinessHomeAdapter(getContext(), listaEventos, this::clickEvento);
-                    rv.setAdapter(hAdaptador);
-
-                }
-            }
-
-            public void clickEvento(int clickedItem) {
-                if (mToast!=null) mToast.cancel();
-                String msg = "Lista #";
-                mToast = Toast.makeText(getContext(), msg + (clickedItem+1), Toast.LENGTH_LONG);
-                mToast.show();
-                Log.d("TAG", "listenerClick: cliked."+clickedItem);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-
-         */
+        adapter = new BusinessHomeAdapter(options);
+        rv.setAdapter(adapter);
 
         return viewRoot;
+    }
+
+
+    @Override
+    public void onStart()
+    {
+        super.onStart();
+        adapter.startListening();
+    }
+
+    // Function to tell the app to stop getting
+    // data from database on stopping of the activity
+    @Override
+    public  void onStop()
+    {
+        super.onStop();
+        adapter.stopListening();
     }
 
 
