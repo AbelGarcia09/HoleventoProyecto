@@ -30,10 +30,12 @@ import es.ideas.holeventoproyecto.utils.BetterActivityResult;
 public class BusinessHomeAdapter extends FirebaseRecyclerAdapter<Evento, BusinessHomeAdapter.eventoViewholder> {
 
     private Context cxt;
+    private String username;
 
-    public BusinessHomeAdapter(@NonNull FirebaseRecyclerOptions<Evento> options, Context cxt){
+    public BusinessHomeAdapter(@NonNull FirebaseRecyclerOptions<Evento> options, Context cxt, String username){
         super(options);
         this.cxt = cxt;
+        this.username = username;
     }
 
     @Override
@@ -43,7 +45,7 @@ public class BusinessHomeAdapter extends FirebaseRecyclerAdapter<Evento, Busines
         Uri img = Uri.parse(model.getImagen());
         Log.i("DATOS", "MODEL IMG -> "+ img);
 
-        holder.nombreEmpresa.setText(model.getNombreUsuario());
+        holder.nombreEmpresa.setText(username);
         holder.contenido.setText(model.getContenido());
         holder.plazasTotales.setText(model.getPlazasTotales()+"");
         holder.fechaEvento.setText(model.getFechaEvento());

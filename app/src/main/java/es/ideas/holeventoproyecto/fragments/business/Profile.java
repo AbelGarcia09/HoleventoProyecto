@@ -56,7 +56,7 @@ public class Profile extends Fragment {
                 .setQuery(mbase, Evento.class)
                 .build();
 
-        adapter = new BusinessHomeAdapter(options, viewRoot.getContext());
+        adapter = new BusinessHomeAdapter(options, viewRoot.getContext(), user.getDisplayName());
         rv.setAdapter(adapter);
 
         return viewRoot;

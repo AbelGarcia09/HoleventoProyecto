@@ -127,13 +127,13 @@ public class NuevoEvento extends Fragment {
     private void obtenProvincia() {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         String idUsuario = user.getUid();
-        database.child("UsuarioBusiness").addValueEventListener(new ValueEventListener() {
+        database.child("UsuarioBusiness").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
                     for (DataSnapshot datos : snapshot.getChildren()) {
                         if (datos.getKey().equals(idUsuario)) {
-                            String provincia = datos.child("provincia").getValue().toString();
+                            String provincia = datos.child("idProvincia").getValue().toString();
                             etProvincia.setText(provincia);
                             Log.i("DATOS", "dentro del for: " + provincia);
                         }
