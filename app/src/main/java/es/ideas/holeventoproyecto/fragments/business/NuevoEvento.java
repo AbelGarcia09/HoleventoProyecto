@@ -223,8 +223,6 @@ public class NuevoEvento extends Fragment {
                         idEvento, idProvincia, idUsuario, imagen, plazasTotales);
 
                 database.child("Eventos").child(String.valueOf(cont)).setValue(evento);
-
-                Log.i("DATOS", "Id autogenerado: "+snapshot.getValue().toString());
             }
 
             @Override
