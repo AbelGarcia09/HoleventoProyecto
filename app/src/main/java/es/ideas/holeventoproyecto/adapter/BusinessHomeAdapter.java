@@ -1,46 +1,31 @@
 package es.ideas.holeventoproyecto.adapter;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import androidx.activity.result.ActivityResult;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
-import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 
 import es.ideas.holeventoproyecto.R;
-import es.ideas.holeventoproyecto.auth.RegisterBusinessActivity;
-import es.ideas.holeventoproyecto.fragments.business.NuevoEvento;
-import es.ideas.holeventoproyecto.fragments.business.Profile;
 import es.ideas.holeventoproyecto.modelo.Evento;
-import es.ideas.holeventoproyecto.modelo.Provincia;
-import es.ideas.holeventoproyecto.utils.BetterActivityResult;
 
 public class BusinessHomeAdapter extends FirebaseRecyclerAdapter<Evento, BusinessHomeAdapter.eventoViewholder> {
 
@@ -65,6 +50,7 @@ public class BusinessHomeAdapter extends FirebaseRecyclerAdapter<Evento, Busines
         holder.contenido.setText(model.getContenido());
         holder.plazasTotales.setText(model.getPlazasTotales()+"");
         holder.fechaEvento.setText(model.getFechaEvento());
+        holder.direccion.setText(model.getDireccion());
         Glide.with(cxt).load(img).into(holder.imagen);
 
         holder.btnEliminar.setOnClickListener(new View.OnClickListener() {
@@ -111,16 +97,15 @@ public class BusinessHomeAdapter extends FirebaseRecyclerAdapter<Evento, Busines
     public BusinessHomeAdapter.eventoViewholder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view
                 = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_event, parent, false);
+                .inflate(R.layout.item_event_bussines, parent, false);
         return new BusinessHomeAdapter.eventoViewholder(view);
     }
 
     class eventoViewholder
             extends RecyclerView.ViewHolder {
-        TextView nombreEmpresa, contenido, plazasTotales, fechaEvento;
+        TextView nombreEmpresa, contenido, plazasTotales, fechaEvento, direccion;
         ImageView imagen;
         ImageButton btnEliminar;
-        Button bntApuntarse;
 
 
 
@@ -132,7 +117,7 @@ public class BusinessHomeAdapter extends FirebaseRecyclerAdapter<Evento, Busines
             contenido = itemView.findViewById(R.id.tvContenido);
             plazasTotales = itemView.findViewById(R.id.tvPTotales);
             imagen = itemView.findViewById(R.id.ivFoto);
-            bntApuntarse = itemView.findViewById(R.id.bntApuntarse);
+            direccion = itemView.findViewById(R.id.tvDireccion);
             btnEliminar = itemView.findViewById(R.id.btnEliminar);
             fechaEvento = itemView.findViewById(R.id.tvFechaEvento);
 

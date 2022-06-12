@@ -17,9 +17,4 @@
         android:icon="@drawable/icono_logo"
         android:enabled="true"
         android:title="" />
-    <item
-        android:id="@+id/profileUser"
-        android:icon="@drawable/home"
-        android:enabled="true"
-        android:title="" />
 </menu>

@@ -20,6 +20,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.basgeekball.awesomevalidation.AwesomeValidation;
 import com.bumptech.glide.Glide;
 import com.google.firebase.FirebaseError;
 import com.google.firebase.auth.FirebaseAuth;
@@ -88,14 +89,20 @@ public class NuevoEvento extends Fragment {
         btnNuevoEvento.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                nuevoEvento();
-                Toast.makeText(view.getContext(), R.string.evento_creado_correctamemte, Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(viewRoot.getContext(), BusinessMainActivity.class));
-                try {
-                    NuevoEvento.this.finalize();
-                } catch (Throwable e) {
-                    e.printStackTrace();
+                if (camposRellenos()){
+                    nuevoEvento();
+                    Toast.makeText(view.getContext(), R.string.evento_creado_correctamemte, Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(viewRoot.getContext(), BusinessMainActivity.class));
+                    try {
+                        NuevoEvento.this.finalize();
+                    } catch (Throwable e) {
+                        e.printStackTrace();
+                    }
                 }
+                else{
+                    Toast.makeText(view.getContext(), R.string.empty_all, Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
 
@@ -111,6 +118,14 @@ public class NuevoEvento extends Fragment {
         return viewRoot;
     }
 
+    private boolean camposRellenos() {
+
+        return !etFechaEvento.getText().toString().equals("") &&
+                !etDireccion.getText().toString().equals("") &&
+                !etPlazasTotales.getText().toString().equals("") &&
+                !etDescripcion.getText().toString().equals("");
+    }
+
     private void iniciarVista() {
         initDatePicker();
         user = FirebaseAuth.getInstance().getCurrentUser();
@@ -123,6 +138,7 @@ public class NuevoEvento extends Fragment {
         btnNuevoEvento = (Button) viewRoot.findViewById(R.id.btnNuevoEvento);
         obtenProvincia();
     }
+
 
     private void obtenProvincia() {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -151,7 +167,7 @@ public class NuevoEvento extends Fragment {
     private String obtenerFechaActual() {
         Calendar cal = Calendar.getInstance();
 
-        SimpleDateFormat formatoFecha = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat formatoFecha = new SimpleDateFormat("dd-MM-yyyy");
         String fecha = formatoFecha.format(cal.getTime());
 
         return fecha;
@@ -159,13 +175,13 @@ public class NuevoEvento extends Fragment {
 
     private String fechaToString(int day, int month, int year) {
         if (day < 10 && month < 10) {
-            return "0" + day + "/0" + month + "/" + year;
+            return "0" + day + "-0" + month + "-" + year;
         } else if (day < 10 && month >= 10) {
-            return "0" + day + "/" + month + "/" + year;
+            return "0" + day + "-" + month + "-" + year;
         } else if (day >= 10 && month < 10) {
-            return day + "/0" + month + "/" + year;
+            return day + "-0" + month + "-" + year;
         } else {
-            return day + "/" + month + "/" + year;
+            return day + "-" + month + "-" + year;
         }
     }
 

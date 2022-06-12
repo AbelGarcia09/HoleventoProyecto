@@ -25,5 +25,7 @@
     <string name="descripcionEvento">¡¡Cuentanos de qué tratará tu evento!!</string>
     <string name="btnAnyadirEvento">Crear evento</string>
     <string name="evento_creado_correctamemte">Evento creado correctamente</string>
+    <string name="empty_all">Rellena todos los campos</string>
+    <string name="btnApuntarse">Apuntarse</string>
 
 </resources>

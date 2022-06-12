@@ -27,7 +27,6 @@ import es.ideas.holeventoproyecto.auth.LoginActivity;
 import es.ideas.holeventoproyecto.fragments.normalUser.BuscarEventos;
 import es.ideas.holeventoproyecto.fragments.normalUser.ListaEventos;
 import es.ideas.holeventoproyecto.fragments.normalUser.MainPage;
-import es.ideas.holeventoproyecto.fragments.normalUser.ProfileNormalUser;
 
 public class NormalUserMainActivity extends AppCompatActivity {
 
@@ -73,9 +72,6 @@ public class NormalUserMainActivity extends AppCompatActivity {
                         currentFragment = new BuscarEventos();
                         break;
 
-                    case R.id.profileUser:
-                        currentFragment = new ProfileNormalUser();
-                        break;
                 }
                 cambiaFragment(currentFragment);
                 return true;
