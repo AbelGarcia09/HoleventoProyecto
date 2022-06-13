@@ -173,6 +173,12 @@ public class NuevoEvento extends Fragment {
         return fecha;
     }
 
+    private String obtenerFechaFormateada(String fechaEvento) {
+        String[] fechaSeparada = fechaEvento.split("-");
+
+        return fechaSeparada[1] + "-" + fechaSeparada[0] + "-" + fechaSeparada[2];
+    }
+
     private String fechaToString(int day, int month, int year) {
         if (day < 10 && month < 10) {
             return "0" + day + "-0" + month + "-" + year;
@@ -213,7 +219,7 @@ public class NuevoEvento extends Fragment {
     private void nuevoEvento() {
 
         database = FirebaseDatabase.getInstance().getReference();
-        database.child("Eventos").addListenerForSingleValueEvent(new ValueEventListener() {
+        database.child("Eventos").child(user.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 long cont = 0;
@@ -230,7 +236,7 @@ public class NuevoEvento extends Fragment {
                 String idProvincia = etProvincia.getText().toString();
                 String direccion = etDireccion.getText().toString();
                 String contenido = etDescripcion.getText().toString();
-                String fechaEvento = etFechaEvento.getText().toString();
+                String fechaEvento = obtenerFechaFormateada(etFechaEvento.getText().toString());
                 String imagen = urlFoto;
                 int plazasTotales = Integer.parseInt(etPlazasTotales.getText().toString());
                 String fechaPublicacion = obtenerFechaActual();
@@ -238,7 +244,7 @@ public class NuevoEvento extends Fragment {
                 Evento evento = new Evento(contenido, direccion, fechaEvento, fechaPublicacion,
                         idEvento, idProvincia, idUsuario, imagen, plazasTotales);
 
-                database.child("Eventos").child(String.valueOf(cont)).setValue(evento);
+                database.child("Eventos").child(idUsuario).child(String.valueOf(cont)).setValue(evento);
             }
 
             @Override

@@ -22,7 +22,15 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import es.ideas.holeventoproyecto.R;
@@ -46,7 +54,7 @@ public class Profile extends Fragment {
 
         user = FirebaseAuth.getInstance().getCurrentUser();
         String id = user.getUid();
-        mbase = FirebaseDatabase.getInstance().getReference().child("Eventos").orderByChild("idUsuario").equalTo(id);
+        mbase = FirebaseDatabase.getInstance().getReference().child("Eventos").child(id).orderByChild("fechaEvento");
         rv = (RecyclerView) viewRoot.findViewById(R.id.rvBusinessProf);
 
         rv.setLayoutManager(new LinearLayoutManager(viewRoot.getContext()));

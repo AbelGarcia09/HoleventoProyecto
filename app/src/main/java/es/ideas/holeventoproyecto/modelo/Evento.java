@@ -2,6 +2,8 @@ package es.ideas.holeventoproyecto.modelo;
 
 import android.util.Log;
 
+import java.util.Date;
+
 public class Evento {
     private long idEvento;
     private String idUsuario;

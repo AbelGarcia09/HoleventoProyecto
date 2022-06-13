@@ -18,11 +18,17 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 import es.ideas.holeventoproyecto.R;
 import es.ideas.holeventoproyecto.modelo.Evento;
@@ -32,6 +38,12 @@ public class BusinessHomeAdapter extends FirebaseRecyclerAdapter<Evento, Busines
     private Context cxt;
     private String username;
     private DatabaseReference database;
+
+    private String formateaFecha(String fecha) {
+        String[] fechaSeparada = fecha.split("-");
+
+        return fechaSeparada[1] + "-" + fechaSeparada[0] + "-" + fechaSeparada[2];
+    }
 
     public BusinessHomeAdapter(@NonNull FirebaseRecyclerOptions<Evento> options, Context cxt, String username){
         super(options);
@@ -49,20 +61,21 @@ public class BusinessHomeAdapter extends FirebaseRecyclerAdapter<Evento, Busines
         holder.nombreEmpresa.setText(username);
         holder.contenido.setText(model.getContenido());
         holder.plazasTotales.setText(model.getPlazasTotales()+"");
-        holder.fechaEvento.setText(model.getFechaEvento());
+        holder.fechaEvento.setText(formateaFecha(model.getFechaEvento()));
         holder.direccion.setText(model.getDireccion());
         Glide.with(cxt).load(img).into(holder.imagen);
 
         holder.btnEliminar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                 database = FirebaseDatabase.getInstance().getReference();
                 AlertDialog.Builder b = new AlertDialog.Builder(v.getContext());
                 b.setMessage("¿Desea eliminar el registro?")
                         .setPositiveButton("SI", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int i) {
-                                database.child("Eventos").addListenerForSingleValueEvent(new ValueEventListener() {
+                                database.child("Eventos").child(user.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
                                     @Override
                                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                                         if (snapshot.exists()) {
