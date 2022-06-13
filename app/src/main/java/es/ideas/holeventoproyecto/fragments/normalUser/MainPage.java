@@ -55,23 +55,6 @@ public class MainPage extends Fragment {
         adapter = new NormalUserEventAdapter(options, viewRoot.getContext(), id);
         rv.setAdapter(adapter);
 
-
-/*
-        mbase = FirebaseDatabase.getInstance().getReference().child("Eventos").orderByChild("fechaEvento");
-        rv = (RecyclerView) viewRoot.findViewById(R.id.rvMainUser);
-
-        rv.setLayoutManager(new LinearLayoutManager(viewRoot.getContext()));
-
-        FirebaseRecyclerOptions<Evento> options
-                = new FirebaseRecyclerOptions.Builder<Evento>()
-                .setQuery(mbase, Evento.class)
-                .build();
-
-        adapter = new NormalUserEventAdapter(options, viewRoot.getContext());
-        rv.setAdapter(adapter);
-
-
- */
         return viewRoot;
     }
 
