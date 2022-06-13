@@ -14,23 +14,35 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.firebase.ui.database.FirebaseRecyclerAdapter;
-import com.firebase.ui.database.FirebaseRecyclerOptions;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
+import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import es.ideas.holeventoproyecto.R;
 import es.ideas.holeventoproyecto.modelo.Evento;
 
-public class NormalUserEventAdapter extends FirebaseRecyclerAdapter<Evento, NormalUserEventAdapter.eventoViewholder> {
+public class NormalUserEventAdapter extends FirestoreRecyclerAdapter<Evento, NormalUserEventAdapter.eventoViewholder> {
 
     private Context cxt;
-    private String username;
-    private DatabaseReference database;
+    private FirebaseFirestore database;
+    private String idUsuario;
 
-    public NormalUserEventAdapter(@NonNull FirebaseRecyclerOptions<Evento> options, Context cxt){
+    public NormalUserEventAdapter(@NonNull FirestoreRecyclerOptions<Evento> options, Context cxt, String idUsurio){
         super(options);
         this.cxt = cxt;
+        this.idUsuario = idUsurio;
     }
 
     @Override
@@ -40,7 +52,7 @@ public class NormalUserEventAdapter extends FirebaseRecyclerAdapter<Evento, Norm
         Uri img = Uri.parse(model.getImagen());
         Log.i("DATOS", "MODEL IMG -> "+ img);
 
-        //holder.nombreEmpresa.setText(username);
+        holder.nombreEmpresa.setText(model.getNombreUsuario());
         holder.contenido.setText(model.getContenido());
         holder.plazasTotales.setText(model.getPlazasTotales()+"");
         holder.fechaEvento.setText(model.getFechaEvento());
@@ -50,7 +62,26 @@ public class NormalUserEventAdapter extends FirebaseRecyclerAdapter<Evento, Norm
         holder.btnApuntarse.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                database = FirebaseDatabase.getInstance().getReference();
+                database = FirebaseFirestore.getInstance();
+                database.collection("Adhesiones")
+                        .document(model.getIdEvento()+"").get()
+                        .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                if(task.isSuccessful()){
+                                    if(task.getResult().exists() && task.getResult().get("idUsuario").equals(idUsuario)){
+                                        task.getResult().getReference().delete();
+                                    }else {
+                                        Map<String, Object> adhesion = new HashMap<>();
+                                        adhesion.put("idUsuario", idUsuario);
+                                        database.collection("Adhesiones").document(model.getIdEvento()+"").set(adhesion);
+                                    }
+                                }else{
+                                    Log.e("Firebase","Se ha producido un error al realizar el get",task.getException());
+                                }
+                            }
+                        });
+
             }
         });
 

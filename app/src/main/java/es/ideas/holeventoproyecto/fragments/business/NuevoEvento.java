@@ -17,22 +17,17 @@ import android.widget.Toast;
 
 import androidx.activity.result.ActivityResult;
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.basgeekball.awesomevalidation.AwesomeValidation;
 import com.bumptech.glide.Glide;
-import com.google.firebase.FirebaseError;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.MutableData;
-import com.google.firebase.database.Query;
-import com.google.firebase.database.Transaction;
-import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
@@ -41,9 +36,7 @@ import java.util.Calendar;
 
 import es.ideas.holeventoproyecto.BusinessMainActivity;
 import es.ideas.holeventoproyecto.R;
-import es.ideas.holeventoproyecto.auth.LoginActivity;
 import es.ideas.holeventoproyecto.modelo.Evento;
-import es.ideas.holeventoproyecto.modelo.Provincia;
 import es.ideas.holeventoproyecto.utils.BetterActivityResult;
 
 public class NuevoEvento extends Fragment {
@@ -66,7 +59,7 @@ public class NuevoEvento extends Fragment {
     private final BetterActivityResult<Intent, ActivityResult> activityLauncher =
             BetterActivityResult.registerActivityForResult(this);
 
-    private DatabaseReference database = FirebaseDatabase.getInstance().getReference();
+    private FirebaseFirestore database;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -92,6 +85,11 @@ public class NuevoEvento extends Fragment {
                 if (camposRellenos()){
                     nuevoEvento();
                     Toast.makeText(view.getContext(), R.string.evento_creado_correctamemte, Toast.LENGTH_SHORT).show();
+                    try {
+                        Thread.sleep(150);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                     startActivity(new Intent(viewRoot.getContext(), BusinessMainActivity.class));
                     try {
                         NuevoEvento.this.finalize();
@@ -109,9 +107,7 @@ public class NuevoEvento extends Fragment {
         ivFotoEvento.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 subirFoto();
-
             }
         });
 
@@ -143,23 +139,18 @@ public class NuevoEvento extends Fragment {
     private void obtenProvincia() {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         String idUsuario = user.getUid();
-        database.child("UsuarioBusiness").addListenerForSingleValueEvent(new ValueEventListener() {
+        database = FirebaseFirestore.getInstance();
+        database.collection("UsuarioBusiness").document(idUsuario).get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.exists()) {
-                    for (DataSnapshot datos : snapshot.getChildren()) {
-                        if (datos.getKey().equals(idUsuario)) {
-                            String provincia = datos.child("idProvincia").getValue().toString();
-                            etProvincia.setText(provincia);
-                            Log.i("DATOS", "dentro del for: " + provincia);
-                        }
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()){
+                    if (task.getResult().exists()){
+                        String provincia = task.getResult().getString("idProvincia");
+                        etProvincia.setText(provincia);
+                        Log.i("DATOS", "dentro del for: " + provincia);
                     }
                 }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Log.e("Error", "No existe el usuario");
             }
         });
     }
@@ -212,38 +203,37 @@ public class NuevoEvento extends Fragment {
 
     private void nuevoEvento() {
 
-        database = FirebaseDatabase.getInstance().getReference();
-        database.child("Eventos").addListenerForSingleValueEvent(new ValueEventListener() {
+        database = FirebaseFirestore.getInstance();
+        database.collection("Eventos").get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                long cont = 0;
-                if (snapshot.exists()) {
-                    for (DataSnapshot datos : snapshot.getChildren()) {
-                        if (cont <= Long.parseLong(datos.getKey())) {
-                            cont = Long.parseLong(datos.getKey()) + 1;
-                        }
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                long cont =0;
+                if (task.isSuccessful()){
+                    for (QueryDocumentSnapshot datos : task.getResult()){
+                        if (cont <= Long.parseLong(datos.getId())){
+                            cont = Long.parseLong(datos.getId()) + 1;
+                        }else { cont =1;}
                     }
-                }else { cont =1;}
 
-                long idEvento = cont;
-                String idUsuario = user.getUid();
-                String idProvincia = etProvincia.getText().toString();
-                String direccion = etDireccion.getText().toString();
-                String contenido = etDescripcion.getText().toString();
-                String fechaEvento = etFechaEvento.getText().toString();
-                String imagen = urlFoto;
-                int plazasTotales = Integer.parseInt(etPlazasTotales.getText().toString());
-                String fechaPublicacion = obtenerFechaActual();
+                    long idEvento = cont;
+                    String idUsuario = user.getUid();
+                    String nombreUsuario = user.getDisplayName();
+                    String idProvincia = etProvincia.getText().toString();
+                    String direccion = etDireccion.getText().toString();
+                    String contenido = etDescripcion.getText().toString();
+                    String fechaEvento = etFechaEvento.getText().toString();
+                    String imagen = urlFoto;
+                    int plazasTotales = Integer.parseInt(etPlazasTotales.getText().toString());
+                    int plazasTotalesCont = 0;
+                    String fechaPublicacion = obtenerFechaActual();
 
-                Evento evento = new Evento(contenido, direccion, fechaEvento, fechaPublicacion,
-                        idEvento, idProvincia, idUsuario, imagen, plazasTotales);
+                    Evento evento = new Evento(contenido, direccion, fechaEvento, fechaPublicacion,
+                            idEvento, idProvincia, idUsuario, imagen, plazasTotales);
 
-                database.child("Eventos").child(String.valueOf(cont)).setValue(evento);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
+                    evento.setNombreUsuario(nombreUsuario);
+                    database.collection("Eventos").document(String.valueOf(cont)).set(evento);
+                }
             }
         });
 

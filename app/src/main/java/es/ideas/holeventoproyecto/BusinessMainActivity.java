@@ -6,7 +6,6 @@ import android.os.PersistableBundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -14,20 +13,18 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import es.ideas.holeventoproyecto.auth.LoginActivity;
 import es.ideas.holeventoproyecto.fragments.business.NuevoEvento;
 import es.ideas.holeventoproyecto.fragments.business.Profile;
-import es.ideas.holeventoproyecto.utils.Utils;
 
 public class BusinessMainActivity extends AppCompatActivity {
 
@@ -36,7 +33,7 @@ public class BusinessMainActivity extends AppCompatActivity {
     private TextView tvUsername;
     private ImageButton btnLogout;
 
-    private DatabaseReference database = FirebaseDatabase.getInstance().getReference();
+    private FirebaseFirestore database = FirebaseFirestore.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,26 +91,17 @@ public class BusinessMainActivity extends AppCompatActivity {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         String uid = user.getUid();
 
-        database.child("UsuarioBusiness").addValueEventListener(new ValueEventListener() {
+
+        database.collection("UsuarioBusiness").document(uid).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.exists()) {
-                    for (DataSnapshot datos : snapshot.getChildren()) {
-                        if (datos.getKey().equals(uid)){
-                            String username = datos.child("nombreUsuario").getValue().toString();
-                            tvUsername.setText(username);
-                            Log.i("DATOS", "dentro del for: " + username);
-                        }
-                    }
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()){
+                    String username =task.getResult().get("nombreUsuario").toString();
+                    tvUsername.setText(username);
+                    Log.i("DATOS", "Nombre Usuario Empresa: " + username);
                 }
             }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Log.e("Error", "No existe el usuario");
-            }
         });
-
     }
 
     private void cambiaFragment(Fragment f) {

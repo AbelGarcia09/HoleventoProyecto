@@ -22,12 +22,10 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import es.ideas.holeventoproyecto.R;
 import es.ideas.holeventoproyecto.modelo.UsuarioNormal;
-import es.ideas.holeventoproyecto.utils.Utils;
 
 public class RegisterUserActivity extends AppCompatActivity {
 
@@ -35,7 +33,7 @@ public class RegisterUserActivity extends AppCompatActivity {
     private Button btnRegistro;
 
     private FirebaseAuth auth;
-    private DatabaseReference database;
+    private FirebaseFirestore database;
     private AwesomeValidation awesomeValidation;
 
     @Override
@@ -46,7 +44,7 @@ public class RegisterUserActivity extends AppCompatActivity {
 
         // Cargar librerías necesarias.
         auth = FirebaseAuth.getInstance();
-        database = FirebaseDatabase.getInstance().getReference();
+        database = FirebaseFirestore.getInstance();
         awesomeValidation = new AwesomeValidation(ValidationStyle.BASIC);
 
         iniciarVista();
@@ -147,7 +145,7 @@ public class RegisterUserActivity extends AppCompatActivity {
 
         UsuarioNormal usuario = new UsuarioNormal(email, idUsuario, nombreUsuario, password);
 
-        database.child("UsuarioNormal").child(usuario.getIdUsuario()).setValue(usuario);
+        database.collection("UsuarioNormal").document(usuario.getIdUsuario()).set(usuario);
     }
 
     @Override

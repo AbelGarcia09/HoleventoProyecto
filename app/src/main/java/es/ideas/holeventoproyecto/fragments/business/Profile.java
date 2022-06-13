@@ -1,29 +1,21 @@
 package es.ideas.holeventoproyecto.fragments.business;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 
 import es.ideas.holeventoproyecto.R;
 import es.ideas.holeventoproyecto.adapter.BusinessHomeAdapter;
@@ -34,7 +26,6 @@ public class Profile extends Fragment {
     private View viewRoot;
     private RecyclerView rv;
     private BusinessHomeAdapter adapter;
-    private Query mbase;
     private Toast mToast;
     private FirebaseUser user;
     public Profile() {}
@@ -46,17 +37,22 @@ public class Profile extends Fragment {
 
         user = FirebaseAuth.getInstance().getCurrentUser();
         String id = user.getUid();
-        mbase = FirebaseDatabase.getInstance().getReference().child("Eventos").orderByChild("idUsuario").equalTo(id);
+
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        CollectionReference eventosRef = db.collection("Eventos");
+        Query eventos = eventosRef.orderBy("fechaEvento" ,Query.Direction.ASCENDING).whereEqualTo("idUsuario", id);
+
+
         rv = (RecyclerView) viewRoot.findViewById(R.id.rvBusinessProf);
 
         rv.setLayoutManager(new LinearLayoutManager(viewRoot.getContext()));
 
-        FirebaseRecyclerOptions<Evento> options
-                = new FirebaseRecyclerOptions.Builder<Evento>()
-                .setQuery(mbase, Evento.class)
+        FirestoreRecyclerOptions<Evento> options
+                = new FirestoreRecyclerOptions.Builder<Evento>()
+                .setQuery(eventos, Evento.class)
                 .build();
 
-        adapter = new BusinessHomeAdapter(options, viewRoot.getContext(), user.getDisplayName());
+        adapter = new BusinessHomeAdapter(options, viewRoot.getContext());
         rv.setAdapter(adapter);
 
         return viewRoot;

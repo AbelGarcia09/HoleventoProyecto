@@ -24,11 +24,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,7 +43,7 @@ public class RegisterBusinessActivity extends AppCompatActivity {
     private Utils util;
 
     private FirebaseAuth auth;
-    private DatabaseReference database;
+    private FirebaseFirestore database;
     private AwesomeValidation awesomeValidation;
 
     @Override
@@ -57,7 +54,7 @@ public class RegisterBusinessActivity extends AppCompatActivity {
 
         // Cargar librerías necesarias.
         auth = FirebaseAuth.getInstance();
-        database = FirebaseDatabase.getInstance().getReference();
+        database = FirebaseFirestore.getInstance();
         awesomeValidation = new AwesomeValidation(ValidationStyle.BASIC);
 
         iniciarVista();
@@ -159,39 +156,32 @@ public class RegisterBusinessActivity extends AppCompatActivity {
         String idUsuario = uid;
         String nombreUsuario = registerUsuario.getText().toString();
         String password = registerPass.getText().toString();
-        String provincia = (registerProvincia.getSelectedItemPosition() + 1) + "";
+        String provincia = (registerProvincia.getSelectedItemPosition()) + "";
         String telefono = registerTelefono.getText().toString();
 
         UsuarioBusiness usuario = new UsuarioBusiness(email, idUsuario, nombreUsuario, password,
                 provincia, telefono);
 
-        database.child("UsuarioBusiness").child(usuario.getIdUsuario()).setValue(usuario);
+        database.collection("UsuarioBusiness").document(usuario.getIdUsuario()).set(usuario);
     }
 
     private void cargarProvincias() {
         List<Provincia> provincias = new ArrayList<>();
-        database.child("Provincias").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.exists()) {
-                    for (DataSnapshot datos : snapshot.getChildren()) {
-                        String id = datos.getKey();
-                        String nombre = datos.getValue().toString();
-                        provincias.add(new Provincia(id, nombre));
-                    }
 
-                    ArrayAdapter<Provincia> arrayAdapter =
-                            new ArrayAdapter<>(RegisterBusinessActivity.this,
-                                    android.R.layout.simple_dropdown_item_1line, provincias);
-                    registerProvincia.setAdapter(arrayAdapter);
-                }
-            }
 
+        database.collection("Provincias").document("provincia").get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Log.d("FALLO", error.getMessage());
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                DocumentSnapshot document = task.getResult();
+                List<String> provincias = (List<String>) document.get("nombre");
+
+                ArrayAdapter<String> arrayAdapter =
+                        new ArrayAdapter<>(RegisterBusinessActivity.this,
+                                android.R.layout.simple_dropdown_item_1line, provincias);
+                registerProvincia.setAdapter(arrayAdapter);
             }
         });
+
     }
 
     @Override

@@ -16,27 +16,21 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.firebase.ui.database.FirebaseRecyclerAdapter;
-import com.firebase.ui.database.FirebaseRecyclerOptions;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
+import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import es.ideas.holeventoproyecto.R;
 import es.ideas.holeventoproyecto.modelo.Evento;
 
-public class BusinessHomeAdapter extends FirebaseRecyclerAdapter<Evento, BusinessHomeAdapter.eventoViewholder> {
+public class BusinessHomeAdapter extends FirestoreRecyclerAdapter<Evento, BusinessHomeAdapter.eventoViewholder> {
 
     private Context cxt;
-    private String username;
-    private DatabaseReference database;
+    private FirebaseFirestore database;
 
-    public BusinessHomeAdapter(@NonNull FirebaseRecyclerOptions<Evento> options, Context cxt, String username){
+    public BusinessHomeAdapter(@NonNull FirestoreRecyclerOptions<Evento> options, Context cxt){
         super(options);
         this.cxt = cxt;
-        this.username = username;
     }
 
     @Override
@@ -46,7 +40,7 @@ public class BusinessHomeAdapter extends FirebaseRecyclerAdapter<Evento, Busines
         Uri img = Uri.parse(model.getImagen());
         Log.i("DATOS", "MODEL IMG -> "+ img);
 
-        holder.nombreEmpresa.setText(username);
+        holder.nombreEmpresa.setText(model.getNombreUsuario());
         holder.contenido.setText(model.getContenido());
         holder.plazasTotales.setText(model.getPlazasTotales()+"");
         holder.fechaEvento.setText(model.getFechaEvento());
@@ -56,29 +50,13 @@ public class BusinessHomeAdapter extends FirebaseRecyclerAdapter<Evento, Busines
         holder.btnEliminar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                database = FirebaseDatabase.getInstance().getReference();
+                database = FirebaseFirestore.getInstance();
                 AlertDialog.Builder b = new AlertDialog.Builder(v.getContext());
                 b.setMessage("¿Desea eliminar el registro?")
                         .setPositiveButton("SI", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int i) {
-                                database.child("Eventos").addListenerForSingleValueEvent(new ValueEventListener() {
-                                    @Override
-                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                        if (snapshot.exists()) {
-                                            for (DataSnapshot datos : snapshot.getChildren()) {
-                                                if(datos.getKey().toString().equals(model.getIdEvento()+"")) {
-                                                    datos.getRef().removeValue();
-                                                }
-                                            }
-                                        }
-                                    }
-
-                                    @Override
-                                    public void onCancelled(@NonNull DatabaseError error) {
-                                        Log.d("FALLO", error.getMessage());
-                                    }
-                                });
+                                database.collection("Eventos").document(model.getIdEvento()+"").delete();
 
                             }
                         }).setNegativeButton("NO", new DialogInterface.OnClickListener() {

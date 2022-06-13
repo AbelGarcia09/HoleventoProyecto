@@ -21,12 +21,8 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.UserProfileChangeRequest;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import es.ideas.holeventoproyecto.BusinessMainActivity;
 import es.ideas.holeventoproyecto.NormalUserMainActivity;
@@ -43,7 +39,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private FirebaseAuth auth;
     FirebaseAuth.AuthStateListener mAuthListener;
-    private DatabaseReference database;
+    private FirebaseFirestore database;
     private AwesomeValidation awesomeValidation;
 
     @Override
@@ -53,7 +49,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.login_act);
 
         auth = FirebaseAuth.getInstance();
-        database = FirebaseDatabase.getInstance().getReference();
+        database = FirebaseFirestore.getInstance();
         awesomeValidation = new AwesomeValidation(ValidationStyle.BASIC);
 
 
@@ -143,24 +139,22 @@ public class LoginActivity extends AppCompatActivity {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         String uid = user.getUid();
 
-        database.child("UsuarioBusiness").addListenerForSingleValueEvent(new ValueEventListener() {
+        database.collection("UsuarioBusiness").document(uid).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.exists() && snapshot.hasChild(uid)) {
-                    startActivity(new Intent(LoginActivity.this,
-                            BusinessMainActivity.class));
-                } else {
-                    startActivity(new Intent(LoginActivity.this,
-                            NormalUserMainActivity.class));
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()){
+                    if (task.getResult().exists()){
+                        startActivity(new Intent(LoginActivity.this,
+                                BusinessMainActivity.class));
+                    } else {
+                        startActivity(new Intent(LoginActivity.this,
+                                NormalUserMainActivity.class));
+                    }
+                    finish();
+                }else{
+                    Toast.makeText(LoginActivity.this, "No se encuentra el usuario", Toast.LENGTH_SHORT).show();
                 }
-                finish();
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Log.e("Error", "No existe el usuario");
             }
         });
-
     }
 }
