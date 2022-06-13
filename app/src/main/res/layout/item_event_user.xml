@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:backgroundTint="@color/grey"
@@ -93,34 +94,31 @@
             android:id="@+id/tvPTotalesUser"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
             android:text="20"
 
             app:layout_constraintBottom_toBottomOf="@+id/personIcon"
-            app:layout_constraintStart_toEndOf="@+id/personIcon"
+            app:layout_constraintStart_toEndOf="@+id/tvPvvvv"
             app:layout_constraintTop_toTopOf="@id/personIcon" />
 
         <TextView
             android:id="@+id/tvPvvvv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="1dp"
             android:text="/"
             app:layout_constraintBottom_toBottomOf="@+id/tvPTotalesUser"
-            app:layout_constraintStart_toEndOf="@+id/tvPTotalesUser"
+            app:layout_constraintStart_toEndOf="@+id/tvContador"
             app:layout_constraintTop_toTopOf="@+id/tvPTotalesUser"
-         />
+            app:layout_constraintVertical_bias="1.0" />
 
         <TextView
             android:id="@+id/tvContador"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="1dp"
+            android:layout_marginStart="5dp"
             android:text="0"
             app:layout_constraintBottom_toBottomOf="@+id/tvPvvvv"
-            app:layout_constraintStart_toEndOf="@+id/tvPvvvv"
-            app:layout_constraintTop_toTopOf="@+id/tvPvvvv"
-            />
+            app:layout_constraintStart_toEndOf="@+id/personIcon"
+            app:layout_constraintTop_toTopOf="@+id/tvPvvvv" />
         <Button
             android:id="@+id/btnApuntarse"
             android:layout_width="wrap_content"

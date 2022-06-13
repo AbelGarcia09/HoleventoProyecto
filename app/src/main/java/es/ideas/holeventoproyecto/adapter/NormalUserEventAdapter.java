@@ -1,6 +1,7 @@
 package es.ideas.holeventoproyecto.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -9,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -45,12 +47,14 @@ public class NormalUserEventAdapter extends FirestoreRecyclerAdapter<Evento,
     private Context cxt;
     private FirebaseFirestore database;
     private String idUsuario;
+    private String nMButton;
 
     public NormalUserEventAdapter(@NonNull FirestoreRecyclerOptions<Evento> options, Context cxt,
-                                  String idUsurio) {
+                                  String idUsurio, String nMButton) {
         super(options);
         this.cxt = cxt;
         this.idUsuario = idUsurio;
+        this.nMButton = nMButton;
     }
 
     @Override
@@ -66,43 +70,59 @@ public class NormalUserEventAdapter extends FirestoreRecyclerAdapter<Evento,
         holder.fechaEvento.setText(model.getFechaEvento());
         holder.direccion.setText(model.getDireccion());
         Glide.with(cxt).load(img).into(holder.imagen);
+        holder.btnApuntarse.setText(nMButton);
 
         holder.btnApuntarse.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 database = FirebaseFirestore.getInstance();
-                database.collection("Adhesiones")
+                database.collection("Eventos")
                         .document(model.getIdEvento() + "").get()
                         .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                             @Override
                             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                                 if (task.isComplete()) {
-                                    List<String> users = (List<String>) task.getResult().get("Apuntados");
+                                    List<String> users = (List<String>) task.getResult().get("Adhesiones");
+                                    int total = Integer.parseInt(task.getResult().get("plazasTotales").toString());
+                                    int cont = Integer.parseInt(task.getResult().get("plazasTotalesCont").toString());
                                     if (users != null) {
                                         if (users.contains(idUsuario)) {
                                             users.remove(idUsuario);
                                             database = FirebaseFirestore.getInstance();
-                                            database.collection("Adhesiones").document(model.getIdEvento() + "").update("Apuntados", users);
+                                            database.collection("Eventos").document(model.getIdEvento() + "").update("Adhesiones", users);
+                                            if ( total == cont && task.getResult().get("completo").equals("true")){
+                                                database.collection("Eventos").document(model.getIdEvento() + "").update("completo", "false");
+                                            }
                                             database.collection("Eventos").document(model.getIdEvento() + "").update("plazasTotalesCont", FieldValue.increment(-1));
                                         } else {
-                                            users = new ArrayList<>();
-                                            users.add(idUsuario);
-                                            Map<String, List<String>> adhesion = new HashMap<>();
-                                            adhesion.put("Apuntados", users);
-                                            database.collection("Adhesiones").document(model.getIdEvento() + "").update("Apuntados", adhesion);
+                                            if (task.getResult().get("completo").equals("false")) {
+                                                users.add(idUsuario);
+                                                database.collection("Eventos").document(model.getIdEvento() + "").update("Adhesiones", users);
+                                                database.collection("Eventos").document(model.getIdEvento() + "").update("plazasTotalesCont", FieldValue.increment(1));
+                                                if ( total == cont+1){
+                                                    database.collection("Eventos").document(model.getIdEvento() + "").update("completo", "true");
+                                                }
+                                            }
+                                            else{
+                                                Toast.makeText(cxt, R.string.evento_completo, Toast.LENGTH_SHORT).show();
+                                            }
                                         }
                                     } else {
-                                        users = new ArrayList<>();
-                                        users.add(idUsuario);
-                                        Map<String, List<String>> adhesion = new HashMap<>();
-                                        adhesion.put("Apuntados", users);
-                                        database.collection("Adhesiones").document(model.getIdEvento() + "").set(adhesion);
-                                        database.collection("Eventos").document(model.getIdEvento() + "").update("plazasTotalesCont", FieldValue.increment(1));
+                                        if (task.getResult().get("completo").equals("false")) {
+                                            users = new ArrayList<>();
+                                            users.add(idUsuario);
+                                            database.collection("Eventos").document(model.getIdEvento() + "").update("Adhesiones", users);
+                                            database.collection("Eventos").document(model.getIdEvento() + "").update("plazasTotalesCont", FieldValue.increment(1));
+                                            if ( total == cont+1){
+                                                database.collection("Eventos").document(model.getIdEvento() + "").update("completo", "true");
+                                            }
+                                        }else{
+                                            Toast.makeText(cxt, R.string.evento_completo, Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
 
-                                    }
-                                    if (users.isEmpty()){
-                                        database.collection("Adhesiones").document(model.getIdEvento() + "").delete();
-                                    }
+
+
 
 
                                 } else {

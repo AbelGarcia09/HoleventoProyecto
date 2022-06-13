@@ -1,5 +1,6 @@
 package es.ideas.holeventoproyecto.fragments.normalUser;
 
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,7 +20,7 @@ import com.google.firebase.firestore.Query;
 import es.ideas.holeventoproyecto.R;
 import es.ideas.holeventoproyecto.adapter.NormalUserEventAdapter;
 import es.ideas.holeventoproyecto.modelo.Evento;
-
+import android.content.Context;
 
 public class MainPage extends Fragment {
 
@@ -28,12 +29,15 @@ public class MainPage extends Fragment {
     private NormalUserEventAdapter adapter;
     private FirebaseUser user;
 
+
     public MainPage() {}
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         viewRoot = inflater.inflate(R.layout.fragment_normal_user_main_page, container, false);
+
+        String nmButton = getStringByIdName(viewRoot.getContext(), "btnApuntarse");
 
         user = FirebaseAuth.getInstance().getCurrentUser();
         String id = user.getUid();
@@ -52,12 +56,16 @@ public class MainPage extends Fragment {
                 .setQuery(eventos, Evento.class)
                 .build();
 
-        adapter = new NormalUserEventAdapter(options, viewRoot.getContext(), id);
+        adapter = new NormalUserEventAdapter(options, viewRoot.getContext(), id, nmButton);
         rv.setAdapter(adapter);
 
         return viewRoot;
     }
 
+    public static String getStringByIdName(Context context, String idName) {
+        Resources res = context.getResources();
+        return res.getString(res.getIdentifier(idName, "string", context.getPackageName()));
+    }
 
     @Override
     public void onStart()

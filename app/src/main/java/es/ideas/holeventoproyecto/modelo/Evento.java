@@ -14,6 +14,7 @@ public class Evento {
     private String imagen;
     private int plazasTotalesCont;
     private int plazasTotales;
+    private String completo;
 
     public Evento(){}
 
@@ -32,6 +33,15 @@ public class Evento {
         this.plazasTotales = plazasTotales;
         this.plazasTotalesCont = plazasTotalesCont;
         this.fechaPublicacion = fechaPublicacion;
+        this.completo="false";
+    }
+
+    public String getCompleto() {
+        return completo;
+    }
+
+    public void setCompleto(String completo) {
+        this.completo = completo;
     }
 
     public long getIdEvento() {

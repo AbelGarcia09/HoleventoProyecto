@@ -2,7 +2,7 @@
 <resources>
     <string name="cambioContrasenya"><u>Have you forgotten the password?</u></string>
     <string name="correo">Email</string>
-    <string name="contrasenya">Paswword</string>
+    <string name="contrasenya">Password</string>
     <string name="btnIniciarSesion">Sign in</string>
     <string name="btnRegistrarse">Sign up</string>
     <string name="usuario">User</string>
@@ -16,14 +16,16 @@
     <string name="contrasenya_no_coincide">Password does not match</string>
     <string name="err_tel">Invalid phone</string>
     <string name="fecha_evento">Event date:</string>
-    <string name="direccion">Address</string>
+    <string name="direccion">Address:</string>
     <string name="plazas">Max capacity</string>
     <string name="contenido">Description</string>
     <string name="descripcionEvento">" Tell us what your event will be about!!"</string>
     <string name="btnAnyadirEvento">Create event</string>
     <string name="evento_creado_correctamemte">Event created successfully</string>
     <string name="empty_all">Fill all fields</string>
-    <string name="btnApuntarse">Add</string>
+    <string name="btnApuntarse">Suscribe</string>
+    <string name="btnDesapuntarse">Unsuscribe</string>
+    <string name="evento_completo">The event is full</string>
 
 
 </resources>

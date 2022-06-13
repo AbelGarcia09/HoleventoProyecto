@@ -19,7 +19,7 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
     <string name="fecha_evento">Fecha evento:</string>
-    <string name="direccion">Dirección</string>
+    <string name="direccion">Dirección:</string>
     <string name="plazas">Plazas totales</string>
     <string name="contenido">Descripción</string>
     <string name="descripcionEvento">¡¡Cuentanos de qué tratará tu evento!!</string>
@@ -27,5 +27,7 @@
     <string name="evento_creado_correctamemte">Evento creado correctamente</string>
     <string name="empty_all">Rellena todos los campos</string>
     <string name="btnApuntarse">Apuntarse</string>
+    <string name="btnDesapuntarse">Desapuntarse</string>
+    <string name="evento_completo">El evento esa completo</string>
 
 </resources>
