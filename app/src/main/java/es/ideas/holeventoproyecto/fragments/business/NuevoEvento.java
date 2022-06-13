@@ -229,9 +229,10 @@ public class NuevoEvento extends Fragment {
                     String fechaPublicacion = obtenerFechaActual();
 
                     Evento evento = new Evento(contenido, direccion, fechaEvento, fechaPublicacion,
-                            idEvento, idProvincia, idUsuario, imagen, plazasTotales);
+                            idEvento, idProvincia, idUsuario, imagen, plazasTotales, plazasTotalesCont);
 
                     evento.setNombreUsuario(nombreUsuario);
+                    evento.setPlazasTotalesCont(0);
                     database.collection("Eventos").document(String.valueOf(cont)).set(evento);
                 }
             }

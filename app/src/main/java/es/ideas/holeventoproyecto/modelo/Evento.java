@@ -12,6 +12,7 @@ public class Evento {
     private String fechaPublicacion;
     private String fechaEvento;
     private String imagen;
+    private int plazasTotalesCont;
     private int plazasTotales;
 
     public Evento(){}
@@ -19,7 +20,7 @@ public class Evento {
     public Evento(
             String contenido, String direccion,  String fechaEvento,
             String fechaPublicacion, Long idEvento, String idProvincia, String idUsuario,
-            String imagen, int plazasTotales ) {
+            String imagen, int plazasTotales , int plazasTotalesCont) {
         this.idEvento = idEvento;
         Log.i("Datos", "IDEVENTO: "+idEvento);
         this.idUsuario = idUsuario;
@@ -29,6 +30,7 @@ public class Evento {
         this.fechaEvento = fechaEvento;
         this.imagen = imagen;
         this.plazasTotales = plazasTotales;
+        this.plazasTotalesCont = plazasTotalesCont;
         this.fechaPublicacion = fechaPublicacion;
     }
 
@@ -65,9 +67,6 @@ public class Evento {
     }
 
     public String getNombreUsuario() {
-
-
-
         return nombreUsuario;
     }
 
@@ -113,6 +112,13 @@ public class Evento {
 
     public void setPlazasTotales(int plazasTotales) {
         this.plazasTotales = plazasTotales;
+    }
+    public int getPlazasTotalesCont() {
+        return plazasTotalesCont;
+    }
+
+    public void setPlazasTotalesCont(int plazasTotalesCont) {
+        this.plazasTotalesCont = plazasTotalesCont;
     }
 
 }
