@@ -36,7 +36,7 @@
             android:text="@string/direccion"
             android:textColor="@color/black"
             android:textSize="16sp"
-            app:layout_constraintStart_toStartOf="@+id/tvContenidoUser"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvContenidoUser" />
 
         <TextView
@@ -51,7 +51,7 @@
             android:text="name"
             android:textColor="@color/black"
             android:textSize="16sp"
-            app:layout_constraintEnd_toEndOf="@+id/tvContenidoUser"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/tv"
             app:layout_constraintTop_toBottomOf="@+id/tvContenidoUser" />
 
@@ -87,8 +87,8 @@
             android:fontFamily="@font/baloo_bhai_2"
             android:inputType="textMultiLine"
             android:textColor="@color/black"
-            app:layout_constraintEnd_toEndOf="@id/ivFotoUser"
-            app:layout_constraintStart_toStartOf="@id/ivFotoUser"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/ivFotoUser" />
 
         <ImageView
@@ -97,7 +97,7 @@
             android:layout_height="26dp"
             android:layout_marginTop="5dp"
             android:src="@drawable/person"
-            app:layout_constraintStart_toStartOf="@id/tvContenidoUser"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvDireccionUser" />
 
         <TextView
@@ -140,11 +140,12 @@
             android:id="@+id/btnApuntarse"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
             android:fontFamily="@font/baloo"
             android:text="@string/btnApuntarse"
             android:textStyle="normal"
             app:layout_constraintBottom_toBottomOf="@+id/personIcon"
-            app:layout_constraintEnd_toEndOf="@+id/ivFotoUser"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/personIcon" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

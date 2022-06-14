@@ -95,4 +95,9 @@ public class ListaEventos extends Fragment {
         super.onStop();
         adapter.stopListening();
     }
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        adapter.notifyDataSetChanged();
+    }
 }

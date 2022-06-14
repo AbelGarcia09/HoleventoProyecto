@@ -114,6 +114,7 @@ public class NormalUserMainActivity extends AppCompatActivity {
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState, @NonNull PersistableBundle outPersistentState) {
         super.onSaveInstanceState(outState, outPersistentState);
+        currentFragment.onResume();
     }
 
 }

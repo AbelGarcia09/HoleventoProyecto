@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -68,6 +69,7 @@ public class Profile extends Fragment {
 
     // Function to tell the app to stop getting
     // data from database on stopping of the activity
+
     @Override
     public  void onStop()
     {
@@ -75,5 +77,9 @@ public class Profile extends Fragment {
         adapter.stopListening();
     }
 
-
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        adapter.notifyDataSetChanged();
+    }
 }

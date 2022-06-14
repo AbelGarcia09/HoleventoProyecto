@@ -36,7 +36,7 @@
             android:text="@string/direccion"
             android:textColor="@color/black"
             android:textSize="16sp"
-            app:layout_constraintStart_toStartOf="@+id/tvContenido"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvContenido" />
 
         <TextView
@@ -51,7 +51,7 @@
             android:text="name"
             android:textColor="@color/black"
             android:textSize="16sp"
-            app:layout_constraintEnd_toEndOf="@+id/tvContenido"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/tv"
             app:layout_constraintTop_toBottomOf="@+id/tvContenido" />
 
@@ -100,8 +100,8 @@
             android:fontFamily="@font/baloo_bhai_2"
             android:inputType="textMultiLine"
             android:textColor="@color/black"
-            app:layout_constraintEnd_toEndOf="@id/ivFoto"
-            app:layout_constraintStart_toStartOf="@id/ivFoto"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/ivFoto" />
 
         <ImageView
@@ -111,7 +111,7 @@
             android:layout_marginTop="5dp"
             android:backgroundTint="@color/black"
             android:src="@drawable/person"
-            app:layout_constraintStart_toStartOf="@id/tvContenido"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvDireccion" />
 
 
