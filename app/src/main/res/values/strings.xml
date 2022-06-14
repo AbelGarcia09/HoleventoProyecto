@@ -1,9 +1,9 @@
 <resources>
     <string name="app_name" translatable="false">Holevento</string>
     <string name="cambioContrasenya"><u>¿Has olvidado la contraseña?</u></string>
-    <string name="correo">Correo Electrónico</string>
+    <string name="correo">Correo electrónico</string>
     <string name="contrasenya">Contraseña</string>
-    <string name="btnIniciarSesion">Iniciar Sesión</string>
+    <string name="btnIniciarSesion">Iniciar sesión</string>
     <string name="btnRegistrarse">Registrarse</string>
     <string name="usuario">Usuario</string>
     <string name="telefono">Número de teléfono</string>
@@ -22,12 +22,12 @@
     <string name="direccion">Dirección:</string>
     <string name="plazas">Plazas totales:</string>
     <string name="contenido">Descripción:</string>
-    <string name="descripcionEvento">¡¡Cuentanos de qué tratará tu evento!!</string>
+    <string name="descripcionEvento">¡¡Cuéntanos de qué tratará tu evento!!</string>
     <string name="btnAnyadirEvento">Crear evento</string>
     <string name="evento_creado_correctamemte">Evento creado correctamente</string>
-    <string name="empty_all">Rellena todos los campos</string>
+    <string name="empty_all">Rellena todos los campos del formulario</string>
     <string name="btnApuntarse">Apuntarse</string>
     <string name="btnDesapuntarse">Desapuntarse</string>
-    <string name="evento_completo">El evento esa completo</string>
+    <string name="evento_completo">El evento está completo</string>
 
 </resources>

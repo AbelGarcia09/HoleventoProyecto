@@ -11,7 +11,7 @@
     <string name="btnRecoveryPass">Recovery</string>
     <string name="registroEmpresa"><u>Business account</u></string>
     <string name="invalid_mail">Invalid email</string>
-    <string name="invalid_password">Password less than 6 digits</string>
+    <string name="invalid_password">Enter a password greater than 6 digits</string>
     <string name="empty">" Fill in this field"</string>
     <string name="contrasenya_no_coincide">Password does not match</string>
     <string name="err_tel">Invalid phone</string>
@@ -22,9 +22,9 @@
     <string name="descripcionEvento">" Tell us what your event will be about!!"</string>
     <string name="btnAnyadirEvento">Create event</string>
     <string name="evento_creado_correctamemte">Event created successfully</string>
-    <string name="empty_all">Fill all fields</string>
-    <string name="btnApuntarse">Suscribe</string>
-    <string name="btnDesapuntarse">Unsuscribe</string>
+    <string name="empty_all">Fill in all the form fields</string>
+    <string name="btnApuntarse">Subscribe</string>
+    <string name="btnDesapuntarse">Unsubscribe</string>
     <string name="evento_completo">The event is full</string>
 
 
