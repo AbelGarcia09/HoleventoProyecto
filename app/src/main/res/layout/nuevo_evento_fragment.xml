@@ -36,7 +36,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
+                android:fontFamily="@font/baloo"
                 android:text="@string/fecha_evento"
+                android:textColor="@color/black"
                 android:textSize="20sp"
                 app:layout_constraintBottom_toTopOf="@+id/textView8"
                 app:layout_constraintStart_toStartOf="@+id/ivFotoEvento"
@@ -61,7 +63,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
+                android:fontFamily="@font/baloo"
                 android:text="@string/direccion"
+                android:textColor="@color/black"
                 android:textSize="15dp"
                 app:layout_constraintBottom_toTopOf="@+id/etDireccionEvento"
                 app:layout_constraintStart_toStartOf="@+id/textView3"
@@ -81,7 +85,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
+                android:fontFamily="@font/baloo"
                 android:text="@string/plazas"
+                android:textColor="@color/black"
                 android:textSize="15dp"
                 app:layout_constraintBottom_toTopOf="@+id/etPlazasTotales"
                 app:layout_constraintStart_toStartOf="@+id/etDireccionEvento"
@@ -105,7 +111,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
+                android:fontFamily="@font/baloo"
                 android:text="@string/contenido"
+                android:textColor="@color/black"
                 android:textSize="15dp"
                 app:layout_constraintStart_toStartOf="@+id/etPlazasTotales"
                 app:layout_constraintTop_toBottomOf="@+id/etPlazasTotales" />
@@ -127,10 +135,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
+                android:fontFamily="@font/baloo"
                 android:text="@string/btnAnyadirEvento"
-                app:layout_constraintTop_toBottomOf="@id/etDescripcion"
+                app:layout_constraintEnd_toEndOf="@id/etDescripcion"
                 app:layout_constraintStart_toStartOf="@id/etDescripcion"
-                app:layout_constraintEnd_toEndOf="@id/etDescripcion"/>
+                app:layout_constraintTop_toBottomOf="@id/etDescripcion" />
 
             <EditText
                 android:id="@+id/etProvincia"
