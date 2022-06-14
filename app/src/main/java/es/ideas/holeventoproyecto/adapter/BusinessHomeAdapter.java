@@ -3,6 +3,7 @@ package es.ideas.holeventoproyecto.adapter;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,12 +14,18 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 
 import es.ideas.holeventoproyecto.R;
 import es.ideas.holeventoproyecto.modelo.Evento;
@@ -67,6 +74,26 @@ public class BusinessHomeAdapter extends FirestoreRecyclerAdapter<Evento, Busine
                         }).show();
             }
         });
+        try {
+            database = FirebaseFirestore.getInstance();
+            database.collection("Eventos").document(model.getIdEvento() + "").addSnapshotListener(new EventListener<DocumentSnapshot>() {
+                @Override
+                public void onEvent(@Nullable DocumentSnapshot value,
+                                    @Nullable FirebaseFirestoreException error) {
+                    if (value.exists()) {
+                        database = FirebaseFirestore.getInstance();
+                        database.collection("Eventos").document(model.getIdEvento() + "").get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                holder.cont.setText(task.getResult().get("plazasTotalesCont").toString());
+                            }
+                        });
+                    }
+                }
+            });
+
+        } catch (Exception e) {
+        }
 
     }
 
@@ -81,7 +108,7 @@ public class BusinessHomeAdapter extends FirestoreRecyclerAdapter<Evento, Busine
 
     class eventoViewholder
             extends RecyclerView.ViewHolder {
-        TextView nombreEmpresa, contenido, plazasTotales, fechaEvento, direccion;
+        TextView nombreEmpresa, contenido, plazasTotales, fechaEvento, direccion, cont;
         ImageView imagen;
         ImageButton btnEliminar;
 
@@ -98,6 +125,7 @@ public class BusinessHomeAdapter extends FirestoreRecyclerAdapter<Evento, Busine
             direccion = itemView.findViewById(R.id.tvDireccion);
             btnEliminar = itemView.findViewById(R.id.btnEliminar);
             fechaEvento = itemView.findViewById(R.id.tvFechaEvento);
+            cont = itemView.findViewById(R.id.tvPocupadasBussines);
 
         }
     }

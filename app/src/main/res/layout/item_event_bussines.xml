@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:backgroundTint="@color/grey"
@@ -113,18 +114,43 @@
             app:layout_constraintStart_toStartOf="@id/tvContenido"
             app:layout_constraintTop_toBottomOf="@+id/tvDireccion" />
 
+
         <TextView
             android:id="@+id/tvPTotales"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
+            android:layout_marginStart="2dp"
             android:fontFamily="@font/baloo"
-
             android:text="20"
             android:textColor="@color/black"
             app:layout_constraintBottom_toBottomOf="@+id/personIcon"
-            app:layout_constraintStart_toEndOf="@+id/personIcon"
+            app:layout_constraintStart_toEndOf="@+id/textView6"
             app:layout_constraintTop_toTopOf="@id/personIcon" />
+
+        <TextView
+            android:id="@+id/textView6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="2dp"
+            android:fontFamily="@font/baloo"
+            android:text="/"
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toBottomOf="@+id/tvPTotales"
+            app:layout_constraintStart_toEndOf="@+id/tvPocupadasBussines"
+            app:layout_constraintTop_toTopOf="@+id/tvPTotales" />
+
+        <TextView
+            android:id="@+id/tvPocupadasBussines"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:fontFamily="@font/baloo"
+            android:text="0"
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toBottomOf="@+id/textView6"
+            app:layout_constraintStart_toEndOf="@+id/personIcon"
+            app:layout_constraintTop_toTopOf="@+id/textView6" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
