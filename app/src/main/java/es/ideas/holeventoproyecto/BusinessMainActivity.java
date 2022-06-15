@@ -56,9 +56,14 @@ public class BusinessMainActivity extends AppCompatActivity {
 
         if (savedInstanceState == null) {
             currentFragment = new Profile();
-            cambiaFragment(currentFragment);
+            if(currentFragment != null) {
+                cambiaFragment(currentFragment);
+            }
+
         } else {
-            cambiaFragment(currentFragment);
+            if(currentFragment != null) {
+                cambiaFragment(currentFragment);
+            }
         }
 
 

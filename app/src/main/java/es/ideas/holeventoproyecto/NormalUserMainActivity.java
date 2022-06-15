@@ -47,9 +47,13 @@ public class NormalUserMainActivity extends AppCompatActivity {
 
         if (savedInstanceState == null) {
             currentFragment = new MainPage();
-            cambiaFragment(currentFragment);
+            if(currentFragment != null) {
+                cambiaFragment(currentFragment);
+            }
         } else {
-            cambiaFragment(currentFragment);
+            if(currentFragment != null) {
+                cambiaFragment(currentFragment);
+            }
         }
 
 
