@@ -9,8 +9,7 @@
     <ScrollView
         android:id="@+id/scroll"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        >
+        android:layout_height="match_parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -20,8 +19,9 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="12dp"
+                android:fontFamily="@font/baloo"
                 android:text="@string/correo"
+                android:textColor="@color/black"
                 app:layout_constraintBottom_toTopOf="@+id/loginEmail"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/loginEmail" />
@@ -33,6 +33,7 @@
                 android:layout_marginTop="175dp"
                 android:layout_marginBottom="15dp"
 
+                android:fontFamily="@font/baloo"
                 android:text="@string/btnIniciarSesion"
                 app:layout_constraintBottom_toTopOf="@+id/tvRegistroEmpresa"
                 app:layout_constraintEnd_toStartOf="@+id/btnRegistrarse"
@@ -44,6 +45,7 @@
                 android:id="@+id/btnRegistrarse"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/baloo"
                 android:text="@string/btnRegistrarse"
                 app:layout_constraintBottom_toBottomOf="@+id/btnRegistro"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -56,7 +58,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
+                android:fontFamily="@font/baloo"
                 android:text="@string/contrasenya"
+                android:textColor="@color/black"
                 app:layout_constraintStart_toStartOf="@+id/loginEmail"
                 app:layout_constraintTop_toBottomOf="@+id/loginEmail" />
 
@@ -64,7 +68,6 @@
                 android:id="@+id/loginPass"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
                 android:ems="10"
                 android:hint="@string/contrasenya"
                 android:inputType="textPassword"
@@ -102,6 +105,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
+                android:fontFamily="@font/baloo"
                 android:text="@string/cambioContrasenya"
                 android:textColor="#3A68C3"
                 app:layout_constraintEnd_toEndOf="@+id/loginPass"
@@ -113,6 +117,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="20dp"
+                android:fontFamily="@font/baloo"
                 android:text="@string/registroEmpresa"
                 android:textColor="#3A68C3"
                 app:layout_constraintBottom_toBottomOf="parent"
