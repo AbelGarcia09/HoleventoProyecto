@@ -37,7 +37,7 @@
                                             <option name="values">
                                               <map>
                                                 <entry key="color" value="000000" />
-                                                <entry key="imagePath" value="C:\Users\elkyi\Downloads\texto_logo.png" />
+                                                <entry key="imagePath" value="C:\Users\elkyi\Downloads\texto_logo_HQ.png" />
                                                 <entry key="opacityPercent" value="80" />
                                               </map>
                                             </option>
@@ -71,8 +71,8 @@
                                   <option name="values">
                                     <map>
                                       <entry key="assetType" value="IMAGE" />
-                                      <entry key="imageAsset" value="C:\Users\elkyi\Downloads\texto_logo.png" />
-                                      <entry key="outputName" value="nombre_logo" />
+                                      <entry key="imageAsset" value="C:\Users\elkyi\Downloads\texto_logo_HQ.png" />
+                                      <entry key="outputName" value="nombre_logo_hq" />
                                       <entry key="theme" value="CUSTOM" />
                                     </map>
                                   </option>

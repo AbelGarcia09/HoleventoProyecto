@@ -27,8 +27,6 @@
         android:layout_height="40dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:scaleX="3"
-        android:scaleY="3"
         app:srcCompat="@drawable/nombre_logo"
         tools:srcCompat="@drawable/nombre_logo" />
 

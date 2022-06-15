@@ -6,100 +6,120 @@
     android:layout_height="match_parent"
     tools:context=".BusinessMainActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="12dp"
-        android:text="@string/correo"
-        app:layout_constraintBottom_toTopOf="@+id/loginEmail"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/loginEmail" />
+    <ScrollView
+        android:id="@+id/scroll"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
 
-    <Button
-        android:id="@+id/btnRegistro"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="15dp"
-        android:text="@string/btnIniciarSesion"
-        app:layout_constraintBottom_toTopOf="@+id/tvRegistroEmpresa"
-        app:layout_constraintEnd_toStartOf="@+id/btnRegistrarse"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="20dp">
 
-    <Button
-        android:id="@+id/btnRegistrarse"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/btnRegistrarse"
-        app:layout_constraintBottom_toBottomOf="@+id/btnRegistro"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/btnRegistro"
-        app:layout_constraintTop_toTopOf="@+id/btnRegistro" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                android:text="@string/correo"
+                app:layout_constraintBottom_toTopOf="@+id/loginEmail"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/loginEmail" />
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:text="@string/contrasenya"
-        app:layout_constraintStart_toStartOf="@+id/loginEmail"
-        app:layout_constraintTop_toBottomOf="@+id/loginEmail" />
+            <Button
+                android:id="@+id/btnRegistro"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="175dp"
+                android:layout_marginBottom="15dp"
 
-    <EditText
-        android:id="@+id/loginPass"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:ems="10"
-        android:hint="@string/contrasenya"
-        android:inputType="textPassword"
-        app:layout_constraintEnd_toEndOf="@+id/loginEmail"
-        app:layout_constraintStart_toStartOf="@+id/loginEmail"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+                android:text="@string/btnIniciarSesion"
+                app:layout_constraintBottom_toTopOf="@+id/tvRegistroEmpresa"
+                app:layout_constraintEnd_toStartOf="@+id/btnRegistrarse"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvOlvidadoPass" />
 
-    <EditText
-        android:id="@+id/loginEmail"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
-        android:ems="10"
-        android:hint="@string/correo"
-        android:inputType="textEmailAddress"
-        app:layout_constraintEnd_toEndOf="@+id/imageView"
-        app:layout_constraintStart_toStartOf="@+id/imageView"
-        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+            <Button
+                android:id="@+id/btnRegistrarse"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/btnRegistrarse"
+                app:layout_constraintBottom_toBottomOf="@+id/btnRegistro"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/btnRegistro"
+                app:layout_constraintTop_toTopOf="@+id/btnRegistro" />
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/logo_holevento"
-        tools:srcCompat="@drawable/logo_holevento" />
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="@string/contrasenya"
+                app:layout_constraintStart_toStartOf="@+id/loginEmail"
+                app:layout_constraintTop_toBottomOf="@+id/loginEmail" />
 
-    <TextView
-        android:id="@+id/tvOlvidadoPass"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/cambioContrasenya"
-        android:textColor="#3A68C3"
-        app:layout_constraintEnd_toEndOf="@+id/loginPass"
-        app:layout_constraintStart_toStartOf="@+id/loginPass"
-        app:layout_constraintTop_toBottomOf="@+id/loginPass" />
+            <EditText
+                android:id="@+id/loginPass"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:ems="10"
+                android:hint="@string/contrasenya"
+                android:inputType="textPassword"
+                android:minHeight="48dp"
+                app:layout_constraintEnd_toEndOf="@+id/loginEmail"
+                app:layout_constraintStart_toStartOf="@+id/loginEmail"
+                app:layout_constraintTop_toBottomOf="@+id/textView" />
 
-    <TextView
-        android:id="@+id/tvRegistroEmpresa"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="40dp"
-        android:text="@string/registroEmpresa"
-        android:textColor="#3A68C3"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/btnRegistrarse"
-        app:layout_constraintStart_toStartOf="@+id/btnRegistro" />
+            <EditText
+                android:id="@+id/loginEmail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="100dp"
+                android:ems="10"
+                android:hint="@string/correo"
+                android:inputType="textEmailAddress"
+                android:minHeight="48dp"
+                app:layout_constraintEnd_toEndOf="@+id/imageView"
+                app:layout_constraintStart_toStartOf="@+id/imageView"
+                app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/logo_holevento"
+                tools:srcCompat="@drawable/logo_holevento" />
+
+            <TextView
+                android:id="@+id/tvOlvidadoPass"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="@string/cambioContrasenya"
+                android:textColor="#3A68C3"
+                app:layout_constraintEnd_toEndOf="@+id/loginPass"
+                app:layout_constraintStart_toStartOf="@+id/loginPass"
+                app:layout_constraintTop_toBottomOf="@+id/loginPass" />
+
+            <TextView
+                android:id="@+id/tvRegistroEmpresa"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:text="@string/registroEmpresa"
+                android:textColor="#3A68C3"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/btnRegistrarse"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="@+id/btnRegistro"
+                app:layout_constraintTop_toBottomOf="@+id/btnRegistro" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>
