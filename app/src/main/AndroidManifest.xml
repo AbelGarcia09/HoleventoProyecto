@@ -7,7 +7,6 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
-
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -19,6 +18,15 @@
         android:theme="@style/Theme.HoleventoProyecto"
         tools:targetApi="31">
         <activity
+            android:name=".PantallaCarga"
+            android:exported="true"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
             android:name=".NormalUserMainActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
@@ -29,8 +37,8 @@
         <activity
             android:name=".auth.RegisterBusinessActivity"
             android:exported="false"
-            android:windowSoftInputMode="adjustResize"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".auth.RecoveryPassActivity"
             android:exported="false"
@@ -42,12 +50,7 @@
         <activity
             android:name=".auth.LoginActivity"
             android:exported="true"
-            android:screenOrientation="portrait" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            android:screenOrientation="portrait">
         </activity>
 
         <meta-data

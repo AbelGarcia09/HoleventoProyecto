@@ -52,18 +52,6 @@ public class LoginActivity extends AppCompatActivity {
         database = FirebaseFirestore.getInstance();
         awesomeValidation = new AwesomeValidation(ValidationStyle.BASIC);
 
-
-
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if (user != null) {
-            // User is signed in
-            compruebaTipoUsuario();
-        } else {
-            // User is signed out
-            Log.d("LOGIN", "onAuthStateChanged:signed_out");
-        }
-
-
         iniciarVista();
 
         btnIniciarSesion.setOnClickListener(new View.OnClickListener() {
