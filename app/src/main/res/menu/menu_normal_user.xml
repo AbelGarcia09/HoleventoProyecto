@@ -14,7 +14,7 @@
         android:title="" />
     <item
         android:id="@+id/mainPage"
-        android:icon="@drawable/icono_logo"
+        android:icon="@drawable/logo"
         android:enabled="true"
         android:title="" />
 </menu>
