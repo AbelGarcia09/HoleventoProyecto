@@ -72,70 +72,6 @@ public class NormalUserEventAdapter extends FirestoreRecyclerAdapter<Evento,
         Glide.with(cxt).load(img).into(holder.imagen);
         holder.btnApuntarse.setText(nMButton);
 
-        holder.btnApuntarse.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                database = FirebaseFirestore.getInstance();
-                database.collection("Eventos")
-                        .document(model.getIdEvento() + "").get()
-                        .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                            @Override
-                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                if (task.isComplete()) {
-                                    List<String> users = (List<String>) task.getResult().get("Adhesiones");
-                                    int total = Integer.parseInt(task.getResult().get("plazasTotales").toString());
-                                    int cont = Integer.parseInt(task.getResult().get("plazasTotalesCont").toString());
-                                    if (users != null) {
-                                        if (users.contains(idUsuario)) {
-                                            users.remove(idUsuario);
-                                            database = FirebaseFirestore.getInstance();
-                                            database.collection("Eventos").document(model.getIdEvento() + "").update("Adhesiones", users);
-                                            if ( total == cont && task.getResult().get("completo").equals("true")){
-                                                database.collection("Eventos").document(model.getIdEvento() + "").update("completo", "false");
-                                            }
-                                            database.collection("Eventos").document(model.getIdEvento() + "").update("plazasTotalesCont", FieldValue.increment(-1));
-                                        } else {
-                                            if (task.getResult().get("completo").equals("false")) {
-                                                users.add(idUsuario);
-                                                database.collection("Eventos").document(model.getIdEvento() + "").update("Adhesiones", users);
-                                                database.collection("Eventos").document(model.getIdEvento() + "").update("plazasTotalesCont", FieldValue.increment(1));
-                                                if ( total == cont+1){
-                                                    database.collection("Eventos").document(model.getIdEvento() + "").update("completo", "true");
-                                                }
-                                            }
-                                            else{
-                                                Toast.makeText(cxt, R.string.evento_completo, Toast.LENGTH_SHORT).show();
-                                            }
-                                        }
-                                    } else {
-                                        if (task.getResult().get("completo").equals("false")) {
-                                            users = new ArrayList<>();
-                                            users.add(idUsuario);
-                                            database.collection("Eventos").document(model.getIdEvento() + "").update("Adhesiones", users);
-                                            database.collection("Eventos").document(model.getIdEvento() + "").update("plazasTotalesCont", FieldValue.increment(1));
-                                            if ( total == cont+1){
-                                                database.collection("Eventos").document(model.getIdEvento() + "").update("completo", "true");
-                                            }
-                                        }else{
-                                            Toast.makeText(cxt, R.string.evento_completo, Toast.LENGTH_SHORT).show();
-                                        }
-                                    }
-
-
-
-
-
-                                } else {
-                                    Log.e("Firebase", "Se ha producido un error al realizar el " +
-                                            "get", task.getException());
-                                }
-                            }
-                        });
-
-            }
-        });
-
-
         try {
             database = FirebaseFirestore.getInstance();
             database.collection("Eventos").document(model.getIdEvento() + "").addSnapshotListener(new EventListener<DocumentSnapshot>() {
@@ -151,6 +87,7 @@ public class NormalUserEventAdapter extends FirestoreRecyclerAdapter<Evento,
                                 holder.cont.setText(task.getResult().get("plazasTotalesCont").toString());
                                 if (task.getResult().get("plazasTotales").equals(task.getResult().get("plazasTotalesCont"))) {
                                     holder.btnApuntarse.setBackgroundColor(Color.parseColor("#ff0000"));
+                                    holder.btnApuntarse.setText("DESAPUNTARSE");
                                 }else{
                                     holder.btnApuntarse.setBackgroundColor(Color.parseColor("#489fb5"));
                                 }
@@ -164,6 +101,13 @@ public class NormalUserEventAdapter extends FirestoreRecyclerAdapter<Evento,
         } catch (Exception e) {
         }
 
+        holder.btnApuntarse.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                apuntarse(model.getIdEvento());
+            }
+        });
+
     }
 
 
@@ -175,6 +119,65 @@ public class NormalUserEventAdapter extends FirestoreRecyclerAdapter<Evento,
                 = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_event_user, parent, false);
         return new NormalUserEventAdapter.eventoViewholder(view);
+    }
+
+    private void apuntarse(long idEvento) {
+        database = FirebaseFirestore.getInstance();
+        database.collection("Eventos")
+                .document(idEvento + "").get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isComplete()) {
+                            List<String> users = (List<String>) task.getResult().get("Adhesiones");
+                            int total = Integer.parseInt(task.getResult().get("plazasTotales").toString());
+                            int cont = Integer.parseInt(task.getResult().get("plazasTotalesCont").toString());
+                            if (users != null) {
+                                if (users.contains(idUsuario)) {
+                                    users.remove(idUsuario);
+                                    database = FirebaseFirestore.getInstance();
+                                    database.collection("Eventos").document(idEvento + "").update("Adhesiones", users);
+                                    if ( total == cont && task.getResult().get("completo").equals("true")){
+                                        database.collection("Eventos").document(idEvento + "").update("completo", "false");
+                                    }
+                                    database.collection("Eventos").document(idEvento + "").update("plazasTotalesCont", FieldValue.increment(-1));
+                                } else {
+                                    if (task.getResult().get("completo").equals("false")) {
+                                        users.add(idUsuario);
+                                        database.collection("Eventos").document(idEvento + "").update("Adhesiones", users);
+                                        database.collection("Eventos").document(idEvento + "").update("plazasTotalesCont", FieldValue.increment(1));
+                                        if ( total == cont+1){
+                                            database.collection("Eventos").document(idEvento + "").update("completo", "true");
+                                        }
+                                    }
+                                    else{
+                                        Toast.makeText(cxt, R.string.evento_completo, Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            } else {
+                                if (task.getResult().get("completo").equals("false")) {
+                                    users = new ArrayList<>();
+                                    users.add(idUsuario);
+                                    database.collection("Eventos").document(idEvento + "").update("Adhesiones", users);
+                                    database.collection("Eventos").document(idEvento + "").update("plazasTotalesCont", FieldValue.increment(1));
+                                    if ( total == cont+1){
+                                        database.collection("Eventos").document(idEvento + "").update("completo", "true");
+                                    }
+                                }else{
+                                    Toast.makeText(cxt, R.string.evento_completo, Toast.LENGTH_SHORT).show();
+                                }
+                            }
+
+
+
+
+
+                        } else {
+                            Log.e("Firebase", "Se ha producido un error al realizar el " +
+                                    "get", task.getException());
+                        }
+                    }
+                });
     }
 
     class eventoViewholder

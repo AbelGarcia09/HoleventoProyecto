@@ -64,85 +64,6 @@ public class BusinessHomeAdapter extends FirestoreRecyclerAdapter<Evento,
         holder.direccion.setText(model.getDireccion());
         Glide.with(cxt).load(img).into(holder.imagen);
 
-        holder.btnEliminar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                database = FirebaseFirestore.getInstance();
-                AlertDialog.Builder b = new AlertDialog.Builder(v.getContext());
-                b.setMessage("¿Desea eliminar el registro?")
-                        .setPositiveButton("SI", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int i) {
-                                database.collection("Eventos").document(model.getIdEvento() + "").delete();
-
-                            }
-                        }).setNegativeButton("NO", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-
-                            }
-                        }).show();
-            }
-        });
-
-        holder.btnParticipantes.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                int contador = Integer.parseInt(holder.cont.getText().toString());
-                if (contador > 0) {
-
-
-                    database = FirebaseFirestore.getInstance();
-                    database.collection("Eventos")
-                            .document(model.getIdEvento() + "").get()
-                            .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                                @Override
-                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                    if (task.isComplete()) {
-                                        final List<String> users =
-                                                (List<String>) task.getResult().get("Adhesiones");
-                                        FirebaseFirestore db = FirebaseFirestore.getInstance();
-                                        db.collection("UsuarioNormal").get()
-                                                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                                    @Override
-                                                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                                        if (task.isSuccessful()) {
-                                                            List<String> participantes =
-                                                                    new ArrayList<>();
-                                                            for (QueryDocumentSnapshot datos : task.getResult()) {
-                                                                for (String u : users){
-                                                                    if (datos.get("idUsuario").equals(u)){
-                                                                        participantes.add(datos.get("nombreUsuario").toString() +", "+datos.get("email"));
-                                                                    }
-                                                                }
-                                                            }
-                                                            AlertDialog.Builder builder = new AlertDialog.Builder(cxt);
-                                                            builder.setTitle("Lista de asistentes");
-
-                                                            ArrayAdapter<String> dataAdapter =
-                                                                    new ArrayAdapter<String>(cxt,
-                                                                            android.R.layout.simple_dropdown_item_1line, participantes);
-                                                            builder.setAdapter(dataAdapter,
-                                                                    new DialogInterface.OnClickListener() {
-                                                                        @Override
-                                                                        public void onClick(DialogInterface dialog,int which) {}});
-                                                            AlertDialog dialog = builder.create();
-                                                            dialog.show();
-
-                                                        }
-                                                    }
-                                                });
-                                    }
-
-                                }
-
-                            });
-
-                } else {
-                    Toast.makeText(cxt, R.string.empty_participantes, Toast.LENGTH_LONG).show();
-                }
-            }
-        });
         try {
             database = FirebaseFirestore.getInstance();
             database.collection("Eventos").document(model.getIdEvento() + "").addSnapshotListener(new EventListener<DocumentSnapshot>() {
@@ -161,8 +82,21 @@ public class BusinessHomeAdapter extends FirestoreRecyclerAdapter<Evento,
                 }
             });
 
-        } catch (Exception e) {
-        }
+        } catch (Exception e) {}
+
+        holder.btnEliminar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                eliminaEvento(model.getIdEvento(), v);
+            }
+        });
+
+        holder.btnParticipantes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                muestraParticipantes(model.getIdEvento(), holder.cont.getText().toString());
+            }
+        });
 
     }
 
@@ -174,6 +108,80 @@ public class BusinessHomeAdapter extends FirestoreRecyclerAdapter<Evento,
                 = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_event_bussines, parent, false);
         return new BusinessHomeAdapter.eventoViewholder(view);
+    }
+
+    private void eliminaEvento(long idEvento, View v) {
+        database = FirebaseFirestore.getInstance();
+        AlertDialog.Builder b = new AlertDialog.Builder(v.getContext());
+        b.setMessage("¿Desea eliminar el registro?")
+                .setPositiveButton("SI", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int i) {
+                        database.collection("Eventos").document(idEvento + "").delete();
+
+                    }
+                }).setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                }).show();
+    }
+
+    private void muestraParticipantes(long idEvento, String cont) {
+        int contador = Integer.parseInt(cont);
+        if (contador > 0) {
+
+
+            database = FirebaseFirestore.getInstance();
+            database.collection("Eventos")
+                    .document(idEvento + "").get()
+                    .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                            if (task.isComplete()) {
+                                final List<String> users =
+                                        (List<String>) task.getResult().get("Adhesiones");
+                                FirebaseFirestore db = FirebaseFirestore.getInstance();
+                                db.collection("UsuarioNormal").get()
+                                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                                if (task.isSuccessful()) {
+                                                    List<String> participantes =
+                                                            new ArrayList<>();
+                                                    for (QueryDocumentSnapshot datos : task.getResult()) {
+                                                        for (String u : users){
+                                                            if (datos.get("idUsuario").equals(u)){
+                                                                participantes.add(datos.get("nombreUsuario").toString() +", "+datos.get("email"));
+                                                            }
+                                                        }
+                                                    }
+                                                    AlertDialog.Builder builder = new AlertDialog.Builder(cxt);
+                                                    builder.setTitle("Lista de asistentes");
+
+                                                    ArrayAdapter<String> dataAdapter =
+                                                            new ArrayAdapter<String>(cxt,
+                                                                    android.R.layout.simple_dropdown_item_1line, participantes);
+                                                    builder.setAdapter(dataAdapter,
+                                                            new DialogInterface.OnClickListener() {
+                                                                @Override
+                                                                public void onClick(DialogInterface dialog,int which) {}});
+                                                    AlertDialog dialog = builder.create();
+                                                    dialog.show();
+
+                                                }
+                                            }
+                                        });
+                            }
+
+                        }
+
+                    });
+
+        } else {
+            Toast.makeText(cxt, R.string.empty_participantes, Toast.LENGTH_LONG).show();
+        }
     }
 
     class eventoViewholder
