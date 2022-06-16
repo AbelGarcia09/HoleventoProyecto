@@ -1,6 +1,7 @@
 package es.ideas.holeventoproyecto.adapter;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
@@ -9,9 +10,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -26,16 +30,22 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import es.ideas.holeventoproyecto.R;
 import es.ideas.holeventoproyecto.modelo.Evento;
 
-public class BusinessHomeAdapter extends FirestoreRecyclerAdapter<Evento, BusinessHomeAdapter.eventoViewholder> {
+public class BusinessHomeAdapter extends FirestoreRecyclerAdapter<Evento,
+        BusinessHomeAdapter.eventoViewholder> {
 
     private Context cxt;
     private FirebaseFirestore database;
 
-    public BusinessHomeAdapter(@NonNull FirestoreRecyclerOptions<Evento> options, Context cxt){
+    public BusinessHomeAdapter(@NonNull FirestoreRecyclerOptions<Evento> options, Context cxt) {
         super(options);
         this.cxt = cxt;
     }
@@ -45,11 +55,11 @@ public class BusinessHomeAdapter extends FirestoreRecyclerAdapter<Evento, Busine
                                     int position, @NonNull Evento model) {
 
         Uri img = Uri.parse(model.getImagen());
-        Log.i("DATOS", "MODEL IMG -> "+ img);
+        Log.i("DATOS", "MODEL IMG -> " + img);
 
         holder.nombreEmpresa.setText(model.getNombreUsuario());
         holder.contenido.setText(model.getContenido());
-        holder.plazasTotales.setText(model.getPlazasTotales()+"");
+        holder.plazasTotales.setText(model.getPlazasTotales() + "");
         holder.fechaEvento.setText(model.getFechaEvento());
         holder.direccion.setText(model.getDireccion());
         Glide.with(cxt).load(img).into(holder.imagen);
@@ -63,7 +73,7 @@ public class BusinessHomeAdapter extends FirestoreRecyclerAdapter<Evento, Busine
                         .setPositiveButton("SI", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int i) {
-                                database.collection("Eventos").document(model.getIdEvento()+"").delete();
+                                database.collection("Eventos").document(model.getIdEvento() + "").delete();
 
                             }
                         }).setNegativeButton("NO", new DialogInterface.OnClickListener() {
@@ -72,6 +82,65 @@ public class BusinessHomeAdapter extends FirestoreRecyclerAdapter<Evento, Busine
 
                             }
                         }).show();
+            }
+        });
+
+        holder.btnParticipantes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int contador = Integer.parseInt(holder.cont.getText().toString());
+                if (contador > 0) {
+
+
+                    database = FirebaseFirestore.getInstance();
+                    database.collection("Eventos")
+                            .document(model.getIdEvento() + "").get()
+                            .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                    if (task.isComplete()) {
+                                        final List<String> users =
+                                                (List<String>) task.getResult().get("Adhesiones");
+                                        FirebaseFirestore db = FirebaseFirestore.getInstance();
+                                        db.collection("UsuarioNormal").get()
+                                                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                                    @Override
+                                                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                                        if (task.isSuccessful()) {
+                                                            List<String> ptpantes =
+                                                                    new ArrayList<>();
+                                                            for (QueryDocumentSnapshot datos : task.getResult()) {
+                                                                for (String u : users){
+                                                                    if (datos.get("idUsuario").equals(u)){
+                                                                        ptpantes.add(datos.get("nombreUsuario").toString() +", "+datos.get("email"));
+                                                                    }
+                                                                }
+                                                            }
+                                                            AlertDialog.Builder builder = new AlertDialog.Builder(cxt);
+                                                            builder.setTitle("Choose any item");
+
+                                                            ArrayAdapter<String> dataAdapter =
+                                                                    new ArrayAdapter<String>(cxt,
+                                                                            android.R.layout.simple_dropdown_item_1line, ptpantes);
+                                                            builder.setAdapter(dataAdapter,
+                                                                    new DialogInterface.OnClickListener() {
+                                                                        @Override
+                                                                        public void onClick(DialogInterface dialog,int which) {}});
+                                                            AlertDialog dialog = builder.create();
+                                                            dialog.show();
+
+                                                        }
+                                                    }
+                                                });
+                                    }
+
+                                }
+
+                            });
+
+                } else {
+                    Toast.makeText(cxt, R.string.empty_participantes, Toast.LENGTH_LONG).show();
+                }
             }
         });
         try {
@@ -99,7 +168,8 @@ public class BusinessHomeAdapter extends FirestoreRecyclerAdapter<Evento, Busine
 
     @NonNull
     @Override
-    public BusinessHomeAdapter.eventoViewholder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public BusinessHomeAdapter.eventoViewholder onCreateViewHolder(@NonNull ViewGroup parent,
+                                                                   int viewType) {
         View view
                 = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_event_bussines, parent, false);
@@ -111,14 +181,13 @@ public class BusinessHomeAdapter extends FirestoreRecyclerAdapter<Evento, Busine
         TextView nombreEmpresa, contenido, plazasTotales, fechaEvento, direccion, cont;
         ImageView imagen;
         ImageButton btnEliminar;
+        Button btnParticipantes;
 
 
-
-        public eventoViewholder(@NonNull View itemView)
-        {
+        public eventoViewholder(@NonNull View itemView) {
             super(itemView);
 
-            nombreEmpresa= itemView.findViewById(R.id.tvNombreEmpresa);
+            nombreEmpresa = itemView.findViewById(R.id.tvNombreEmpresa);
             contenido = itemView.findViewById(R.id.tvContenido);
             plazasTotales = itemView.findViewById(R.id.tvPTotales);
             imagen = itemView.findViewById(R.id.ivFoto);
@@ -126,6 +195,7 @@ public class BusinessHomeAdapter extends FirestoreRecyclerAdapter<Evento, Busine
             btnEliminar = itemView.findViewById(R.id.btnEliminar);
             fechaEvento = itemView.findViewById(R.id.tvFechaEvento);
             cont = itemView.findViewById(R.id.tvPocupadasBussines);
+            btnParticipantes = itemView.findViewById(R.id.btnParticipantes);
 
         }
     }

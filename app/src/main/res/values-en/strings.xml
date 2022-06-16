@@ -26,6 +26,8 @@
     <string name="btnApuntarse">Subscribe</string>
     <string name="btnDesapuntarse">Unsubscribe</string>
     <string name="evento_completo">The event is full</string>
+    <string name="btnParticipantes">List</string>
+    <string name="empty_participantes">There is no registered participant</string>
 
 
 </resources>

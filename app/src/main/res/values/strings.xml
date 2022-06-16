@@ -29,5 +29,7 @@
     <string name="btnApuntarse">Apuntarse</string>
     <string name="btnDesapuntarse">Desapuntarse</string>
     <string name="evento_completo">El evento está completo</string>
+    <string name="btnParticipantes">Listado</string>
+    <string name="empty_participantes">No hay ningún participante apuntado</string>
 
 </resources>
