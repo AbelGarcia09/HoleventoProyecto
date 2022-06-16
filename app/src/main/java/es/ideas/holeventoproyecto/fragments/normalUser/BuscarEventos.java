@@ -68,7 +68,6 @@ public class BuscarEventos extends Fragment {
 
         nmButton = getStringByIdName(viewRoot.getContext(), "btnApuntarse");
 
-
         cargarProvincias();
 
         btnBuscar.setOnClickListener(new View.OnClickListener() {
@@ -81,7 +80,6 @@ public class BuscarEventos extends Fragment {
         });
 
         idProvincia = itemPosition.getText().toString();
-
 
         return viewRoot;
     }

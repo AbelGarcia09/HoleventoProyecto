@@ -38,11 +38,21 @@ public class MainPage extends Fragment {
                              Bundle savedInstanceState) {
         viewRoot = inflater.inflate(R.layout.fragment_normal_user_main_page, container, false);
 
-        String nmButton = getStringByIdName(viewRoot.getContext(), "btnApuntarse");
-
         user = FirebaseAuth.getInstance().getCurrentUser();
-        String id = user.getUid();
 
+        String id = user.getUid();
+        String nmButton = getStringByIdName(viewRoot.getContext(), "btnApuntarse");
+        muestraEventos(id, nmButton);
+
+        return viewRoot;
+    }
+
+    public static String getStringByIdName(Context context, String idName) {
+        Resources res = context.getResources();
+        return res.getString(res.getIdentifier(idName, "string", context.getPackageName()));
+    }
+
+    private void muestraEventos(String id, String nmButton) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         CollectionReference eventosRef = db.collection("Eventos");
         Query eventos = eventosRef.orderBy("fechaEvento" ,Query.Direction.ASCENDING);
@@ -59,13 +69,6 @@ public class MainPage extends Fragment {
 
         adapter = new NormalUserEventAdapter(options, viewRoot.getContext(), id, nmButton);
         rv.setAdapter(adapter);
-
-        return viewRoot;
-    }
-
-    public static String getStringByIdName(Context context, String idName) {
-        Resources res = context.getResources();
-        return res.getString(res.getIdentifier(idName, "string", context.getPackageName()));
     }
 
     @Override
