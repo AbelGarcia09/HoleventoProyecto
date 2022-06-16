@@ -135,9 +135,6 @@ public class BuscarEventos extends Fragment {
 
     }
 
-
-    // Function to tell the app to stop getting
-    // data from database on stopping of the activity
     @Override
     public  void onStop()
     {

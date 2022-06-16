@@ -11,10 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 public class BetterActivityResult<Input, Result> {
-    /**
-     * Register activity result using a {@link ActivityResultContract} and an in-place activity result callback like
-     * the default approach. You can still customise callback using {@link #launch(Object, OnActivityResult)}.
-     */
+
     @NonNull
     public static <Input, Result> BetterActivityResult<Input, Result> registerForActivityResult(
             @NonNull ActivityResultCaller caller,
@@ -23,10 +20,6 @@ public class BetterActivityResult<Input, Result> {
         return new BetterActivityResult<>(caller, contract, onActivityResult);
     }
 
-    /**
-     * Same as {@link #registerForActivityResult(ActivityResultCaller, ActivityResultContract, OnActivityResult)} except
-     * the last argument is set to {@code null}.
-     */
     @NonNull
     public static <Input, Result> BetterActivityResult<Input, Result> registerForActivityResult(
             @NonNull ActivityResultCaller caller,
@@ -34,22 +27,13 @@ public class BetterActivityResult<Input, Result> {
         return registerForActivityResult(caller, contract, null);
     }
 
-    /**
-     * Specialised method for launching new activities.
-     */
     @NonNull
     public static BetterActivityResult<Intent, ActivityResult> registerActivityForResult(
             @NonNull ActivityResultCaller caller) {
         return registerForActivityResult(caller, new ActivityResultContracts.StartActivityForResult());
     }
 
-    /**
-     * Callback interface
-     */
     public interface OnActivityResult<O> {
-        /**
-         * Called after receiving a result from the target activity
-         */
         void onActivityResult(O result);
     }
 
@@ -68,10 +52,6 @@ public class BetterActivityResult<Input, Result> {
         this.onActivityResult = onActivityResult;
     }
 
-    /**
-     * Launch activity, same as {@link ActivityResultLauncher#launch(Object)} except that it allows a callback
-     * executed after receiving a result from the target activity.
-     */
     public void launch(Input input, @Nullable OnActivityResult<Result> onActivityResult) {
         if (onActivityResult != null) {
             this.onActivityResult = onActivityResult;
@@ -79,9 +59,6 @@ public class BetterActivityResult<Input, Result> {
         launcher.launch(input);
     }
 
-    /**
-     * Same as {@link #launch(Object, OnActivityResult)} with last parameter set to {@code null}.
-     */
     public void launch(Input input) {
         launch(input, this.onActivityResult);
     }

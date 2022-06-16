@@ -107,21 +107,21 @@ public class BusinessHomeAdapter extends FirestoreRecyclerAdapter<Evento,
                                                     @Override
                                                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                                                         if (task.isSuccessful()) {
-                                                            List<String> ptpantes =
+                                                            List<String> participantes =
                                                                     new ArrayList<>();
                                                             for (QueryDocumentSnapshot datos : task.getResult()) {
                                                                 for (String u : users){
                                                                     if (datos.get("idUsuario").equals(u)){
-                                                                        ptpantes.add(datos.get("nombreUsuario").toString() +", "+datos.get("email"));
+                                                                        participantes.add(datos.get("nombreUsuario").toString() +", "+datos.get("email"));
                                                                     }
                                                                 }
                                                             }
                                                             AlertDialog.Builder builder = new AlertDialog.Builder(cxt);
-                                                            builder.setTitle("Choose any item");
+                                                            builder.setTitle("Lista de asistentes");
 
                                                             ArrayAdapter<String> dataAdapter =
                                                                     new ArrayAdapter<String>(cxt,
-                                                                            android.R.layout.simple_dropdown_item_1line, ptpantes);
+                                                                            android.R.layout.simple_dropdown_item_1line, participantes);
                                                             builder.setAdapter(dataAdapter,
                                                                     new DialogInterface.OnClickListener() {
                                                                         @Override

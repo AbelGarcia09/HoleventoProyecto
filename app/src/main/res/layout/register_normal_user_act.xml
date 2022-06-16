@@ -19,7 +19,6 @@
                 android:id="@+id/registerUserPassR"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
                 android:ems="10"
                 android:hint="@string/contrasenyaRep"
                 android:inputType="textPassword"
@@ -32,10 +31,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
+                android:fontFamily="@font/baloo"
                 android:text="@string/contrasenyaRep"
+                android:textColor="@color/black"
                 app:layout_constraintStart_toStartOf="@+id/registerUserPass"
                 app:layout_constraintTop_toBottomOf="@+id/registerUserPass" />
-
 
 
             <TextView
@@ -43,7 +43,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
+                android:fontFamily="@font/baloo"
                 android:text="@string/usuario"
+                android:textColor="@color/black"
                 app:layout_constraintStart_toStartOf="@+id/registerUserEmail"
                 app:layout_constraintTop_toBottomOf="@+id/registerUserEmail" />
 
@@ -51,7 +53,6 @@
                 android:id="@+id/registerUserUsuario"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
                 android:ems="10"
                 android:hint="@string/usuario"
                 android:inputType="text"
@@ -65,7 +66,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="13dp"
+                android:fontFamily="@font/baloo"
                 android:text="@string/correo"
+                android:textColor="@color/black"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/registerUserEmail"
                 app:layout_constraintTop_toBottomOf="@+id/imageView" />
@@ -76,7 +79,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
+                android:fontFamily="@font/baloo"
                 android:text="@string/contrasenya"
+                android:textColor="@color/black"
                 app:layout_constraintStart_toStartOf="@+id/registerUserUsuario"
                 app:layout_constraintTop_toBottomOf="@+id/registerUserUsuario" />
 
@@ -84,7 +89,6 @@
                 android:id="@+id/registerUserPass"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
                 android:ems="10"
                 android:hint="@string/contrasenya"
                 android:inputType="textPassword"
@@ -96,7 +100,6 @@
                 android:id="@+id/registerUserEmail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
                 android:ems="10"
                 android:hint="@string/correo"
                 android:inputType="textEmailAddress"
@@ -121,6 +124,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
+                android:fontFamily="@font/baloo"
                 android:text="@string/btnRegistrarse"
                 app:layout_constraintEnd_toEndOf="@+id/registerUserPassR"
                 app:layout_constraintHorizontal_bias="0.557"
