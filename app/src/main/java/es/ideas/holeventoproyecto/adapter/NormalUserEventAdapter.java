@@ -87,7 +87,6 @@ public class NormalUserEventAdapter extends FirestoreRecyclerAdapter<Evento,
                                 holder.cont.setText(task.getResult().get("plazasTotalesCont").toString());
                                 if (task.getResult().get("plazasTotales").equals(task.getResult().get("plazasTotalesCont"))) {
                                     holder.btnApuntarse.setBackgroundColor(Color.parseColor("#ff0000"));
-                                    holder.btnApuntarse.setText("DESAPUNTARSE");
                                 }else{
                                     holder.btnApuntarse.setBackgroundColor(Color.parseColor("#489fb5"));
                                 }
