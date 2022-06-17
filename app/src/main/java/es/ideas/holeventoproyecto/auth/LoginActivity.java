@@ -115,7 +115,8 @@ public class LoginActivity extends AppCompatActivity {
                                 compruebaTipoUsuario();
 
                             } else {
-                                Toast.makeText(LoginActivity.this, "Credenciales incorrectas",
+                                Toast.makeText(LoginActivity.this,
+                                        R.string.credenciales_incorrectas,
                                         Toast.LENGTH_LONG).show();
                             }
                         }
@@ -130,8 +131,8 @@ public class LoginActivity extends AppCompatActivity {
         database.collection("UsuarioBusiness").document(uid).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()){
-                    if (task.getResult().exists()){
+                if (task.isSuccessful()) {
+                    if (task.getResult().exists()) {
                         startActivity(new Intent(LoginActivity.this,
                                 BusinessMainActivity.class));
                     } else {
@@ -139,8 +140,9 @@ public class LoginActivity extends AppCompatActivity {
                                 NormalUserMainActivity.class));
                     }
                     finish();
-                }else{
-                    Toast.makeText(LoginActivity.this, "No se encuentra el usuario", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(LoginActivity.this, R.string.no_encuentra_user,
+                            Toast.LENGTH_SHORT).show();
                 }
             }
         });

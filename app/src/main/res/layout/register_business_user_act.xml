@@ -160,6 +160,18 @@
                 app:layout_constraintStart_toStartOf="@+id/registerPassR"
                 app:layout_constraintTop_toBottomOf="@+id/registerPassR" />
 
+            <EditText
+                android:id="@+id/existeUserBussines"
+                android:layout_width="24dp"
+                android:layout_height="45dp"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:text="true"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toBottomOf="@+id/registerUsuario"
+                app:layout_constraintStart_toEndOf="@+id/registerUsuario"
+                app:layout_constraintTop_toTopOf="@+id/registerUsuario" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 

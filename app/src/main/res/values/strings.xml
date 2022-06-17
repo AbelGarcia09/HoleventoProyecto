@@ -31,5 +31,17 @@
     <string name="evento_completo">El evento está completo</string>
     <string name="btnParticipantes">Listado</string>
     <string name="empty_participantes">No hay ningún participante apuntado</string>
+    <string name="eliminar_registro">¿Desea eliminar este evento?</string>
+    <string name="si">Si</string>
+    <string name="no">No</string>
+    <string name="lista_asistentes">Lista de asistentes</string>
+    <string name="credenciales_incorrectas">Credenciales incorrectas</string>
+    <string name="no_encuentra_user">No se encuentra el usuario</string>
+    <string name="comprueba_correo">Comprueba tu correo electrónico</string>
+    <string name="correo_no_reg">Usuario no registrado con este correo</string>
+    <string name="registrado">Usuario registrado con éxito</string>
+    <string name="existe_correo">Ya existe una cuenta con este correo electrónico</string>
+    <string name="err_inesperado">Ha ocurrido un error inesperado</string>
+    <string name="exite_nombre_user">El nombre de usuario ya existe</string>
 
 </resources>

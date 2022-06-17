@@ -22,14 +22,19 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import es.ideas.holeventoproyecto.R;
 import es.ideas.holeventoproyecto.modelo.UsuarioNormal;
 
 public class RegisterUserActivity extends AppCompatActivity {
 
-    private EditText registerEmail, registerUsuario, registerPass, registerPassR;
+    private EditText registerEmail, registerUsuario, registerPass, registerPassR,
+            existeUser;
     private Button btnRegistro;
 
     private FirebaseAuth auth;
@@ -55,6 +60,7 @@ public class RegisterUserActivity extends AppCompatActivity {
                 String email = registerEmail.getText().toString();
                 String pass = registerPass.getText().toString();
 
+                existeNombreUsuario();
                 if (awesomeValidation.validate()) {
                     registrar(email, pass);
                 }
@@ -68,6 +74,7 @@ public class RegisterUserActivity extends AppCompatActivity {
         registerPass = findViewById(R.id.registerUserPass);
         registerPassR = findViewById(R.id.registerUserPassR);
         btnRegistro = findViewById(R.id.btnUserRegistro);
+        existeUser = findViewById(R.id.existeUserNormal);
         comprobarCampos();
     }
 
@@ -94,38 +101,43 @@ public class RegisterUserActivity extends AppCompatActivity {
 
     private void registrar(String email, String pass) {
 
-        auth.createUserWithEmailAndPassword(email, pass)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            insertaUsuario();
-                            Toast.makeText(RegisterUserActivity.this, "Usuario registrado.",
-                                    Toast.LENGTH_LONG).show();
-                            startActivity(new Intent(RegisterUserActivity.this,
-                                    LoginActivity.class));
-                            finish();
-                        } else {
-                            try {
-                                throw task.getException();
-                            } catch (FirebaseAuthUserCollisionException e) {
-                                Log.d("FALLO", "onComplete: exist_email");
-                                Toast.makeText(
-                                        RegisterUserActivity.this,
-                                        "Ya existe una cuenta con este correo electrónico",
-                                        Toast.LENGTH_SHORT
-                                ).show();
-                            } catch (Exception e) {
-                                Log.d("FALLO", "onComplete: " + e.getMessage());
-                                Toast.makeText(
-                                        RegisterUserActivity.this,
-                                        "Ha ocurrido un error inesperado",
-                                        Toast.LENGTH_SHORT
-                                ).show();
+        Log.i("DATOS", "NmUserEXIST: " + existeUser.getText().toString());
+        if (existeUser.getText().toString().equals("false")) {
+
+            auth.createUserWithEmailAndPassword(email, pass)
+                    .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (task.isSuccessful()) {
+                                insertaUsuario();
+                                agregarNombreUsuario();
+                                Toast.makeText(RegisterUserActivity.this, R.string.registrado,
+                                        Toast.LENGTH_LONG).show();
+                                startActivity(new Intent(RegisterUserActivity.this,
+                                        LoginActivity.class));
+                                finish();
+                            } else {
+                                try {
+                                    throw task.getException();
+                                } catch (FirebaseAuthUserCollisionException e) {
+                                    Log.d("FALLO", "onComplete: exist_email");
+                                    Toast.makeText(
+                                            RegisterUserActivity.this,
+                                            R.string.existe_correo,
+                                            Toast.LENGTH_SHORT
+                                    ).show();
+                                } catch (Exception e) {
+                                    Log.d("FALLO", "onComplete: " + e.getMessage());
+                                    Toast.makeText(
+                                            RegisterUserActivity.this,
+                                            R.string.err_inesperado,
+                                            Toast.LENGTH_SHORT
+                                    ).show();
+                                }
                             }
                         }
-                    }
-                });
+                    });
+        }
 
     }
 
@@ -146,6 +158,82 @@ public class RegisterUserActivity extends AppCompatActivity {
         UsuarioNormal usuario = new UsuarioNormal(email, idUsuario, nombreUsuario, password);
 
         database.collection("UsuarioNormal").document(usuario.getIdUsuario()).set(usuario);
+    }
+
+    private void agregarNombreUsuario() {
+        database = FirebaseFirestore.getInstance();
+        database.collection("NombresUsuario")
+                .document("lista").get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isComplete()) {
+                            List<String> usernames = (List<String>) task.getResult().get("Nombres");
+                            String nUser = registerUsuario.getText().toString();
+                            if (usernames != null) {
+                                //No existe nombre usuario
+                                existeUser.setText("false");
+                                usernames.add(nUser);
+                                database.collection("NombresUsuario")
+                                        .document("lista").update("Nombres", usernames);
+
+                            } else {
+                                //No existe nombre usuario ni la lista
+                                usernames = new ArrayList<>();
+                                usernames.add(nUser);
+                                database.collection("NombresUsuario")
+                                        .document("lista").update("Nombres", usernames);
+                            }
+                        } else {
+                            Log.e("Firebase", "Se ha producido un error al realizar el " +
+                                    "get", task.getException());
+                        }
+                    }
+                });
+    }
+
+    private void existeNombreUsuario() {
+
+        database = FirebaseFirestore.getInstance();
+        database.collection("NombresUsuario")
+                .document("lista").get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isComplete()) {
+                            List<String> usernames = (List<String>) task.getResult().get("Nombres");
+                            String nUser = registerUsuario.getText().toString();
+
+                            if (usernames != null) {
+                                if (usernames.contains(nUser)) {
+                                    //Existe Nombre Usuario
+                                    existeUser.setText("true");
+                                    Toast.makeText(
+                                            RegisterUserActivity.this,
+                                            R.string.exite_nombre_user,
+                                            Toast.LENGTH_SHORT
+                                    ).show();
+                                } else {
+                                    //No existe nombre usuario
+                                    existeUser.setText("false");
+                                }
+                            } else {
+                                //No existe nombre usuario ni la lista
+                                existeUser.setText("false");
+                            }
+                        } else {
+                            Log.e("Firebase", "Se ha producido un error al realizar el " +
+                                    "get", task.getException());
+                        }
+                    }
+                });
+
+        try {
+            Thread.sleep(150);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
     }
 
     @Override

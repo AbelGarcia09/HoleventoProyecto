@@ -62,8 +62,6 @@ public class NormalUserEventAdapter extends FirestoreRecyclerAdapter<Evento,
                                     int position, @NonNull Evento model) {
 
         Uri img = Uri.parse(model.getImagen());
-        Log.i("DATOS", "MODEL IMG -> " + img);
-
         holder.nombreEmpresa.setText(model.getNombreUsuario());
         holder.contenido.setText(model.getContenido());
         holder.plazasTotales.setText(model.getPlazasTotales() + "");
@@ -86,9 +84,11 @@ public class NormalUserEventAdapter extends FirestoreRecyclerAdapter<Evento,
 
                                 holder.cont.setText(task.getResult().get("plazasTotalesCont").toString());
                                 if (task.getResult().get("plazasTotales").equals(task.getResult().get("plazasTotalesCont"))) {
-                                    holder.btnApuntarse.setBackgroundColor(Color.parseColor("#ff0000"));
-                                }else{
-                                    holder.btnApuntarse.setBackgroundColor(Color.parseColor("#489fb5"));
+                                    holder.btnApuntarse.setBackgroundColor(Color.parseColor(
+                                            "#ff0000"));
+                                } else {
+                                    holder.btnApuntarse.setBackgroundColor(Color.parseColor(
+                                            "#489fb5"));
                                 }
 
                             }
@@ -129,14 +129,17 @@ public class NormalUserEventAdapter extends FirestoreRecyclerAdapter<Evento,
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                         if (task.isComplete()) {
                             List<String> users = (List<String>) task.getResult().get("Adhesiones");
-                            int total = Integer.parseInt(task.getResult().get("plazasTotales").toString());
-                            int cont = Integer.parseInt(task.getResult().get("plazasTotalesCont").toString());
+                            int total =
+                                    Integer.parseInt(task.getResult().get("plazasTotales").toString());
+                            int cont =
+                                    Integer.parseInt(task.getResult().get("plazasTotalesCont").toString());
                             if (users != null) {
                                 if (users.contains(idUsuario)) {
                                     users.remove(idUsuario);
                                     database = FirebaseFirestore.getInstance();
                                     database.collection("Eventos").document(idEvento + "").update("Adhesiones", users);
-                                    if ( total == cont && task.getResult().get("completo").equals("true")){
+                                    if (total == cont && task.getResult().get("completo").equals(
+                                            "true")) {
                                         database.collection("Eventos").document(idEvento + "").update("completo", "false");
                                     }
                                     database.collection("Eventos").document(idEvento + "").update("plazasTotalesCont", FieldValue.increment(-1));
@@ -145,12 +148,12 @@ public class NormalUserEventAdapter extends FirestoreRecyclerAdapter<Evento,
                                         users.add(idUsuario);
                                         database.collection("Eventos").document(idEvento + "").update("Adhesiones", users);
                                         database.collection("Eventos").document(idEvento + "").update("plazasTotalesCont", FieldValue.increment(1));
-                                        if ( total == cont+1){
+                                        if (total == cont + 1) {
                                             database.collection("Eventos").document(idEvento + "").update("completo", "true");
                                         }
-                                    }
-                                    else{
-                                        Toast.makeText(cxt, R.string.evento_completo, Toast.LENGTH_SHORT).show();
+                                    } else {
+                                        Toast.makeText(cxt, R.string.evento_completo,
+                                                Toast.LENGTH_SHORT).show();
                                     }
                                 }
                             } else {
@@ -159,16 +162,14 @@ public class NormalUserEventAdapter extends FirestoreRecyclerAdapter<Evento,
                                     users.add(idUsuario);
                                     database.collection("Eventos").document(idEvento + "").update("Adhesiones", users);
                                     database.collection("Eventos").document(idEvento + "").update("plazasTotalesCont", FieldValue.increment(1));
-                                    if ( total == cont+1){
+                                    if (total == cont + 1) {
                                         database.collection("Eventos").document(idEvento + "").update("completo", "true");
                                     }
-                                }else{
-                                    Toast.makeText(cxt, R.string.evento_completo, Toast.LENGTH_SHORT).show();
+                                } else {
+                                    Toast.makeText(cxt, R.string.evento_completo,
+                                            Toast.LENGTH_SHORT).show();
                                 }
                             }
-
-
-
 
 
                         } else {

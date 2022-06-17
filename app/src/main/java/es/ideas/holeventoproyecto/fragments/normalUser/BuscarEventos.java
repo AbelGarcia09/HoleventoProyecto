@@ -73,7 +73,7 @@ public class BuscarEventos extends Fragment {
         btnBuscar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                itemPosition.setText(spProvincias.getSelectedItemPosition()+"");
+                itemPosition.setText(spProvincias.getSelectedItemPosition() + "");
                 idProvincia = itemPosition.getText().toString();
                 cargarAdapter(idProvincia);
             }
@@ -134,17 +134,17 @@ public class BuscarEventos extends Fragment {
     }
 
     @Override
-    public  void onStop()
-    {
+    public void onStop() {
         super.onStop();
-        if (adapter != null){
+        if (adapter != null) {
             adapter.stopListening();
         }
     }
+
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-        if (adapter != null){
+        if (adapter != null) {
             adapter.notifyDataSetChanged();
         }
     }

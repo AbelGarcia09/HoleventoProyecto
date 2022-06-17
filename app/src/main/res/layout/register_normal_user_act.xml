@@ -16,6 +16,18 @@
             android:layout_height="match_parent">
 
             <EditText
+                android:id="@+id/existeUserNormal"
+                android:layout_width="24dp"
+                android:layout_height="45dp"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:text="false"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toBottomOf="@+id/registerUserUsuario"
+                app:layout_constraintStart_toEndOf="@+id/registerUserUsuario"
+                app:layout_constraintTop_toTopOf="@+id/registerUserUsuario" />
+
+            <EditText
                 android:id="@+id/registerUserPassR"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

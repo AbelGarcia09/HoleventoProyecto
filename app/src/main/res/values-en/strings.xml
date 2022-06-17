@@ -28,6 +28,14 @@
     <string name="evento_completo">The event is full</string>
     <string name="btnParticipantes">List</string>
     <string name="empty_participantes">There is no registered participant</string>
+    <string name="eliminar_registro">" Do you want to delete this event?"</string>
+    <string name="si">Yes</string>
+    <string name="no">No</string>
+    <string name="lista_asistentes">Assistant list</string>
+    <string name="credenciales_incorrectas">Wrong credentials</string>
+    <string name="no_encuentra_user">User not found</string>
+    <string name="comprueba_correo">Check your email</string>
+    <string name="correo_no_reg">" Unregistered user with this email"</string>
 
 
 </resources>

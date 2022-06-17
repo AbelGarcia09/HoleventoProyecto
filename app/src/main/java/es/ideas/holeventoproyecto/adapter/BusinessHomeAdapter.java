@@ -82,7 +82,8 @@ public class BusinessHomeAdapter extends FirestoreRecyclerAdapter<Evento,
                 }
             });
 
-        } catch (Exception e) {}
+        } catch (Exception e) {
+        }
 
         holder.btnEliminar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -113,14 +114,14 @@ public class BusinessHomeAdapter extends FirestoreRecyclerAdapter<Evento,
     private void eliminaEvento(long idEvento, View v) {
         database = FirebaseFirestore.getInstance();
         AlertDialog.Builder b = new AlertDialog.Builder(v.getContext());
-        b.setMessage("¿Desea eliminar el registro?")
-                .setPositiveButton("SI", new DialogInterface.OnClickListener() {
+        b.setMessage(R.string.eliminar_registro)
+                .setPositiveButton(R.string.si, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int i) {
                         database.collection("Eventos").document(idEvento + "").delete();
 
                     }
-                }).setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                }).setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 
@@ -150,15 +151,18 @@ public class BusinessHomeAdapter extends FirestoreRecyclerAdapter<Evento,
                                                 if (task.isSuccessful()) {
                                                     List<String> participantes =
                                                             new ArrayList<>();
-                                                    for (QueryDocumentSnapshot datos : task.getResult()) {
-                                                        for (String u : users){
-                                                            if (datos.get("idUsuario").equals(u)){
-                                                                participantes.add(datos.get("nombreUsuario").toString() +", "+datos.get("email"));
+                                                    for (QueryDocumentSnapshot datos :
+                                                            task.getResult()) {
+                                                        for (String u : users) {
+                                                            if (datos.get("idUsuario").equals(u)) {
+                                                                participantes.add(datos.get(
+                                                                        "nombreUsuario").toString() + " - " + datos.get("email"));
                                                             }
                                                         }
                                                     }
-                                                    AlertDialog.Builder builder = new AlertDialog.Builder(cxt);
-                                                    builder.setTitle("Lista de asistentes");
+                                                    AlertDialog.Builder builder =
+                                                            new AlertDialog.Builder(cxt);
+                                                    builder.setTitle(R.string.lista_asistentes);
 
                                                     ArrayAdapter<String> dataAdapter =
                                                             new ArrayAdapter<String>(cxt,
@@ -166,7 +170,9 @@ public class BusinessHomeAdapter extends FirestoreRecyclerAdapter<Evento,
                                                     builder.setAdapter(dataAdapter,
                                                             new DialogInterface.OnClickListener() {
                                                                 @Override
-                                                                public void onClick(DialogInterface dialog,int which) {}});
+                                                                public void onClick(DialogInterface dialog, int which) {
+                                                                }
+                                                            });
                                                     AlertDialog dialog = builder.create();
                                                     dialog.show();
 
