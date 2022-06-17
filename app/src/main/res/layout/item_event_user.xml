@@ -63,14 +63,14 @@
             android:id="@+id/tvFechaEventoUser"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
             android:fontFamily="@font/baloo"
             android:text="name"
             android:textColor="@color/black"
             android:textSize="16sp"
-            app:layout_constraintBottom_toBottomOf="@+id/personIcon"
-            app:layout_constraintEnd_toStartOf="@+id/btnApuntarse"
-            app:layout_constraintStart_toEndOf="@+id/tvPTotalesUser"
-            app:layout_constraintTop_toTopOf="@+id/personIcon" />
+            app:layout_constraintBottom_toBottomOf="@+id/calendarIcon"
+            app:layout_constraintStart_toEndOf="@+id/calendarIcon"
+            app:layout_constraintTop_toTopOf="@+id/calendarIcon" />
 
         <ImageView
             android:id="@+id/ivFotoUser"
@@ -98,17 +98,18 @@
             android:id="@+id/personIcon"
             android:layout_width="25dp"
             android:layout_height="26dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="15dp"
             android:src="@drawable/person"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvDireccionUser" />
+            app:layout_constraintTop_toBottomOf="@+id/tv" />
 
         <TextView
             android:id="@+id/tvPTotalesUser"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/baloo"
+            android:layout_marginStart="2dp"
 
+            android:fontFamily="@font/baloo"
             android:text="20"
             android:textColor="@color/black"
             app:layout_constraintBottom_toBottomOf="@+id/personIcon"
@@ -119,6 +120,7 @@
             android:id="@+id/tvPvvvv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="2dp"
             android:fontFamily="@font/baloo"
             android:text="/"
             android:textColor="@color/black"
@@ -143,13 +145,22 @@
             android:id="@+id/btnApuntarse"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
             android:fontFamily="@font/baloo"
             android:text="@string/btnApuntarse"
             android:textStyle="normal"
-            app:layout_constraintBottom_toBottomOf="@+id/personIcon"
+            app:layout_constraintBottom_toBottomOf="@+id/calendarIcon"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/personIcon" />
+
+        <ImageView
+            android:id="@+id/calendarIcon"
+            android:layout_width="25dp"
+            android:layout_height="26dp"
+            android:layout_marginTop="15dp"
+            android:backgroundTint="@color/black"
+            android:src="@drawable/calendar"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/personIcon" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

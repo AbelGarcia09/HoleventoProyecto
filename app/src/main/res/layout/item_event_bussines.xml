@@ -63,14 +63,14 @@
             android:id="@+id/tvFechaEvento"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
             android:fontFamily="@font/baloo"
             android:text="name"
             android:textColor="@color/black"
             android:textSize="16sp"
-            app:layout_constraintBottom_toBottomOf="@+id/personIcon"
-            app:layout_constraintEnd_toStartOf="@+id/btnParticipantes"
-            app:layout_constraintStart_toEndOf="@+id/tvPTotales"
-            app:layout_constraintTop_toTopOf="@+id/personIcon" />
+            app:layout_constraintBottom_toBottomOf="@+id/calendarIcon"
+            app:layout_constraintStart_toEndOf="@+id/calendarIcon"
+            app:layout_constraintTop_toTopOf="@+id/calendarIcon" />
 
         <ImageButton
             android:id="@+id/btnEliminar"
@@ -156,13 +156,23 @@
 
         <Button
             android:id="@+id/btnParticipantes"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_width="99dp"
+            android:layout_height="47dp"
             android:text="@string/btnParticipantes"
-            app:layout_constraintBottom_toBottomOf="@+id/tvFechaEvento"
+            android:fontFamily="@font/baloo"
+            app:layout_constraintBottom_toBottomOf="@+id/calendarIcon"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/tvFechaEvento" />
+            app:layout_constraintTop_toTopOf="@+id/personIcon" />
+
+        <ImageView
+            android:id="@+id/calendarIcon"
+            android:layout_width="25dp"
+            android:layout_height="26dp"
+            android:layout_marginTop="15dp"
+            android:backgroundTint="@color/black"
+            android:src="@drawable/calendar"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/personIcon" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
