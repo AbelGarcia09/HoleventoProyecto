@@ -34,7 +34,7 @@
             android:id="@+id/tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="15dp"
             android:fontFamily="@font/baloo"
             android:text="@string/direccion"
             android:textColor="@color/black"
@@ -47,16 +47,16 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
-            android:layout_marginTop="5dp"
             android:ems="10"
             android:fontFamily="@font/baloo_bhai_2"
             android:inputType="textMultiLine"
             android:text="name"
             android:textColor="@color/black"
             android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="@+id/tv"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/tv"
-            app:layout_constraintTop_toBottomOf="@+id/tvContenidoUser" />
+            app:layout_constraintTop_toTopOf="@+id/tv" />
 
 
         <TextView
@@ -85,7 +85,7 @@
             android:id="@+id/tvContenidoUser"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="15dp"
             android:ems="10"
             android:fontFamily="@font/baloo_bhai_2"
             android:inputType="textMultiLine"
