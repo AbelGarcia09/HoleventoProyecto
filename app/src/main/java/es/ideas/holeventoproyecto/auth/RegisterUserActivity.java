@@ -60,10 +60,8 @@ public class RegisterUserActivity extends AppCompatActivity {
                 String email = registerEmail.getText().toString();
                 String pass = registerPass.getText().toString();
 
-                existeNombreUsuario();
-                if (awesomeValidation.validate()) {
-                    registrar(email, pass);
-                }
+                existeNombreUsuario(email, pass);
+
             }
         });
     }
@@ -103,7 +101,6 @@ public class RegisterUserActivity extends AppCompatActivity {
 
         Log.i("DATOS", "NmUserEXIST: " + existeUser.getText().toString());
         if (existeUser.getText().toString().equals("false")) {
-
             auth.createUserWithEmailAndPassword(email, pass)
                     .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                         @Override
@@ -192,7 +189,7 @@ public class RegisterUserActivity extends AppCompatActivity {
                 });
     }
 
-    private void existeNombreUsuario() {
+    private void existeNombreUsuario(String email, String pass) {
 
         database = FirebaseFirestore.getInstance();
         database.collection("NombresUsuario")
@@ -214,12 +211,18 @@ public class RegisterUserActivity extends AppCompatActivity {
                                             Toast.LENGTH_SHORT
                                     ).show();
                                 } else {
-                                    //No existe nombre usuario
+                                    //No existe nombre usuario ni la lista
                                     existeUser.setText("false");
+                                    if (awesomeValidation.validate()) {
+                                        registrar(email, pass);
+                                    }
                                 }
                             } else {
                                 //No existe nombre usuario ni la lista
                                 existeUser.setText("false");
+                                if (awesomeValidation.validate()) {
+                                    registrar(email, pass);
+                                }
                             }
                         } else {
                             Log.e("Firebase", "Se ha producido un error al realizar el " +

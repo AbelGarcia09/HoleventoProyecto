@@ -29,7 +29,9 @@ public class Profile extends Fragment {
     private BusinessHomeAdapter adapter;
     private Toast mToast;
     private FirebaseUser user;
-    public Profile() {}
+
+    public Profile() {
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -41,7 +43,9 @@ public class Profile extends Fragment {
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         CollectionReference eventosRef = db.collection("Eventos");
-        Query eventos = eventosRef.orderBy("fechaEvento" ,Query.Direction.ASCENDING).whereEqualTo("idUsuario", id);
+        Query eventos =
+                eventosRef.orderBy("fechaEvento", Query.Direction.ASCENDING).whereEqualTo(
+                        "idUsuario", id);
 
 
         rv = (RecyclerView) viewRoot.findViewById(R.id.rvBusinessProf);
@@ -61,8 +65,7 @@ public class Profile extends Fragment {
 
 
     @Override
-    public void onStart()
-    {
+    public void onStart() {
         super.onStart();
         adapter.startListening();
     }
@@ -71,8 +74,7 @@ public class Profile extends Fragment {
     // data from database on stopping of the activity
 
     @Override
-    public  void onStop()
-    {
+    public void onStop() {
         super.onStop();
         adapter.stopListening();
     }

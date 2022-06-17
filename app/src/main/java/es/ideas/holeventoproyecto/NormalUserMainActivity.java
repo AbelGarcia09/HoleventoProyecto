@@ -36,6 +36,7 @@ public class NormalUserMainActivity extends AppCompatActivity {
 
 
     private FirebaseFirestore database = FirebaseFirestore.getInstance();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,11 +48,11 @@ public class NormalUserMainActivity extends AppCompatActivity {
 
         if (savedInstanceState == null) {
             currentFragment = new MainPage();
-            if(currentFragment != null) {
+            if (currentFragment != null) {
                 cambiaFragment(currentFragment);
             }
         } else {
-            if(currentFragment != null) {
+            if (currentFragment != null) {
                 cambiaFragment(currentFragment);
             }
         }
@@ -103,8 +104,8 @@ public class NormalUserMainActivity extends AppCompatActivity {
         database.collection("UsuarioNormal").document(uid).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()){
-                    String username =task.getResult().get("nombreUsuario").toString();
+                if (task.isSuccessful()) {
+                    String username = task.getResult().get("nombreUsuario").toString();
                     tvUsername.setText(username);
                     Log.i("DATOS", "Nombre Usuario: " + username);
                 }
@@ -115,8 +116,10 @@ public class NormalUserMainActivity extends AppCompatActivity {
     private void cambiaFragment(Fragment f) {
         getSupportFragmentManager().beginTransaction().replace(R.id.frame_Layout, f).commit();
     }
+
     @Override
-    public void onSaveInstanceState(@NonNull Bundle outState, @NonNull PersistableBundle outPersistentState) {
+    public void onSaveInstanceState(@NonNull Bundle outState,
+                                    @NonNull PersistableBundle outPersistentState) {
         super.onSaveInstanceState(outState, outPersistentState);
         currentFragment.onResume();
     }

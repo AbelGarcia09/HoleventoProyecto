@@ -19,6 +19,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import es.ideas.holeventoproyecto.auth.LoginActivity;
+
 import android.os.Handler;
 
 public class PantallaCarga extends AppCompatActivity {
@@ -66,8 +67,8 @@ public class PantallaCarga extends AppCompatActivity {
         database.collection("UsuarioBusiness").document(uid).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()){
-                    if (task.getResult().exists()){
+                if (task.isSuccessful()) {
+                    if (task.getResult().exists()) {
                         startActivity(new Intent(PantallaCarga.this,
                                 BusinessMainActivity.class));
                     } else {
@@ -75,8 +76,9 @@ public class PantallaCarga extends AppCompatActivity {
                                 NormalUserMainActivity.class));
                     }
                     finish();
-                }else{
-                    Toast.makeText(PantallaCarga.this, "No se encuentra el usuario", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(PantallaCarga.this, R.string.no_encuentra_user,
+                            Toast.LENGTH_SHORT).show();
                 }
             }
         });

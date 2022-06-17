@@ -166,7 +166,7 @@
                 android:layout_height="45dp"
                 android:ems="10"
                 android:inputType="textPersonName"
-                android:text="true"
+                android:text=""
                 android:visibility="invisible"
                 app:layout_constraintBottom_toBottomOf="@+id/registerUsuario"
                 app:layout_constraintStart_toEndOf="@+id/registerUsuario"

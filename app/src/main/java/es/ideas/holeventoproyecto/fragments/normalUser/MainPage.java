@@ -21,6 +21,7 @@ import com.google.firebase.firestore.Query;
 import es.ideas.holeventoproyecto.R;
 import es.ideas.holeventoproyecto.adapter.NormalUserEventAdapter;
 import es.ideas.holeventoproyecto.modelo.Evento;
+
 import android.content.Context;
 
 public class MainPage extends Fragment {
@@ -31,7 +32,8 @@ public class MainPage extends Fragment {
     private FirebaseUser user;
 
 
-    public MainPage() {}
+    public MainPage() {
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -55,7 +57,7 @@ public class MainPage extends Fragment {
     private void muestraEventos(String id, String nmButton) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         CollectionReference eventosRef = db.collection("Eventos");
-        Query eventos = eventosRef.orderBy("fechaEvento" ,Query.Direction.ASCENDING);
+        Query eventos = eventosRef.orderBy("fechaEvento", Query.Direction.ASCENDING);
 
 
         rv = (RecyclerView) viewRoot.findViewById(R.id.rvMainUser);
@@ -72,8 +74,7 @@ public class MainPage extends Fragment {
     }
 
     @Override
-    public void onStart()
-    {
+    public void onStart() {
         super.onStart();
         adapter.startListening();
     }
@@ -81,8 +82,7 @@ public class MainPage extends Fragment {
     // Function to tell the app to stop getting
     // data from database on stopping of the activity
     @Override
-    public  void onStop()
-    {
+    public void onStop() {
         super.onStop();
         adapter.stopListening();
     }

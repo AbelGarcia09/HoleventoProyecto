@@ -83,9 +83,10 @@ public class NuevoEvento extends Fragment {
         btnNuevoEvento.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (camposRellenos()){
+                if (camposRellenos()) {
                     nuevoEvento();
-                    Toast.makeText(view.getContext(), R.string.evento_creado_correctamemte, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(view.getContext(), R.string.evento_creado_correctamemte,
+                            Toast.LENGTH_SHORT).show();
                     try {
                         Thread.sleep(150);
                     } catch (InterruptedException e) {
@@ -97,8 +98,7 @@ public class NuevoEvento extends Fragment {
                     } catch (Throwable e) {
                         e.printStackTrace();
                     }
-                }
-                else{
+                } else {
                     Toast.makeText(view.getContext(), R.string.empty_all, Toast.LENGTH_SHORT).show();
                 }
 
@@ -143,17 +143,17 @@ public class NuevoEvento extends Fragment {
         database = FirebaseFirestore.getInstance();
         database.collection("UsuarioBusiness").document(idUsuario).get()
                 .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()){
-                    if (task.getResult().exists()){
-                        String provincia = task.getResult().getString("idProvincia");
-                        etProvincia.setText(provincia);
-                        Log.i("DATOS", "dentro del for: " + provincia);
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            if (task.getResult().exists()) {
+                                String provincia = task.getResult().getString("idProvincia");
+                                etProvincia.setText(provincia);
+                                Log.i("DATOS", "dentro del for: " + provincia);
+                            }
+                        }
                     }
-                }
-            }
-        });
+                });
     }
 
     private String obtenerFechaActual() {
@@ -207,37 +207,42 @@ public class NuevoEvento extends Fragment {
         database = FirebaseFirestore.getInstance();
         database.collection("Eventos").get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                long cont =0;
-                if (task.isSuccessful()){
-                    for (QueryDocumentSnapshot datos : task.getResult()){
-                        if (cont <= Long.parseLong(datos.getId())){
-                            cont = Long.parseLong(datos.getId()) + 1;
-                        }else { cont =1;}
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        long cont = 0;
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot datos : task.getResult()) {
+                                if (cont <= Long.parseLong(datos.getId())) {
+                                    cont = Long.parseLong(datos.getId()) + 1;
+                                } else {
+                                    cont = 1;
+                                }
+                            }
+
+                            long idEvento = cont;
+                            String idUsuario = user.getUid();
+                            String nombreUsuario = user.getDisplayName();
+                            String idProvincia = etProvincia.getText().toString();
+                            String direccion = etDireccion.getText().toString();
+                            String contenido = etDescripcion.getText().toString();
+                            String fechaEvento = etFechaEvento.getText().toString();
+                            String imagen = urlFoto;
+                            int plazasTotales =
+                                    Integer.parseInt(etPlazasTotales.getText().toString());
+                            int plazasTotalesCont = 0;
+                            String fechaPublicacion = obtenerFechaActual();
+
+                            Evento evento = new Evento(contenido, direccion, fechaEvento,
+                                    fechaPublicacion,
+                                    idEvento, idProvincia, idUsuario, imagen, plazasTotales,
+                                    plazasTotalesCont);
+
+                            evento.setNombreUsuario(nombreUsuario);
+                            evento.setPlazasTotalesCont(0);
+                            database.collection("Eventos").document(String.valueOf(cont)).set(evento);
+                        }
                     }
-
-                    long idEvento = cont;
-                    String idUsuario = user.getUid();
-                    String nombreUsuario = user.getDisplayName();
-                    String idProvincia = etProvincia.getText().toString();
-                    String direccion = etDireccion.getText().toString();
-                    String contenido = etDescripcion.getText().toString();
-                    String fechaEvento = etFechaEvento.getText().toString();
-                    String imagen = urlFoto;
-                    int plazasTotales = Integer.parseInt(etPlazasTotales.getText().toString());
-                    int plazasTotalesCont = 0;
-                    String fechaPublicacion = obtenerFechaActual();
-
-                    Evento evento = new Evento(contenido, direccion, fechaEvento, fechaPublicacion,
-                            idEvento, idProvincia, idUsuario, imagen, plazasTotales, plazasTotalesCont);
-
-                    evento.setNombreUsuario(nombreUsuario);
-                    evento.setPlazasTotalesCont(0);
-                    database.collection("Eventos").document(String.valueOf(cont)).set(evento);
-                }
-            }
-        });
+                });
 
     }
 

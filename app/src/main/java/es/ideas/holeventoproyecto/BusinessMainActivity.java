@@ -56,12 +56,12 @@ public class BusinessMainActivity extends AppCompatActivity {
 
         if (savedInstanceState == null) {
             currentFragment = new Profile();
-            if(currentFragment != null) {
+            if (currentFragment != null) {
                 cambiaFragment(currentFragment);
             }
 
         } else {
-            if(currentFragment != null) {
+            if (currentFragment != null) {
                 cambiaFragment(currentFragment);
             }
         }
@@ -100,8 +100,8 @@ public class BusinessMainActivity extends AppCompatActivity {
         database.collection("UsuarioBusiness").document(uid).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()){
-                    String username =task.getResult().get("nombreUsuario").toString();
+                if (task.isSuccessful()) {
+                    String username = task.getResult().get("nombreUsuario").toString();
                     tvUsername.setText(username);
                     Log.i("DATOS", "Nombre Usuario Empresa: " + username);
                 }
@@ -114,7 +114,8 @@ public class BusinessMainActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onSaveInstanceState(@NonNull Bundle outState, @NonNull PersistableBundle outPersistentState) {
+    public void onSaveInstanceState(@NonNull Bundle outState,
+                                    @NonNull PersistableBundle outPersistentState) {
         super.onSaveInstanceState(outState, outPersistentState);
         currentFragment.onResume();
     }

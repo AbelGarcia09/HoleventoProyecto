@@ -40,7 +40,8 @@ public class ListaEventos extends Fragment {
     private FirebaseUser user;
     private String nmButton;
 
-    public ListaEventos() {}
+    public ListaEventos() {
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -56,7 +57,9 @@ public class ListaEventos extends Fragment {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         CollectionReference eventosRef = db.collection("Eventos");
 
-        Query eventos = eventosRef.orderBy("fechaEvento" ,Query.Direction.ASCENDING).whereArrayContains("Adhesiones", id);
+        Query eventos =
+                eventosRef.orderBy("fechaEvento", Query.Direction.ASCENDING).whereArrayContains(
+                        "Adhesiones", id);
 
 
         rv = (RecyclerView) viewRoot.findViewById(R.id.rvListaEventosUser);
@@ -81,8 +84,7 @@ public class ListaEventos extends Fragment {
     }
 
     @Override
-    public void onStart()
-    {
+    public void onStart() {
         super.onStart();
         adapter.startListening();
     }
@@ -90,11 +92,11 @@ public class ListaEventos extends Fragment {
     // Function to tell the app to stop getting
     // data from database on stopping of the activity
     @Override
-    public  void onStop()
-    {
+    public void onStop() {
         super.onStop();
         adapter.stopListening();
     }
+
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);

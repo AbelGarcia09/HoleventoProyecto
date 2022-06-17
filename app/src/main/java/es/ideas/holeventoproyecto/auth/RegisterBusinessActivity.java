@@ -66,9 +66,7 @@ public class RegisterBusinessActivity extends AppCompatActivity {
                 String email = registerEmail.getText().toString();
                 String pass = registerPass.getText().toString();
 
-                if (awesomeValidation.validate()) {
-                    registrar(email, pass);
-                }
+                existeNombreUsuario(email, pass);
             }
         });
     }
@@ -112,7 +110,7 @@ public class RegisterBusinessActivity extends AppCompatActivity {
     }
 
     private void registrar(String email, String pass) {
-        existeNombreUsuario();
+
         Log.i("DATOS", "NmUserEXIST: " + existeUser.getText().toString());
         if (existeUser.getText().toString().equals("false")) {
             auth.createUserWithEmailAndPassword(email, pass)
@@ -149,6 +147,7 @@ public class RegisterBusinessActivity extends AppCompatActivity {
                         }
                     });
         }
+
     }
 
     private void agregarNombreUsuario() {
@@ -183,7 +182,7 @@ public class RegisterBusinessActivity extends AppCompatActivity {
                 });
     }
 
-    private void existeNombreUsuario() {
+    private void existeNombreUsuario(String email, String pass) {
 
         database = FirebaseFirestore.getInstance();
         database.collection("NombresUsuario")
@@ -205,12 +204,18 @@ public class RegisterBusinessActivity extends AppCompatActivity {
                                             Toast.LENGTH_SHORT
                                     ).show();
                                 } else {
-                                    //No existe nombre usuario
+                                    //No existe nombre usuario ni la lista
                                     existeUser.setText("false");
+                                    if (awesomeValidation.validate()) {
+                                        registrar(email, pass);
+                                    }
                                 }
                             } else {
                                 //No existe nombre usuario ni la lista
                                 existeUser.setText("false");
+                                if (awesomeValidation.validate()) {
+                                    registrar(email, pass);
+                                }
                             }
                         } else {
                             Log.e("Firebase", "Se ha producido un error al realizar el " +
@@ -219,6 +224,11 @@ public class RegisterBusinessActivity extends AppCompatActivity {
                     }
                 });
 
+        try {
+            Thread.sleep(150);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
     }
 
