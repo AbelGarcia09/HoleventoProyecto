@@ -1,0 +1,69 @@
+{
+  "project_info": {
+    "project_number": "200597272066",
+    "firebase_url": "https://holevento-15870-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "holevento-15870",
+    "storage_bucket": "holevento-15870.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:200597272066:android:850245387a7820b020191b",
+        "android_client_info": {
+          "package_name": "es.ideas.holaevento"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "200597272066-u8bsjk01bs5ejve09b6dfpkt32nl28dp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDDBSlY8fGrxTkYRDhnqfGabIkNjvnPV-Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "200597272066-u8bsjk01bs5ejve09b6dfpkt32nl28dp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:200597272066:android:a549fe8907f1693f20191b",
+        "android_client_info": {
+          "package_name": "es.ideas.holeventoproyecto"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "200597272066-u8bsjk01bs5ejve09b6dfpkt32nl28dp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDDBSlY8fGrxTkYRDhnqfGabIkNjvnPV-Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "200597272066-u8bsjk01bs5ejve09b6dfpkt32nl28dp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

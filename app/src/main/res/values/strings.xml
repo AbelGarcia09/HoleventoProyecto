@@ -1,9 +1,9 @@
 <resources>
     <string name="app_name" translatable="false">Holevento</string>
     <string name="cambioContrasenya"><u>¿Has olvidado la contraseña?</u></string>
-    <string name="correo">Correo Electrónico</string>
+    <string name="correo">Correo electrónico</string>
     <string name="contrasenya">Contraseña</string>
-    <string name="btnIniciarSesion">Iniciar Sesión</string>
+    <string name="btnIniciarSesion">Iniciar sesión</string>
     <string name="btnRegistrarse">Registrarse</string>
     <string name="usuario">Usuario</string>
     <string name="telefono">Número de teléfono</string>
@@ -11,17 +11,37 @@
     <string name="btnRecoveryPass">Reestablecer</string>
     <string name="registroEmpresa"><u>Cuenta de empresa</u></string>
 
-
-    <string-array name="planets_array">
-        <item>Provincia</item>
-        <item>Venus</item>
-        <item>Earth</item>
-        <item>Mars</item>
-        <item>Jupiter</item>
-        <item>Saturn</item>
-        <item>Uranus</item>
-        <item>Neptune</item>
-    </string-array>
-
+    <string name="invalid_mail">Ingresa email válido</string>
+    <string name="invalid_password">Ingresa una contraseña mayor a 6 dígitos</string>
+    <string name="empty">Rellena este campo</string>
+    <string name="contrasenya_no_coincide">No coincide la contraseña</string>
+    <string name="err_tel">Número no válido</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
+    <string name="fecha_evento">Fecha evento:</string>
+    <string name="direccion">Dirección:</string>
+    <string name="plazas">Plazas totales:</string>
+    <string name="contenido">Descripción:</string>
+    <string name="descripcionEvento">¡¡Cuéntanos de qué tratará tu evento!!</string>
+    <string name="btnAnyadirEvento">Crear evento</string>
+    <string name="evento_creado_correctamemte">Evento creado correctamente</string>
+    <string name="empty_all">Rellena todos los campos del formulario</string>
+    <string name="btnApuntarse">Apuntarse</string>
+    <string name="btnDesapuntarse">Desapuntarse</string>
+    <string name="evento_completo">El evento está completo</string>
+    <string name="btnParticipantes">Listado</string>
+    <string name="empty_participantes">No hay ningún participante apuntado</string>
+    <string name="eliminar_registro">¿Desea eliminar este evento?</string>
+    <string name="si">Si</string>
+    <string name="no">No</string>
+    <string name="lista_asistentes">Lista de asistentes</string>
+    <string name="credenciales_incorrectas">Credenciales incorrectas</string>
+    <string name="no_encuentra_user">No se encuentra el usuario</string>
+    <string name="comprueba_correo">Comprueba tu correo electrónico</string>
+    <string name="correo_no_reg">Usuario no registrado con este correo</string>
+    <string name="registrado">Usuario registrado con éxito</string>
+    <string name="existe_correo">Ya existe una cuenta con este correo electrónico</string>
+    <string name="err_inesperado">Ha ocurrido un error inesperado</string>
+    <string name="exite_nombre_user">El nombre de usuario ya existe</string>
 
 </resources>

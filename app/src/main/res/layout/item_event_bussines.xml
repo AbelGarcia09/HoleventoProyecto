@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:backgroundTint="@color/grey"
+    app:cardCornerRadius="15dp"
+    android:elevation="3sp"
+    android:layout_marginTop="10dp"
+    android:layout_marginBottom="10dp"
+    android:layout_marginStart="10dp"
+    android:layout_marginEnd="10dp"
+    >
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="20dp">
+
+        <TextView
+            android:id="@+id/tvNombreEmpresa"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/bowlby_one_sc"
+            android:text="name"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:fontFamily="@font/baloo"
+            android:text="@string/direccion"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvContenido" />
+
+        <TextView
+            android:id="@+id/tvDireccion"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:ems="10"
+            android:fontFamily="@font/baloo_bhai_2"
+            android:inputType="textMultiLine"
+            android:text="name"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="@+id/tv"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tv"
+            app:layout_constraintTop_toTopOf="@+id/tv" />
+
+
+        <TextView
+            android:id="@+id/tvFechaEvento"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:fontFamily="@font/baloo"
+            android:text="name"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="@+id/calendarIcon"
+            app:layout_constraintStart_toEndOf="@+id/calendarIcon"
+            app:layout_constraintTop_toTopOf="@+id/calendarIcon" />
+
+        <ImageButton
+            android:id="@+id/btnEliminar"
+            android:layout_width="34dp"
+            android:layout_height="36dp"
+            android:layout_marginStart="32dp"
+            android:backgroundTint="@color/grey"
+            app:layout_constraintBottom_toBottomOf="@+id/tvNombreEmpresa"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toEndOf="@+id/tvNombreEmpresa"
+            app:layout_constraintTop_toTopOf="@+id/tvNombreEmpresa"
+            app:srcCompat="@android:drawable/ic_menu_delete" />
+
+        <ImageView
+            android:id="@+id/ivFoto"
+            android:layout_width="350dp"
+            android:layout_height="250dp"
+            android:layout_marginTop="5dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvNombreEmpresa" />
+
+        <TextView
+            android:id="@+id/tvContenido"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:ems="10"
+            android:fontFamily="@font/baloo_bhai_2"
+            android:inputType="textMultiLine"
+            android:textColor="@color/black"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/ivFoto" />
+
+        <ImageView
+            android:id="@+id/personIcon"
+            android:layout_width="25dp"
+            android:layout_height="26dp"
+            android:layout_marginTop="15dp"
+            android:backgroundTint="@color/black"
+            android:src="@drawable/person"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv" />
+
+
+        <TextView
+            android:id="@+id/tvPTotales"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="2dp"
+            android:fontFamily="@font/baloo"
+            android:text="20"
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toBottomOf="@+id/personIcon"
+            app:layout_constraintStart_toEndOf="@+id/textView6"
+            app:layout_constraintTop_toTopOf="@id/personIcon" />
+
+        <TextView
+            android:id="@+id/textView6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="2dp"
+            android:fontFamily="@font/baloo"
+            android:text="/"
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toBottomOf="@+id/tvPTotales"
+            app:layout_constraintStart_toEndOf="@+id/tvPocupadasBussines"
+            app:layout_constraintTop_toTopOf="@+id/tvPTotales" />
+
+        <TextView
+            android:id="@+id/tvPocupadasBussines"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:fontFamily="@font/baloo"
+            android:text="0"
+            android:textColor="@color/black"
+            app:layout_constraintBottom_toBottomOf="@+id/textView6"
+            app:layout_constraintStart_toEndOf="@+id/personIcon"
+            app:layout_constraintTop_toTopOf="@+id/textView6" />
+
+        <Button
+            android:id="@+id/btnParticipantes"
+            android:layout_width="99dp"
+            android:layout_height="47dp"
+            android:text="@string/btnParticipantes"
+            android:fontFamily="@font/baloo"
+            app:layout_constraintBottom_toBottomOf="@+id/calendarIcon"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/personIcon" />
+
+        <ImageView
+            android:id="@+id/calendarIcon"
+            android:layout_width="25dp"
+            android:layout_height="26dp"
+            android:layout_marginTop="15dp"
+            android:backgroundTint="@color/black"
+            android:src="@drawable/calendar"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/personIcon" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>

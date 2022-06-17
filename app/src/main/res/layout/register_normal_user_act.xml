@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".RegisterActivity">
+    tools:context=".auth.RegisterBusinessActivity">
 
     <ScrollView
         android:id="@+id/scroll"
@@ -16,10 +16,21 @@
             android:layout_height="match_parent">
 
             <EditText
-                android:id="@+id/registerPassR"
+                android:id="@+id/existeUserNormal"
+                android:layout_width="24dp"
+                android:layout_height="45dp"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:text=""
+                android:visibility="invisible"
+                app:layout_constraintBottom_toBottomOf="@+id/registerUserUsuario"
+                app:layout_constraintStart_toEndOf="@+id/registerUserUsuario"
+                app:layout_constraintTop_toTopOf="@+id/registerUserUsuario" />
+
+            <EditText
+                android:id="@+id/registerUserPassR"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
                 android:ems="10"
                 android:hint="@string/contrasenyaRep"
                 android:inputType="textPassword"
@@ -32,10 +43,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
+                android:fontFamily="@font/baloo"
                 android:text="@string/contrasenyaRep"
-                app:layout_constraintStart_toStartOf="@+id/registerPass"
-                app:layout_constraintTop_toBottomOf="@+id/registerPass" />
-
+                android:textColor="@color/black"
+                app:layout_constraintStart_toStartOf="@+id/registerUserPass"
+                app:layout_constraintTop_toBottomOf="@+id/registerUserPass" />
 
 
             <TextView
@@ -43,15 +55,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
+                android:fontFamily="@font/baloo"
                 android:text="@string/usuario"
-                app:layout_constraintStart_toStartOf="@+id/registerEmail"
-                app:layout_constraintTop_toBottomOf="@+id/registerEmail" />
+                android:textColor="@color/black"
+                app:layout_constraintStart_toStartOf="@+id/registerUserEmail"
+                app:layout_constraintTop_toBottomOf="@+id/registerUserEmail" />
 
             <EditText
-                android:id="@+id/registerUsuario"
+                android:id="@+id/registerUserUsuario"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
                 android:ems="10"
                 android:hint="@string/usuario"
                 android:inputType="text"
@@ -65,9 +78,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="13dp"
+                android:fontFamily="@font/baloo"
                 android:text="@string/correo"
+                android:textColor="@color/black"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/registerEmail"
+                app:layout_constraintStart_toStartOf="@+id/registerUserEmail"
                 app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
 
@@ -76,15 +91,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
+                android:fontFamily="@font/baloo"
                 android:text="@string/contrasenya"
-                app:layout_constraintStart_toStartOf="@+id/registerUsuario"
-                app:layout_constraintTop_toBottomOf="@+id/registerUsuario" />
+                android:textColor="@color/black"
+                app:layout_constraintStart_toStartOf="@+id/registerUserUsuario"
+                app:layout_constraintTop_toBottomOf="@+id/registerUserUsuario" />
 
             <EditText
-                android:id="@+id/registerPass"
+                android:id="@+id/registerUserPass"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
                 android:ems="10"
                 android:hint="@string/contrasenya"
                 android:inputType="textPassword"
@@ -93,10 +109,9 @@
                 app:layout_constraintTop_toBottomOf="@+id/textView" />
 
             <EditText
-                android:id="@+id/registerEmail"
+                android:id="@+id/registerUserEmail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
                 android:ems="10"
                 android:hint="@string/correo"
                 android:inputType="textEmailAddress"
@@ -117,15 +132,16 @@
                 tools:srcCompat="@drawable/logo_holevento" />
 
             <Button
-                android:id="@+id/btnRegistro"
+                android:id="@+id/btnUserRegistro"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
+                android:fontFamily="@font/baloo"
                 android:text="@string/btnRegistrarse"
-                app:layout_constraintEnd_toEndOf="@+id/registerPassR"
+                app:layout_constraintEnd_toEndOf="@+id/registerUserPassR"
                 app:layout_constraintHorizontal_bias="0.557"
-                app:layout_constraintStart_toStartOf="@+id/registerPassR"
-                app:layout_constraintTop_toBottomOf="@+id/registerPassR" />
+                app:layout_constraintStart_toStartOf="@+id/registerUserPassR"
+                app:layout_constraintTop_toBottomOf="@+id/registerUserPassR" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

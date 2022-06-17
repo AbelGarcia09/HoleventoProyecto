@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragments.normalUser.BuscarEventos">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingTop="10dp">
+
+        <EditText
+            android:id="@+id/itemPosition"
+            android:layout_width="95dp"
+            android:layout_height="47dp"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:text="34"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="@+id/ntnBuscarProvincia"
+            app:layout_constraintStart_toEndOf="@+id/ntnBuscarProvincia"
+            app:layout_constraintTop_toTopOf="@+id/ntnBuscarProvincia" />
+
+        <Spinner
+            android:id="@+id/buscarProvincias"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageButton
+            android:id="@+id/ntnBuscarProvincia"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:background="@color/purple_500"
+            android:src="@drawable/search"
+            app:layout_constraintBottom_toBottomOf="@+id/buscarProvincias"
+            app:layout_constraintStart_toEndOf="@+id/buscarProvincias"
+            app:layout_constraintTop_toTopOf="@+id/buscarProvincias"
+            app:tint="@color/white" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvBuscarProvinciasUser"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_gravity="center_horizontal"
+            android:foregroundGravity="center_horizontal"
+            android:padding="20dp"
+
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/buscarProvincias" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</FrameLayout>

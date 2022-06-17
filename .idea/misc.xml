@@ -3,8 +3,30 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Astudio/javaV2/HoleventoProyecto/app/src/main/res/drawable/logion.xml" value="0.5435" />
+        <entry key="..\:/Astudio/javaV2/HoleventoProyecto/app/src/main/res/layout/activity_main.xml" value="0.3079710144927536" />
+        <entry key="..\:/Astudio/javaV2/HoleventoProyecto/app/src/main/res/layout/activity_pantalla_carga.xml" value="0.3927083333333333" />
+        <entry key="..\:/Astudio/javaV2/HoleventoProyecto/app/src/main/res/layout/business_main_activity.xml" value="0.33" />
+        <entry key="..\:/Astudio/javaV2/HoleventoProyecto/app/src/main/res/layout/fragment_buscar_eventos.xml" value="0.3953804347826087" />
+        <entry key="..\:/Astudio/javaV2/HoleventoProyecto/app/src/main/res/layout/fragment_lista_eventos.xml" value="0.3953804347826087" />
+        <entry key="..\:/Astudio/javaV2/HoleventoProyecto/app/src/main/res/layout/fragment_normal_user_main_page.xml" value="0.55" />
+        <entry key="..\:/Astudio/javaV2/HoleventoProyecto/app/src/main/res/layout/fragment_profile.xml" value="0.1" />
+        <entry key="..\:/Astudio/javaV2/HoleventoProyecto/app/src/main/res/layout/fragment_profile_normal_user.xml" value="0.3953804347826087" />
+        <entry key="..\:/Astudio/javaV2/HoleventoProyecto/app/src/main/res/layout/item_event.xml" value="0.435546875" />
+        <entry key="..\:/Astudio/javaV2/HoleventoProyecto/app/src/main/res/layout/item_event_bussines.xml" value="0.67" />
+        <entry key="..\:/Astudio/javaV2/HoleventoProyecto/app/src/main/res/layout/item_event_user.xml" value="0.67" />
+        <entry key="..\:/Astudio/javaV2/HoleventoProyecto/app/src/main/res/layout/list_view_participantes.xml" value="0.5489583333333333" />
+        <entry key="..\:/Astudio/javaV2/HoleventoProyecto/app/src/main/res/layout/login_act.xml" value="0.6345256609642301" />
+        <entry key="..\:/Astudio/javaV2/HoleventoProyecto/app/src/main/res/layout/normal_user_main_activity.xml" value="0.33" />
+        <entry key="..\:/Astudio/javaV2/HoleventoProyecto/app/src/main/res/layout/nuevo_evento_fragment.xml" value="0.2962962962962963" />
+        <entry key="..\:/Astudio/javaV2/HoleventoProyecto/app/src/main/res/layout/register_business_user_act.xml" value="0.33" />
+        <entry key="..\:/Astudio/javaV2/HoleventoProyecto/app/src/main/res/layout/register_normal_user_act.xml" value="0.1" />
+        <entry key="..\:/Astudio/javaV2/HoleventoProyecto/app/src/main/res/menu/menu.xml" value="0.1" />
+        <entry key="..\:/Astudio/javaV2/HoleventoProyecto/app/src/main/res/menu/menu_business.xml" value="0.55" />
+        <entry key="..\:/Astudio/javaV2/HoleventoProyecto/app/src/main/res/menu/menu_normal_user.xml" value="0.5489583333333333" />
         <entry key="..\:/Users/Abel/AndroidStudioProjects/HoleventoProyecto/app/src/main/res/layout/activity_main.xml" value="0.34791666666666665" />
         <entry key="..\:/Users/Abel/AndroidStudioProjects/HoleventoProyecto/app/src/main/res/layout/login_act.xml" value="0.35280797101449274" />
+        <entry key="..\:/Users/Abel/AndroidStudioProjects/HoleventoProyecto/app/src/main/res/layout/nuevo_evento_fragment.xml" value="0.36666666666666664" />
       </map>
     </option>
   </component>

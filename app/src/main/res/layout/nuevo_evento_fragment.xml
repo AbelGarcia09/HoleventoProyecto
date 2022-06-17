@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:padding="20dp"
+    android:layout_gravity="center"
+    tools:context=".fragments.business.NuevoEvento">
+
+    <ScrollView
+        android:id="@+id/scroll"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/btnNuevoEvento"
+        >
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="20dp">
+
+            <ImageView
+                android:id="@+id/ivFotoEvento"
+                android:layout_width="350dp"
+                android:layout_height="250dp"
+                android:background="@color/grey"
+                android:src="@drawable/ic_add_photo_white"
+                app:layout_constraintBottom_toTopOf="@+id/etFechaEvento"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:fontFamily="@font/baloo"
+                android:text="@string/fecha_evento"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                app:layout_constraintBottom_toTopOf="@+id/textView8"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ivFotoEvento" />
+
+            <EditText
+                android:id="@+id/etFechaEvento"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:ems="6"
+                android:hint="10/06/2022"
+                android:inputType="none"
+                android:minHeight="48dp"
+                android:textAlignment="center"
+                app:layout_constraintBottom_toBottomOf="@+id/textView3"
+                app:layout_constraintStart_toEndOf="@+id/textView3"
+                app:layout_constraintTop_toTopOf="@+id/textView3" />
+
+
+            <TextView
+                android:id="@+id/textView8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:fontFamily="@font/baloo"
+                android:text="@string/direccion"
+                android:textColor="@color/black"
+                android:textSize="15dp"
+                app:layout_constraintBottom_toTopOf="@+id/etDireccionEvento"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView3" />
+
+            <EditText
+                android:id="@+id/etDireccionEvento"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:hint="Calle Ronda Sur, 18, 30010 Murcia"
+                android:minHeight="48dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/textView8" />
+
+            <TextView
+                android:id="@+id/textView9"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:fontFamily="@font/baloo"
+                android:text="@string/plazas"
+                android:textColor="@color/black"
+                android:textSize="15dp"
+                app:layout_constraintBottom_toTopOf="@+id/etPlazasTotales"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/etDireccionEvento" />
+
+            <EditText
+                android:id="@+id/etPlazasTotales"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="6"
+                android:hint="100"
+                android:inputType="number"
+                android:maxLength="6"
+                android:minHeight="48dp"
+                android:textAlignment="center"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView9" />
+
+
+            <TextView
+                android:id="@+id/textView10"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:fontFamily="@font/baloo"
+                android:text="@string/contenido"
+                android:textColor="@color/black"
+                android:textSize="15dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/etPlazasTotales" />
+
+            <EditText
+                android:id="@+id/etDescripcion"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:hint="@string/descripcionEvento"
+                android:inputType="textMultiLine"
+                android:maxLength="500"
+                android:maxLines="10"
+                android:minHeight="48dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView10" />
+
+            <Button
+                android:id="@+id/btnNuevoEvento"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:fontFamily="@font/baloo"
+                android:text="@string/btnAnyadirEvento"
+                app:layout_constraintEnd_toEndOf="@id/etDescripcion"
+                app:layout_constraintStart_toStartOf="@id/etDescripcion"
+                app:layout_constraintTop_toBottomOf="@id/etDescripcion" />
+
+            <EditText
+                android:id="@+id/etProvincia"
+                android:layout_width="95dp"
+                android:layout_height="47dp"
+                android:layout_marginStart="20dp"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:text="Name"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toBottomOf="@+id/etPlazasTotales"
+                app:layout_constraintStart_toEndOf="@+id/etPlazasTotales"
+                app:layout_constraintTop_toTopOf="@+id/etPlazasTotales" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </ScrollView>
+
+
+
+</FrameLayout>

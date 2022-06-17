@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/listEvent"
+        android:icon="@drawable/lista"
+        android:enabled="true"
+        android:title="" />
+
+    <item
+        android:id="@+id/searchEvent"
+        android:icon="@drawable/search"
+        android:enabled="true"
+        android:title="" />
+    <item
+        android:id="@+id/mainPage"
+        android:icon="@drawable/logo"
+        android:enabled="true"
+        android:title="" />
+</menu>
